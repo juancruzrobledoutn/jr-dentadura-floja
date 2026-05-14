@@ -1,0 +1,46 @@
+Componentes posibles de Tailwind CSS
+Barra de búsqueda:
+
+bg-gray-800 (fondo oscuro)
+rounded-full (bordes redondeados)
+px-4 py-2 (padding)
+text-white (color del texto)
+flex-grow (para que ocupe el espacio disponible)
+Banner de promoción:
+
+bg-yellow-500 (fondo amarillo para destacar la promoción)
+text-black (color del texto)
+text-2xl (tamaño de texto grande)
+font-bold (negrita para el título)
+py-2 (padding vertical)
+flex (para centrar el contenido)
+Texto secundario (una línea adicional):
+
+text-sm (tamaño de texto pequeño)
+text-gray-800 (color gris oscuro para menos énfasis)
+Navegación (Comidas, Bebidas, Postres):
+
+flex (para disposición en línea)
+justify-around (espaciado igual entre elementos)
+text-white (color del texto)
+py-4 (padding vertical)
+Sección de recomendaciones:
+
+mt-4 (margen superior)
+text-lg (tamaño de texto grande)
+font-semibold (negrita para el título)
+Tarjetas de ítems:
+
+bg-gray-900 (fondo oscuro)
+rounded-lg (bordes redondeados)
+shadow-lg (sombra para profundidad)
+Imágenes de ítems:
+
+w-full (ancho completo)
+h-40 (altura fija)
+object-cover (para cubrir el contenedor)
+Nombre del ítem:
+
+text-white (color del texto)
+font-semibold (negrita para destacar)
+mt-2 (margen superior)

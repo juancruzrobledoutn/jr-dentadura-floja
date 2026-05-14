@@ -1,0 +1,156 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  backend-lint-test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: menu_ops_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7-alpine
+        ports: ['6379:6379']
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      - run: pip install -r backend/requirements.txt
+
+      # S4.3 — Validates that all Alembic migrations support a full reversible
+      # roundtrip: upgrade -> downgrade -> upgrade. Without this, a broken
+      # downgrade() ships unnoticed and we lose the ability to roll back in prod.
+      # Runs against the real Postgres service (pytest uses SQLite in-memory and
+      # never touches menu_ops_test, so there's no schema collision).
+      - name: Validate alembic migrations roundtrip
+        env:
+          DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/menu_ops_test
+          REDIS_URL: redis://localhost:6379
+          JWT_SECRET: test-secret-for-ci-only-32chars!!
+          TABLE_TOKEN_SECRET: test-table-secret-ci-only-32ch!!
+          # Fixed Fernet key for test only — NEVER use in production
+          TOTP_ENCRYPTION_KEY: l9-MvCWUtwQNd5cPPGqQEh4_M4G0BqAa6E3IIBETcLY=
+          ENVIRONMENT: test
+        working-directory: backend
+        run: |
+          echo "--- Step 1: upgrade head (apply all migrations) ---"
+          alembic upgrade head
+          echo "--- Step 2: verify single head (no branching) ---"
+          alembic heads
+          echo "--- Step 3: downgrade base (revert all migrations) ---"
+          alembic downgrade base
+          echo "--- Step 4: upgrade head again (idempotency check) ---"
+          alembic upgrade head
+          echo "--- Step 5: confirm final revision applied ---"
+          alembic current
+          echo "--- All migrations roundtrip successfully ---"
+
+      - name: Run backend tests
+        env:
+          DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/menu_ops_test
+          REDIS_URL: redis://localhost:6379
+          JWT_SECRET: test-secret-for-ci-only-32chars!!
+          TABLE_TOKEN_SECRET: test-table-secret-ci-only-32ch!!
+          ENVIRONMENT: test
+        working-directory: backend
+        run: python -m pytest tests/ -v --tb=short
+
+      - name: Validate OpenAPI spec
+        env:
+          DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/menu_ops_test
+          REDIS_URL: redis://localhost:6379
+          JWT_SECRET: test-secret-for-ci-only-32chars!!
+          TABLE_TOKEN_SECRET: test-table-secret-ci-only-32ch!!
+          ENVIRONMENT: test
+        working-directory: backend
+        run: |
+          python -c "
+          import json
+          from rest_api.main import app
+          spec = app.openapi()
+          assert 'openapi' in spec, 'Missing openapi version field'
+          assert 'paths' in spec, 'Missing paths in OpenAPI spec'
+          assert len(spec['paths']) > 0, 'OpenAPI spec has no paths'
+          # Write spec to file for potential artifact upload
+          with open('openapi.json', 'w') as f:
+              json.dump(spec, f, indent=2)
+          print(f'OpenAPI spec validated: {len(spec[\"paths\"])} paths found')
+          "
+
+      - name: Verify codegen script exists
+        run: test -x scripts/generate-types.sh || (echo "scripts/generate-types.sh is missing or not executable" && exit 1)
+
+  dashboard:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Dashboard
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: Dashboard/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run type-check
+      - run: npm run test -- --run
+      - run: npm run build
+
+  pwa-menu:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pwaMenu
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: pwaMenu/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npx tsc --noEmit
+      - run: npm run test:run
+      - run: npm run build
+
+  pwa-waiter:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pwaWaiter
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: pwaWaiter/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npx tsc --noEmit
+      - run: npm run test:run
+      - run: npm run build

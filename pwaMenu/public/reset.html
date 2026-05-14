@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reset - barijho</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0a0a0a;
+      color: white;
+      min-height: 100vh;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .container { max-width: 500px; text-align: center; }
+    h1 { margin-bottom: 1rem; }
+    h1 span { color: #f97316; }
+    p { color: #888; margin-bottom: 2rem; }
+    button {
+      width: 100%;
+      padding: 1rem;
+      background: #f97316;
+      border: none;
+      border-radius: 0.75rem;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 1rem;
+    }
+    button:hover { background: #ea580c; }
+    button.secondary {
+      background: #262626;
+    }
+    button.secondary:hover { background: #333; }
+    .success {
+      background: #22c55e;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      margin-bottom: 1rem;
+      display: none;
+    }
+    .data {
+      background: #141414;
+      border: 1px solid #262626;
+      border-radius: 0.75rem;
+      padding: 1rem;
+      margin-top: 2rem;
+      text-align: left;
+      font-size: 0.75rem;
+      max-height: 300px;
+      overflow: auto;
+    }
+    .data pre {
+      white-space: pre-wrap;
+      word-break: break-all;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>barijho<span>/</span> Reset</h1>
+    <p>Si la app muestra errores, limpiá los datos guardados:</p>
+
+    <div id="success" class="success">
+      Datos eliminados correctamente
+    </div>
+
+    <button onclick="clearData()">
+      Limpiar datos y recargar
+    </button>
+
+    <button class="secondary" onclick="window.location.href='/'">
+      Volver a la app
+    </button>
+
+    <div class="data">
+      <strong>Datos guardados:</strong>
+      <pre id="storage-data">Cargando...</pre>
+    </div>
+  </div>
+
+  <script>
+    function showData() {
+      const data = localStorage.getItem('pwamenu-table-storage');
+      const el = document.getElementById('storage-data');
+      if (data) {
+        try {
+          el.textContent = JSON.stringify(JSON.parse(data), null, 2);
+        } catch(e) {
+          el.textContent = 'Error parsing: ' + data;
+        }
+      } else {
+        el.textContent = 'No hay datos guardados';
+      }
+    }
+
+    function clearData() {
+      localStorage.removeItem('pwamenu-table-storage');
+      sessionStorage.clear();
+      document.getElementById('success').style.display = 'block';
+      showData();
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 1000);
+    }
+
+    showData();
+  </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Buen Sabor Dashboard - Admin</title>
+
+    <!-- SEO: Primary Meta Tags -->
+    <meta name="description" content="Sistema de gestión integral para restaurantes Buen Sabor. Administra sucursales, productos, categorías, promociones y personal desde un panel centralizado." />
+    <meta name="keywords" content="dashboard, restaurante, gestión, administración, Buen Sabor, PWA, punto de venta" />
+    <meta name="author" content="Buen Sabor" />
+    <meta name="robots" content="noindex, nofollow" />
+
+    <!-- SEO: Theme Color for Mobile Browsers -->
+    <meta name="theme-color" content="#f97316" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#18181b" media="(prefers-color-scheme: dark)" />
+
+    <!-- SEO: Mobile Web App Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Dashboard" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+
+    <!-- SEO: Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://dashboard.buensabor.com/" />
+    <meta property="og:title" content="Buen Sabor Dashboard - Admin" />
+    <meta property="og:description" content="Sistema de gestión integral para restaurantes Buen Sabor. Administra sucursales, productos, categorías, promociones y personal." />
+    <meta property="og:image" content="/icon-512.png" />
+    <meta property="og:locale" content="es_AR" />
+
+    <!-- SEO: Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:url" content="https://dashboard.buensabor.com/" />
+    <meta name="twitter:title" content="Buen Sabor Dashboard - Admin" />
+    <meta name="twitter:description" content="Sistema de gestión integral para restaurantes Buen Sabor." />
+    <meta name="twitter:image" content="/icon-512.png" />
+
+    <!-- OPTIMIZATION: DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+    <!-- OPTIMIZATION: Preconnect for backend API (LCP improvement) -->
+    <link rel="preconnect" href="http://localhost:8000">
+    <link rel="dns-prefetch" href="http://localhost:8000">
+    <link rel="preconnect" href="ws://localhost:8001">
+
+    <!-- OPTIMIZATION: Preconnect for faster font loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- OPTIMIZATION: Preload critical fonts -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- OPTIMIZATION: Resource hints for better performance -->
+    <link rel="modulepreload" href="/src/main.tsx">
+    <link rel="preload" href="/src/index.css" as="style">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

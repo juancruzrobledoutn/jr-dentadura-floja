@@ -1,0 +1,522 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "close": "Close",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "continue": "Continue",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "retry": "Retry",
+    "optional": "Optional",
+    "or": "or",
+    "yes": "Yes",
+    "no": "No",
+    "error": "Error",
+    "success": "Success"
+  },
+  "app": {
+    "title": "Sabor",
+    "subtitle": "Shared digital menu"
+  },
+  "joinTable": {
+    "tableNumber": "Table Number",
+    "tableNumberPlaceholder": "E.g: 5",
+    "whatsYourName": "What's your name?",
+    "namePlaceholder": "Your name (optional)",
+    "nameHelpGuest": "This helps identify who ordered each dish",
+    "table": "Table",
+    "joining": "Joining...",
+    "joinTable": "Join table",
+    "changeTable": "Change table",
+    "sharedCart": "Shared cart",
+    "sharedCartDescription": "Everyone at your table can add dishes to the same order. Each person can see who ordered what."
+  },
+  "cart": {
+    "title": "Shared cart",
+    "table": "Table",
+    "diner_one": "diner",
+    "diner_other": "diners",
+    "updating": "Updating...",
+    "closeCart": "Close cart",
+    "myOrders": "My orders",
+    "myTotal": "My total",
+    "tableTotal": "Table total",
+    "submitOrder": "Submit order",
+    "proposeOrder": "Propose to submit order",
+    "confirmationRequired": "All diners must confirm before submitting",
+    "submitting": "Submitting order...",
+    "retrySubmit": "Retry submission",
+    "submitError": "Error submitting order",
+    "emptyCart": "Your cart is empty",
+    "emptyCartDescription": "Add products from the menu to start your order",
+    "viewMenu": "View menu",
+    "noActiveSession": "No active session",
+    "you": "you",
+    "close": "Close",
+    "diner": "Diner",
+    "cartContents": "Cart contents",
+    "payingBanner": "Check requested — no more orders can be placed"
+  },
+  "roundConfirmation": {
+    "title": "Group confirmation",
+    "allReady": "Everyone's ready! Submitting order...",
+    "proposedBy": "{{name}} proposed to submit the order",
+    "dinerList": "Diner status",
+    "ready": "Ready",
+    "waiting": "Waiting",
+    "of": "of",
+    "dinersReady": "diners ready",
+    "confirmReady": "I'm ready",
+    "cancelReady": "Cancel",
+    "cancelProposal": "Cancel proposal",
+    "submitting": "Submitting...",
+    "preparing": "Preparing to submit...",
+    "timeRemaining": "Time remaining",
+    "expired": "Proposal expired",
+    "cancelled": "Proposal cancelled"
+  },
+  "product": {
+    "close": "Close",
+    "allergens": "Allergens",
+    "specialNotes": "Special notes (optional)",
+    "notesPlaceholder": "E.g: No onions, extra sauce...",
+    "quantity": "Quantity",
+    "decreaseQuantity": "Decrease quantity",
+    "increaseQuantity": "Increase quantity",
+    "add": "Add",
+    "adding": "Adding...",
+    "added": "Added",
+    "addedToCart": "{{quantity}} {{product}} added to cart",
+    "soldOut": "Sold out",
+    "unavailableMessage": "This product is not available at the moment"
+  },
+  "bottomNav": {
+    "mainNav": "Main navigation",
+    "callWaiter": "Waiter",
+    "orders": "Orders",
+    "bill": "Bill",
+    "roundLabel": "Round {{round}}",
+    "orderHistory": "View order history",
+    "round": "round",
+    "round_plural": "rounds",
+    "noOrders": "No orders",
+    "askForBill": "Ask for bill",
+    "aiAssistant": "Ask AI about the menu",
+    "estimatedWait": "Estimated wait"
+  },
+  "orderSuccess": {
+    "orderSent": "Order sent!",
+    "orderNumber": "Order #{{number}}",
+    "preparing": "Your order is being prepared"
+  },
+  "orderHistory": {
+    "title": "Order history",
+    "round": "Round",
+    "subtotal": "Subtotal",
+    "confirmedAt": "Confirmed at {{time}}",
+    "readyAt": "Ready at {{time}}",
+    "deliveredAt": "Delivered at {{time}}",
+    "noOrders": "No orders yet",
+    "ordersWillAppear": "Submitted orders will appear here",
+    "ordersListLabel": "Orders list",
+    "totalConsumed": "Total consumed",
+    "itemsInRounds": "{{items}} items in {{rounds}} {{roundWord}}",
+    "close": "Close history",
+    "reorder": "Reorder",
+    "status": {
+      "submitted": "Submitted",
+      "confirmed": "Confirmed",
+      "preparing": "Preparing",
+      "ready": "Ready",
+      "delivered": "Delivered",
+      "paid": "Paid",
+      "cancelled": "Cancelled"
+    }
+  },
+  "header": {
+    "table": "Table",
+    "callWaiter": "Call waiter",
+    "cart": "Cart",
+    "cartItems": "Cart, {{count}} items",
+    "dinersAtTable": "{{count}} diners at the table",
+    "yourProfile": "Your profile: {{name}}",
+    "menu": "Menu"
+  },
+  "menu": {
+    "title": "Menu",
+    "selectLanguage": "Select language",
+    "languageHelp": "You can change the language at any time",
+    "appearance": "Appearance",
+    "lightMode": "Light Mode",
+    "darkMode": "Dark Mode",
+    "switchToLight": "Switch to light mode",
+    "switchToDark": "Switch to dark mode"
+  },
+  "closeTable": {
+    "title": "Request bill",
+    "summary": "Summary",
+    "orders": "Orders",
+    "ordersCount": "Orders ({{count}})",
+    "splitBill": "Split bill",
+    "equalSplit": "Split equally",
+    "byConsumption": "By consumption",
+    "detailByDiner": "Detail by diner",
+    "totalConsumed": "Total consumed",
+    "ordersSummary": "{{orders}} {{orderWord}} · {{rounds}} {{roundWord}}",
+    "order_one": "order",
+    "order_other": "orders",
+    "diners": "Diners ({{count}})",
+    "requestBill": "Pay from table",
+    "requesting": "Requesting...",
+    "waitingForWaiter": "Waiting for waiter...",
+    "waiterOnTheWay": "{{name}} is on the way",
+    "estimatedTime": "Estimated time: {{time}}",
+    "billReady": "Bill ready",
+    "subtotal": "Subtotal",
+    "tip": "Suggested tip",
+    "total": "Total",
+    "paymentMethods": "Payment methods",
+    "cash": "Cash",
+    "card": "Card",
+    "transfer": "Transfer",
+    "paid": "Paid",
+    "remaining": "Remaining",
+    "thankYou": "Thank you for your visit!",
+    "comeBackSoon": "We hope to see you again soon",
+    "paidAmount": "Total paid",
+    "servedBy": "Served by",
+    "shareReceipt": "Share receipt",
+    "leaveTable": "Leave table",
+    "noSession": "No active session",
+    "cartWarningTitle": "Pending items",
+    "cartWarning": "You have {{count}} items in your cart. Submit the order before closing the table.",
+    "cartErrorPending": "You have items in your cart not submitted. Submit the order first.",
+    "noOrdersToClose": "No orders to close. Place at least one order first.",
+    "requestingBill": "Requesting bill...",
+    "sendingRequest": "Sending request to waiter",
+    "billRequested": "Bill requested",
+    "waitingWaiterAccept": "Waiting for a waiter to accept...",
+    "waiterOnWay": "Waiter on the way",
+    "approachingTable": "is approaching your table",
+    "table": "Table",
+    "billDelivered": "Bill delivered",
+    "deliveredBill": "delivered the bill to you",
+    "suggestedTip": "Suggested tip (10%)",
+    "suggestedTotal": "Suggested total",
+    "paymentMethod": "Payment method",
+    "confirmPayment": "Confirm payment",
+    "qr": "QR",
+    "processingPayment": "Processing payment...",
+    "redirectingToPayment": "Redirecting to payment gateway",
+    "payWithMercadoPago": "Pay with Mercado Pago",
+    "paymentError": "Error processing payment. Please try again.",
+    "testMode": "Test mode - Payments are simulated"
+  },
+  "callWaiter": {
+    "title": "Call waiter",
+    "confirm": "Do you need assistance?",
+    "calling": "Calling...",
+    "called": "Waiter notified",
+    "calledDescription": "A waiter will come to your table shortly"
+  },
+  "search": {
+    "placeholder": "Search the menu...",
+    "noResults": "No results found",
+    "tryDifferent": "Try different terms"
+  },
+  "categories": {
+    "menuCategories": "Menu categories",
+    "home": "Home",
+    "food": "Food",
+    "drinks": "Drinks",
+    "desserts": "Desserts",
+    "all": "All",
+    "featured": "Featured",
+    "starters": "Starters",
+    "mains": "Mains"
+  },
+  "subcategories": {
+    "burgers": "Burgers",
+    "pasta": "Pasta",
+    "salads": "Salads",
+    "seafood": "Seafood",
+    "appetizers": "Appetizers",
+    "beer": "Beer",
+    "cocktails": "Cocktails",
+    "softDrinks": "Soft Drinks",
+    "wine": "Wine",
+    "cakes": "Cakes",
+    "iceCream": "Ice Cream",
+    "fruits": "Fruits"
+  },
+  "ai": {
+    "title": "Sabor Assistant",
+    "subtitle": "Ask me about the menu",
+    "placeholder": "Ask about the menu...",
+    "welcome": "Hi! I'm your Sabor assistant. I can help you choose what to order. Ask me about our dishes, recommendations, vegan options, or whatever you need.",
+    "closeChat": "Close chat",
+    "messageHistory": "Chat message history",
+    "sendMessage": "Send message",
+    "suggestions": {
+      "recommend": "What do you recommend?",
+      "vegetarian": "Vegan options",
+      "desserts": "Desserts",
+      "drinks": "Drinks"
+    },
+    "responses": {
+      "recommend": "I recommend these dishes that are our customers' favorites:",
+      "vegan": "We have vegan/vegetarian options for you:",
+      "veganSingle": "We currently have the Veggie Bowl as a vegetarian/vegan option. It's a fresh dish with vegetables and quinoa.",
+      "cheap": "These are our most affordable options:",
+      "premium": "Our premium dishes are:",
+      "drinks": "We have these drinks available:",
+      "desserts": "To sweeten your experience we offer:",
+      "food": "Let me show you some of our dishes:",
+      "burger": "Our Classic Burger is one of the favorites. It comes with beef and special sauce.",
+      "pasta": "The Pasta Carbonara is creamy and delicious, prepared with bacon.",
+      "salmon": "The Grilled Salmon is perfect if you're looking for something healthy. It comes with lemon and butter sauce.",
+      "menu": "Our menu has {{categories}} categories: {{categoryNames}}. We have {{products}} products in total. Ask me about something specific!",
+      "greeting": "Hi! I'm your Sabor virtual assistant. I can help you choose dishes, tell you about ingredients, or recommend based on your preferences. What would you like to know?",
+      "default": "I'm not sure I understand your query. I can recommend popular dishes, vegan options, drinks, desserts, or give you information about a specific dish. What would you like to know?"
+    }
+  },
+  "errors": {
+    "generic": "Something went wrong",
+    "sectionError": "Error in {{section}}",
+    "sectionErrorGeneric": "Error in this section",
+    "somethingWentWrong": "Something went wrong. Try again.",
+    "unexpected": "An unexpected error occurred. Please try again.",
+    "details": "View error details",
+    "network": "Connection error",
+    "tryAgain": "Try again",
+    "connectionRestored": "Connection restored",
+    "offlineMode": "Offline - Saved data is available",
+    "unknownError": "Unknown error",
+    "invalidTable": "Invalid table",
+    "qrContainsInvalidTable": "The QR code contains an invalid table:",
+    "enterTableManually": "Enter table manually",
+    "persistsContactWaiter": "If the problem persists, contact the waiter",
+    "timeout": "The connection took too long. Check your internet and try again.",
+    "networkError": "No internet connection. Check your connection and try again.",
+    "emptyResponse": "The server did not respond correctly. Try again.",
+    "parseError": "Error processing the response. Try again.",
+    "httpError": "Server error. Try again later.",
+    "sessionExpired": "Your session expired. Please rejoin the table.",
+    "api": {
+      "ipAddressNotAllowed": "IP addresses not allowed in API URL",
+      "credentialsNotAllowed": "Credentials not allowed in URL",
+      "ssrfNotAllowed": "Host not allowed in API URL"
+    }
+  },
+  "validation": {
+    "tableRequired": "Table number is required",
+    "tableMaxLength": "Maximum {{max}} characters",
+    "tableInvalidChars": "Only letters, numbers and hyphens",
+    "nameMinLength": "Minimum {{min}} characters",
+    "nameMaxLength": "Maximum {{max}} characters",
+    "nameInvalidChars": "Only letters, numbers and spaces",
+    "urlRequired": "URL required",
+    "urlInvalidChars": "URL contains disallowed characters",
+    "urlInvalidProtocol": "Only http/https URLs allowed",
+    "urlInvalidHost": "Image host not allowed",
+    "urlInvalid": "Invalid URL",
+    "emailRequired": "Email required",
+    "emailMaxLength": "Maximum {{max}} characters",
+    "emailInvalid": "Invalid email",
+    "quantityInvalid": "Invalid quantity",
+    "quantityMustBeInteger": "Quantity must be a whole number",
+    "quantityMin": "Minimum quantity is {{min}}",
+    "quantityMax": "Maximum quantity is {{max}}",
+    "priceInvalid": "Invalid price",
+    "priceMin": "Minimum price is {{min}}",
+    "priceMax": "Maximum price is {{max}}",
+    "priceDecimals": "Maximum {{decimals}} decimal places"
+  },
+  "pwa": {
+    "newVersionAvailable": "New version available",
+    "updateForImprovements": "Update to get the latest improvements",
+    "later": "Later",
+    "update": "Update",
+    "install": {
+      "title": "Install Sabor",
+      "description": "Add the menu to your home screen for quick access",
+      "button": "Install App",
+      "installing": "Installing...",
+      "dismiss": "Close",
+      "feature1": "Offline menu",
+      "feature2": "Faster",
+      "feature3": "No browser"
+    },
+    "ios": {
+      "title": "Install Sabor on your iPhone",
+      "subtitle": "Follow these steps to add the app to your home screen",
+      "step1": "Tap the Share button",
+      "step1Desc": "The square icon with an arrow pointing up",
+      "step2": "Select \"Add to Home Screen\"",
+      "step2Desc": "Scroll down if you don't see it",
+      "step3": "Tap \"Add\"",
+      "step3Desc": "Done! The app will be on your screen",
+      "gotIt": "Got it"
+    },
+    "offline": {
+      "orderQueued": "Order saved offline",
+      "orderQueuedDescription": "It will be sent automatically when connection is restored",
+      "pendingOrders": "{{count}} pending order(s)",
+      "syncing": "Syncing orders...",
+      "syncComplete": "Orders synced",
+      "syncFailed": "Sync failed. Will retry."
+    }
+  },
+  "language": {
+    "select": "Language",
+    "selectLanguage": "Select language",
+    "availableLanguages": "Available languages",
+    "es": "Español",
+    "en": "English",
+    "pt": "Português"
+  },
+  "accessibility": {
+    "loading": "Loading",
+    "featuredProducts": "Featured products",
+    "positionIndicator": "Position indicator"
+  },
+  "home": {
+    "loading": "Loading {{name}}...",
+    "pageTitle": "Table {{table}} - Sabor",
+    "pageTitleDefault": "Sabor - Digital Menu",
+    "pageDescription": "Digital menu for Table {{table}}",
+    "pageDescriptionDefault": "Shared digital menu - Order from your phone",
+    "searchResults": "Results for \"{{query}}\"",
+    "noProducts": "No products found",
+    "noProductsInCategory": "No products in this category",
+    "noSubcategories": "No subcategories available",
+    "products": "Products",
+    "viewPromos": "View promos",
+    "recommended": "Recommended for you",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "qrSimulator": {
+    "title": "Table QR Simulator",
+    "simulationMode": "Simulation mode",
+    "simulationDescription": "Select a table to see its QR code. In a real restaurant, each table would have a printed physical QR code.",
+    "total": "Total",
+    "free": "Free",
+    "occupied": "Occupied",
+    "allTables": "All tables",
+    "onlyFree": "Free only",
+    "back": "Back",
+    "table": "Table",
+    "statusFree": "Free",
+    "statusActive": "Occupied",
+    "statusReady": "Bill requested",
+    "scanInstruction": "Scan this QR code with your phone to join the table",
+    "simulateScan": "Simulate QR scan",
+    "diners": "diners",
+    "dinersAtTable": "There are already people at this table"
+  },
+  "products": {
+    "1": {
+      "name": "Fried Tofu",
+      "description": "Onion with melted cheese"
+    },
+    "2": {
+      "name": "Mushroom Risotto",
+      "description": "Parmesan with fresh herbs"
+    },
+    "3": {
+      "name": "Classic Burger",
+      "description": "Beef patty with special sauce"
+    },
+    "4": {
+      "name": "Veggie Bowl",
+      "description": "Fresh vegetables and quinoa"
+    },
+    "5": {
+      "name": "Grilled Salmon",
+      "description": "With lemon and butter sauce"
+    },
+    "6": {
+      "name": "Pasta Carbonara",
+      "description": "Creamy pasta with bacon"
+    },
+    "7": {
+      "name": "Craft Beer",
+      "description": "Local IPA selection"
+    },
+    "8": {
+      "name": "Fresh Lemonade",
+      "description": "Homemade with mint"
+    },
+    "9": {
+      "name": "Chocolate Cake",
+      "description": "Intense dark chocolate"
+    },
+    "10": {
+      "name": "Ice Cream",
+      "description": "Selection of three scoops"
+    },
+    "11": {
+      "name": "BBQ Burger",
+      "description": "With bacon and barbecue sauce"
+    },
+    "12": {
+      "name": "Classic Mojito",
+      "description": "Rum, mint, lime and soda"
+    },
+    "13": {
+      "name": "Red Wine Reserve",
+      "description": "Argentine Malbec"
+    },
+    "14": {
+      "name": "Fruit Salad",
+      "description": "Fresh seasonal fruits"
+    }
+  },
+  "badges": {
+    "texmex": "TEX MEX",
+    "vegan": "VEGAN"
+  },
+  "session": {
+    "expiredTitle": "Session Expired",
+    "expiredMessage": "Your session has expired. Please scan the QR code at your table again to continue.",
+    "rejoinTable": "Rejoin table"
+  },
+  "paymentResult": {
+    "title": "Payment Result",
+    "loading": "Verifying payment...",
+    "loadingDescription": "We are verifying your payment status",
+    "approved": "Payment successful!",
+    "approvedDescription": "Your payment was processed successfully",
+    "pending": "Payment pending",
+    "pendingDescription": "Your payment is being processed. We will notify you when it's confirmed.",
+    "rejected": "Payment rejected",
+    "rejectedDescription": "We couldn't process your payment. Try another method.",
+    "error": "Payment error",
+    "errorDescription": "There was a problem verifying your payment.",
+    "total": "Total paid",
+    "table": "Table",
+    "paymentId": "Payment ID",
+    "reference": "Reference",
+    "mockPayment": "Simulated payment (test mode)",
+    "leaveTable": "Leave table",
+    "pendingNote": "You will receive a notification when the payment is confirmed",
+    "retry": "Try again",
+    "cancel": "Cancel and go back"
+  },
+  "feedback": {
+    "title": "Your opinion matters",
+    "selectRating": "Select a rating",
+    "stars": "stars",
+    "commentPlaceholder": "Optional comment...",
+    "submit": "Submit feedback",
+    "sending": "Sending...",
+    "thanks": "Thanks for your feedback!",
+    "close": "Close",
+    "error": "Could not send. Try again.",
+    "leaveReview": "Leave a review"
+  }
+}

@@ -1,0 +1,85 @@
+import { useAuthStore, selectUser, selectSelectedBranchName } from '../stores/authStore'
+import { useTablesStore, selectWsConnected } from '../stores/tablesStore'
+import { useRetryQueueStore, selectQueueLength } from '../stores/retryQueueStore'
+import { Button } from './Button'
+
+export function Header() {
+  const user = useAuthStore(selectUser)
+  const selectedBranchName = useAuthStore(selectSelectedBranchName)
+  const logout = useAuthStore((s) => s.logout)
+  const wsConnected = useTablesStore(selectWsConnected)
+  // WAITER-HIGH-04 FIX: Show pending queue count
+  const pendingCount = useRetryQueueStore(selectQueueLength)
+
+  return (
+    // WAITER-COMP-MED-03 FIX: Added role="banner" for navigation landmark
+    <header role="banner" className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-gray-200 shadow-sm">
+      <nav className="px-4 py-3 flex items-center justify-between" aria-label="Navegación principal">
+        <div className="flex items-center gap-3">
+          <h1 className="text-xl font-bold text-orange-500">Mozo</h1>
+          {selectedBranchName && (
+            <span className="text-sm text-gray-500">
+              {selectedBranchName}
+            </span>
+          )}
+        </div>
+
+        <div className="flex items-center gap-4">
+          {/* WAITER-HIGH-04 FIX: Pending operations indicator */}
+          {pendingCount > 0 && (
+            <div
+              className="flex items-center gap-1.5 bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full text-xs font-medium"
+              title={`${pendingCount} operacion${pendingCount > 1 ? 'es' : ''} pendiente${pendingCount > 1 ? 's' : ''}`}
+            >
+              <svg
+                className="w-3.5 h-3.5 animate-spin"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                />
+              </svg>
+              <span>{pendingCount} pendiente{pendingCount > 1 ? 's' : ''}</span>
+            </div>
+          )}
+
+          {/* Connection status indicator */}
+          <div className="flex items-center gap-2">
+            <span
+              className={`w-2 h-2 rounded-full ${
+                wsConnected ? 'bg-green-500' : 'bg-red-500'
+              }`}
+              title={wsConnected ? 'Conectado' : 'Desconectado'}
+            />
+            <span className="text-sm text-gray-500 hidden sm:inline">
+              {wsConnected ? 'En linea' : 'Sin conexion'}
+            </span>
+          </div>
+
+          {/* User info */}
+          {user && (
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-gray-600 hidden sm:inline">
+                {user.email.split('@')[0]}
+              </span>
+              <Button variant="ghost" size="sm" onClick={logout}>
+                Salir
+              </Button>
+            </div>
+          )}
+        </div>
+      </nav>
+    </header>
+  )
+}

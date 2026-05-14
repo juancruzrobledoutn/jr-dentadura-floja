@@ -1,0 +1,527 @@
+"""
+WebSocket Gateway main application.
+
+Handles real-time connections for waiters, kitchen staff, admins, and diners.
+Refactored to use extracted components for maintainability.
+
+HIGH-03 FIX: Migrated endpoint logic to reusable WebSocketEndpointBase classes.
+Eliminated ~300 lines of duplicated code across waiter, kitchen, admin, diner endpoints.
+"""
+
+from __future__ import annotations
+
+import asyncio
+from contextlib import asynccontextmanager
+
+from fastapi import FastAPI, WebSocket, Query
+from fastapi.middleware.cors import CORSMiddleware
+
+from shared.config.settings import settings
+from shared.config.logging import setup_logging, ws_gateway_logger as logger
+from shared.infrastructure.events import close_redis_pool
+from ws_gateway.connection_manager import ConnectionManager
+from ws_gateway.redis_subscriber import run_subscriber, get_subscriber_metrics
+from ws_gateway.components.core.constants import WSConstants, DEFAULT_ALLOWED_ORIGINS
+from ws_gateway.components.endpoints.handlers import (
+    WaiterEndpoint,
+    KitchenEndpoint,
+    AdminEndpoint,
+    DinerEndpoint,
+)
+from ws_gateway.components.data.sector_repository import cleanup_sector_repository
+from ws_gateway.components.events.router import EventRouter
+
+
+# Global connection manager
+manager = ConnectionManager()
+
+
+# =============================================================================
+# Lifespan and background tasks
+# =============================================================================
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Application lifespan handler.
+
+    Starts:
+    - Broadcast worker pool for high-throughput scenarios
+    - Redis subscriber task for event dispatching
+    - Heartbeat cleanup task for stale connections
+    """
+    setup_logging()
+    logger.info(
+        "Starting WebSocket Gateway",
+        port=settings.ws_gateway_port,
+        env=settings.environment,
+    )
+
+    # SCALE-HIGH-01 FIX: Start broadcast worker pool first
+    await manager.start_broadcast_workers()
+
+    # MED-NEW-02 FIX: Added task names for easier debugging
+    subscriber_task = asyncio.create_task(start_redis_subscriber(), name="redis_subscriber")
+    # CRIT-ARCH-01: Start Stream Consumer for reliable delivery
+    from ws_gateway.core.subscriber.stream_consumer import run_stream_consumer
+    stream_task = asyncio.create_task(run_stream_consumer(handle_routed_event), name="stream_consumer")
+    cleanup_task = asyncio.create_task(start_heartbeat_cleanup(), name="heartbeat_cleanup")
+
+    yield
+
+    logger.info("Shutting down WebSocket Gateway")
+    subscriber_task.cancel()
+    stream_task.cancel()
+    cleanup_task.cancel()
+
+    try:
+        await subscriber_task
+    except asyncio.CancelledError:
+        pass
+    try:
+        await stream_task
+    except asyncio.CancelledError:
+        pass
+    try:
+        await cleanup_task
+    except asyncio.CancelledError:
+        pass
+
+    # SCALE-HIGH-01 FIX: Stop broadcast worker pool gracefully
+    try:
+        await manager.stop_broadcast_workers(timeout=5.0)
+        logger.debug("Broadcast worker pool stopped")
+    except Exception as e:
+        logger.warning("Error stopping broadcast workers", error=str(e))
+
+    # HIGH-WS-09 FIX: Wait for pending lock cleanup tasks to complete
+    try:
+        await manager._lock_manager.await_pending_cleanup()
+        logger.debug("Lock manager cleanup completed")
+    except Exception as e:
+        logger.warning("Error awaiting lock manager cleanup", error=str(e))
+
+    # HIGH-WS-10 FIX: Clean up sector repository singleton and cache
+    try:
+        cleanup_sector_repository()
+        logger.debug("Sector repository cleaned up")
+    except Exception as e:
+        logger.warning("Error cleaning up sector repository", error=str(e))
+
+    await close_redis_pool()
+    logger.info("Redis connection pool closed")
+
+
+async def start_heartbeat_cleanup():
+    """
+    Periodically clean up stale connections and resources.
+
+    Runs every 30 seconds to check for:
+    - Connections without recent heartbeats
+    - Dead connections marked during send operations
+    - Stale locks for inactive branches/users
+    - Rate limiter entries for disconnected connections (HIGH-04 FIX)
+    """
+    cleanup_cycle = 0
+    while True:
+        try:
+            await asyncio.sleep(WSConstants.HEARTBEAT_CLEANUP_INTERVAL)
+            cleanup_cycle += 1
+
+            # Clean up stale connections (no heartbeat)
+            stale_cleaned = await manager.cleanup_stale_connections()
+            if stale_cleaned > 0:
+                logger.info("Cleaned up stale connections", count=stale_cleaned)
+
+            # Clean up dead connections marked during send operations
+            dead_cleaned = await manager.cleanup_dead_connections()
+            if dead_cleaned > 0:
+                logger.info("Cleaned up dead connections", count=dead_cleaned)
+
+            # HIGH-04 FIX: Clean up rate limiter entries for disconnected connections
+            # CRIT-WS-06 FIX: Wrap with error handling to prevent cleanup loop crash
+            try:
+                rate_limiter_cleaned = await manager._rate_limiter.cleanup_stale()
+                if rate_limiter_cleaned > 0:
+                    logger.debug("Cleaned up rate limiter entries", count=rate_limiter_cleaned)
+            except Exception as e:
+                logger.warning("Error during rate limiter cleanup", error=str(e))
+
+            # Clean up stale locks periodically
+            if cleanup_cycle % WSConstants.LOCK_CLEANUP_CYCLE == 0:
+                locks_cleaned = await manager.cleanup_locks()
+                if locks_cleaned > 0:
+                    logger.info("Cleaned up stale locks", count=locks_cleaned)
+
+        except asyncio.CancelledError:
+            break
+        except Exception as e:
+            logger.error("Error in heartbeat cleanup", error=str(e))
+
+
+# CRIT-STREAM-04 FIX: Reuse EventRouter instance across events
+_event_router: EventRouter | None = None
+
+
+def _get_event_router() -> EventRouter:
+    """Get or create the singleton EventRouter instance."""
+    global _event_router
+    if _event_router is None:
+        _event_router = EventRouter(manager)
+    return _event_router
+
+
+async def handle_routed_event(event: dict):
+    """
+    Handle incoming Redis events (from Pub/Sub or Stream).
+    Delegates exact routing to EventRouter.
+    Also stores events for client catch-up on reconnection.
+    """
+    router = _get_event_router()
+    result = await router.route_event(event)
+
+    # Store event for catch-up (non-blocking, best-effort)
+    branch_id = event.get("branch_id")
+    if branch_id and isinstance(branch_id, int) and branch_id > 0:
+        try:
+            from shared.infrastructure.events import get_redis_pool, store_event_for_catchup
+            redis = await get_redis_pool()
+            await store_event_for_catchup(redis, branch_id, event)
+        except Exception as e:
+            logger.debug("Failed to store catchup event", error=str(e))
+
+    if result.errors:
+        logger.error(
+            "Errors routing event",
+            event_type=event.get("type"),
+            errors=result.errors,
+        )
+    elif result.total_sent == 0:
+        logger.debug(
+            "Event routed but no recipients",
+            event_type=event.get("type"),
+        )
+
+
+async def start_redis_subscriber():
+    """
+    Start the Redis subscriber that dispatches events to WebSocket clients.
+
+    ARCH-AUDIT-03 FIX: Now uses EventRouter for explicit dependency injection
+    instead of capturing 'manager' via closure.
+    DOC-IMP-01 FIX: Uses constants from WSConstants to prevent documentation drift.
+    """
+    # DOC-IMP-01: Use centralized channel constants
+    channels = list(WSConstants.REDIS_SUBSCRIPTION_CHANNELS)
+
+    try:
+        # Pass the separated handler function
+        await run_subscriber(channels, handle_routed_event)
+    except asyncio.CancelledError:
+        pass
+    except Exception as e:
+        logger.error("Redis subscriber error", error=str(e), exc_info=True)
+
+
+
+# =============================================================================
+# FastAPI Application
+# =============================================================================
+
+app = FastAPI(
+    title="Integrador WebSocket Gateway",
+    description="Real-time notifications for restaurant staff",
+    version="0.2.0",
+    lifespan=lifespan,
+)
+
+# CORS configuration
+# MED-NEW-04 FIX: Use shared DEFAULT_ALLOWED_ORIGINS from constants
+# Add HTTPS variants for production
+DEFAULT_WS_ORIGINS = list(DEFAULT_ALLOWED_ORIGINS) + [
+    origin.replace("http://", "https://") for origin in DEFAULT_ALLOWED_ORIGINS
+]
+
+ws_allowed_origins = (
+    [o.strip() for o in settings.allowed_origins.split(",") if o.strip()]
+    if settings.allowed_origins
+    else DEFAULT_WS_ORIGINS
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ws_allowed_origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type", "X-Table-Token"],
+)
+
+
+# =============================================================================
+# Health Check
+# =============================================================================
+
+
+@app.get("/ws/health")
+def health_check():
+    """Basic health check endpoint."""
+    # LOW-NEW-03 FIX: Include version in health response
+    # CRIT-WS-06 FIX: Wrap sync method call with error handling
+    try:
+        stats = manager.get_stats_sync()
+    except Exception as e:
+        logger.warning("Failed to get stats in health check", error=str(e))
+        stats = {"error": "stats_unavailable"}
+    return {
+        "status": "healthy",
+        "service": "ws-gateway",
+        "version": app.version,
+        "environment": settings.environment,
+        **stats,
+    }
+
+
+@app.get("/ws/health/detailed")
+async def detailed_health_check():
+    """Detailed health check with Redis and component status."""
+    from shared.infrastructure.events import check_redis_async_health, check_redis_sync_health
+
+    stats = await manager.get_stats()
+    checks = {
+        "service": "ws-gateway",
+        "environment": settings.environment,
+        "connections": stats,
+        "dependencies": {},
+        "subscriber_metrics": get_subscriber_metrics(),
+    }
+    all_healthy = True
+
+    # Check async Redis pool
+    async_health = await check_redis_async_health()
+    checks["dependencies"]["redis_async"] = async_health
+    if async_health["status"] != "healthy":
+        all_healthy = False
+
+    # Check sync Redis client
+    sync_health = check_redis_sync_health()
+    checks["dependencies"]["redis_sync"] = sync_health
+    if sync_health["status"] != "healthy":
+        all_healthy = False
+
+    checks["status"] = "healthy" if all_healthy else "degraded"
+
+    if not all_healthy:
+        from fastapi.responses import JSONResponse
+        return JSONResponse(content=checks, status_code=503)
+
+    return checks
+
+
+# =============================================================================
+# Prometheus Metrics Endpoint
+# =============================================================================
+
+
+@app.get("/ws/metrics")
+async def prometheus_metrics():
+    """
+    Prometheus-compatible metrics endpoint.
+
+    ARCH-OPP-07 FIX: Exposes metrics in Prometheus exposition format.
+
+    Usage:
+        curl http://localhost:8001/ws/metrics
+
+    Configure Prometheus scrape:
+        scrape_configs:
+          - job_name: 'ws-gateway'
+            static_configs:
+              - targets: ['localhost:8001']
+            metrics_path: '/ws/metrics'
+    """
+    from fastapi.responses import PlainTextResponse
+    from ws_gateway.components.metrics.prometheus import generate_prometheus_metrics
+
+    metrics_output = await generate_prometheus_metrics(manager)
+    return PlainTextResponse(
+        content=metrics_output,
+        media_type="text/plain; version=0.0.4; charset=utf-8",
+    )
+
+
+# =============================================================================
+# Event Catch-up Endpoint (REST)
+# =============================================================================
+
+
+@app.get("/ws/catchup")
+async def get_catchup_events(
+    branch_id: int = Query(..., description="Branch ID to fetch missed events for"),
+    since: float = Query(..., description="Unix timestamp; events after this are returned"),
+    token: str = Query(..., description="JWT token for authentication"),
+):
+    """
+    Return missed events since timestamp for reconnection catch-up.
+
+    Called by clients after WebSocket reconnection to retrieve events
+    that were missed during the disconnection window (max 5 min).
+    """
+    from fastapi import HTTPException as WSHTTPException
+    from shared.security.auth import verify_jwt
+    from shared.infrastructure.events import get_redis_pool, get_missed_events
+
+    # Verify JWT token
+    try:
+        claims = verify_jwt(token)
+    except Exception:
+        raise WSHTTPException(status_code=401, detail="Invalid token")
+
+    # Verify branch access
+    user_branch_ids = claims.get("branch_ids", [])
+    if branch_id not in user_branch_ids:
+        raise WSHTTPException(status_code=403, detail="No access to this branch")
+
+    redis = await get_redis_pool()
+    events = await get_missed_events(redis, branch_id, since)
+
+    return {"events": events, "count": len(events)}
+
+
+# Diner-relevant event types for session catch-up filtering
+_DINER_CATCHUP_EVENT_TYPES = {
+    "ROUND_PENDING",
+    "ROUND_CONFIRMED",
+    "ROUND_SUBMITTED",
+    "ROUND_IN_KITCHEN",
+    "ROUND_READY",
+    "ROUND_SERVED",
+    "ROUND_CANCELED",
+    "CART_ITEM_ADDED",
+    "CART_ITEM_UPDATED",
+    "CART_ITEM_REMOVED",
+    "CART_CLEARED",
+    "CHECK_REQUESTED",
+    "CHECK_PAID",
+    "PAYMENT_APPROVED",
+    "PAYMENT_REJECTED",
+    "TABLE_STATUS_CHANGED",
+    "PRODUCT_AVAILABILITY_CHANGED",
+}
+
+
+@app.get("/ws/catchup/session")
+async def get_session_catchup_events(
+    session_id: int = Query(..., description="Table session ID"),
+    since: float = Query(..., description="Unix timestamp; events after this are returned"),
+    table_token: str = Query(..., description="Table token for authentication"),
+):
+    """
+    Return missed events since timestamp for diner reconnection catch-up.
+
+    Uses table token authentication (not JWT) for pwaMenu diners.
+    Filters events to only include diner-relevant types.
+    """
+    from fastapi import HTTPException as WSHTTPException
+    from shared.security.auth import verify_table_token
+    from shared.infrastructure.events import get_redis_pool, get_missed_events
+
+    # Verify table token
+    try:
+        claims = verify_table_token(table_token)
+    except Exception:
+        raise WSHTTPException(status_code=401, detail="Invalid table token")
+
+    # Verify session_id matches the token
+    if claims.get("session_id") != session_id:
+        raise WSHTTPException(status_code=403, detail="Session ID does not match token")
+
+    # Extract branch_id from verified token claims
+    branch_id = claims["branch_id"]
+
+    redis = await get_redis_pool()
+    events = await get_missed_events(redis, branch_id, since)
+
+    # Filter to diner-relevant events only
+    filtered_events = [
+        e for e in events
+        if e.get("type") in _DINER_CATCHUP_EVENT_TYPES
+    ]
+
+    return {"events": filtered_events, "count": len(filtered_events)}
+
+
+# =============================================================================
+# WebSocket Endpoints
+# =============================================================================
+
+
+@app.websocket("/ws/waiter")
+async def waiter_websocket(
+    websocket: WebSocket,
+    token: str = Query(..., description="JWT token"),
+):
+    """
+    WebSocket endpoint for waiters.
+
+    HIGH-03 FIX: Migrated to WaiterEndpoint class.
+    """
+    endpoint = WaiterEndpoint(websocket, manager, token)
+    await endpoint.run()
+
+
+@app.websocket("/ws/kitchen")
+async def kitchen_websocket(
+    websocket: WebSocket,
+    token: str = Query(..., description="JWT token"),
+):
+    """
+    WebSocket endpoint for kitchen staff.
+
+    HIGH-03 FIX: Migrated to KitchenEndpoint class.
+    """
+    endpoint = KitchenEndpoint(websocket, manager, token)
+    await endpoint.run()
+
+
+@app.websocket("/ws/admin")
+async def admin_websocket(
+    websocket: WebSocket,
+    token: str = Query(..., description="JWT token"),
+):
+    """
+    WebSocket endpoint for Dashboard/admin monitoring.
+
+    HIGH-03 FIX: Migrated to AdminEndpoint class.
+    """
+    endpoint = AdminEndpoint(websocket, manager, token)
+    await endpoint.run()
+
+
+@app.websocket("/ws/diner")
+async def diner_websocket(
+    websocket: WebSocket,
+    table_token: str = Query(..., description="Table session token"),
+):
+    """
+    WebSocket endpoint for diners at a table.
+
+    HIGH-03 FIX: Migrated to DinerEndpoint class.
+    """
+    endpoint = DinerEndpoint(websocket, manager, table_token)
+    await endpoint.run()
+
+
+# =============================================================================
+# Development entry point
+# =============================================================================
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(
+        "ws_gateway.main:app",
+        host="0.0.0.0",
+        port=settings.ws_gateway_port,
+        reload=True,
+    )

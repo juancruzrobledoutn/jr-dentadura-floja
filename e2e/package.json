@@ -1,0 +1,14 @@
+{
+  "name": "integrador-e2e",
+  "private": true,
+  "scripts": {
+    "test": "npx playwright test",
+    "test:ui": "npx playwright test --ui",
+    "test:dashboard": "npx playwright test --project=dashboard",
+    "test:pwa-menu": "npx playwright test --project=pwaMenu",
+    "test:pwa-waiter": "npx playwright test --project=pwaWaiter"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.50.0"
+  }
+}

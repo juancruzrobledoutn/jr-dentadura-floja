@@ -1,0 +1,522 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "close": "Cerrar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "continue": "Continuar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "back": "Volver",
+    "retry": "Reintentar",
+    "optional": "Opcional",
+    "or": "o",
+    "yes": "Sí",
+    "no": "No",
+    "error": "Error",
+    "success": "Éxito"
+  },
+  "app": {
+    "title": "Sabor",
+    "subtitle": "Menú digital compartido"
+  },
+  "joinTable": {
+    "tableNumber": "Número de Mesa",
+    "tableNumberPlaceholder": "Ej: 5",
+    "whatsYourName": "¿Cómo te llamás?",
+    "namePlaceholder": "Tu nombre (opcional)",
+    "nameHelpGuest": "Esto ayuda a identificar quién pidió cada plato",
+    "table": "Mesa",
+    "joining": "Uniéndose...",
+    "joinTable": "Unirme a la mesa",
+    "changeTable": "Cambiar mesa",
+    "sharedCart": "Carrito compartido",
+    "sharedCartDescription": "Todos en tu mesa pueden agregar platos al mismo pedido. Cada persona puede ver quién pidió qué."
+  },
+  "cart": {
+    "title": "Carrito compartido",
+    "table": "Mesa",
+    "diner_one": "comensal",
+    "diner_other": "comensales",
+    "updating": "Actualizando...",
+    "closeCart": "Cerrar carrito",
+    "myOrders": "Mis pedidos",
+    "myTotal": "Mi total",
+    "tableTotal": "Total de la mesa",
+    "submitOrder": "Enviar pedido",
+    "proposeOrder": "Proponer enviar pedido",
+    "confirmationRequired": "Todos los comensales deben confirmar antes de enviar",
+    "submitting": "Enviando pedido...",
+    "retrySubmit": "Reintentar envío",
+    "submitError": "Error al enviar pedido",
+    "emptyCart": "Tu carrito está vacío",
+    "emptyCartDescription": "Agregá productos desde el menú para comenzar tu pedido",
+    "viewMenu": "Ver menú",
+    "noActiveSession": "No hay sesión activa",
+    "you": "tú",
+    "close": "Cerrar",
+    "diner": "Comensal",
+    "cartContents": "Contenido del carrito",
+    "payingBanner": "Cuenta solicitada — no se pueden agregar más pedidos"
+  },
+  "roundConfirmation": {
+    "title": "Confirmación grupal",
+    "allReady": "¡Todos listos! Enviando pedido...",
+    "proposedBy": "{{name}} propuso enviar el pedido",
+    "dinerList": "Estado de comensales",
+    "ready": "Listo",
+    "waiting": "Esperando",
+    "of": "de",
+    "dinersReady": "comensales listos",
+    "confirmReady": "Estoy listo",
+    "cancelReady": "Cancelar",
+    "cancelProposal": "Cancelar propuesta",
+    "submitting": "Enviando...",
+    "preparing": "Preparando envío...",
+    "timeRemaining": "Tiempo restante",
+    "expired": "La propuesta expiró",
+    "cancelled": "Propuesta cancelada"
+  },
+  "product": {
+    "close": "Cerrar",
+    "allergens": "Alérgenos",
+    "specialNotes": "Notas especiales (opcional)",
+    "notesPlaceholder": "Ej: Sin cebolla, extra salsa...",
+    "quantity": "Cantidad",
+    "decreaseQuantity": "Disminuir cantidad",
+    "increaseQuantity": "Aumentar cantidad",
+    "add": "Agregar",
+    "adding": "Agregando...",
+    "added": "Agregado",
+    "addedToCart": "{{quantity}} {{product}} agregado al carrito",
+    "soldOut": "Agotado",
+    "unavailableMessage": "Este producto no está disponible en este momento"
+  },
+  "bottomNav": {
+    "mainNav": "Navegación principal",
+    "callWaiter": "Mozo",
+    "orders": "Pedidos",
+    "bill": "Cuenta",
+    "roundLabel": "Ronda {{round}}",
+    "orderHistory": "Ver historial de pedidos",
+    "round": "ronda",
+    "round_plural": "rondas",
+    "noOrders": "Sin pedidos",
+    "askForBill": "Pedir la cuenta",
+    "aiAssistant": "Consultar con IA sobre la carta",
+    "estimatedWait": "Tiempo estimado"
+  },
+  "orderSuccess": {
+    "orderSent": "¡Pedido enviado!",
+    "orderNumber": "Pedido #{{number}}",
+    "preparing": "Tu pedido está siendo preparado"
+  },
+  "orderHistory": {
+    "title": "Historial de pedidos",
+    "round": "Ronda",
+    "subtotal": "Subtotal",
+    "confirmedAt": "Confirmado a las {{time}}",
+    "readyAt": "Listo a las {{time}}",
+    "deliveredAt": "Entregado a las {{time}}",
+    "noOrders": "No hay pedidos aún",
+    "ordersWillAppear": "Los pedidos enviados aparecerán aquí",
+    "ordersListLabel": "Lista de pedidos",
+    "totalConsumed": "Total consumido",
+    "itemsInRounds": "{{items}} items en {{rounds}} {{roundWord}}",
+    "close": "Cerrar historial",
+    "reorder": "Repetir pedido",
+    "status": {
+      "submitted": "Enviado",
+      "confirmed": "Confirmado",
+      "preparing": "Preparando",
+      "ready": "Listo",
+      "delivered": "Entregado",
+      "paid": "Pagado",
+      "cancelled": "Cancelado"
+    }
+  },
+  "header": {
+    "table": "Mesa",
+    "callWaiter": "Llamar al camarero",
+    "cart": "Carrito",
+    "cartItems": "Carrito, {{count}} items",
+    "dinersAtTable": "{{count}} comensales en la mesa",
+    "yourProfile": "Tu perfil: {{name}}",
+    "menu": "Menú"
+  },
+  "menu": {
+    "title": "Menú",
+    "selectLanguage": "Seleccionar idioma",
+    "languageHelp": "Podés cambiar el idioma en cualquier momento",
+    "appearance": "Apariencia",
+    "lightMode": "Modo Claro",
+    "darkMode": "Modo Oscuro",
+    "switchToLight": "Cambiar a modo claro",
+    "switchToDark": "Cambiar a modo oscuro"
+  },
+  "closeTable": {
+    "title": "Pedir la cuenta",
+    "summary": "Resumen",
+    "orders": "Pedidos",
+    "ordersCount": "Pedidos ({{count}})",
+    "splitBill": "Dividir cuenta",
+    "equalSplit": "Dividir igual",
+    "byConsumption": "Por consumo",
+    "detailByDiner": "Detalle por comensal",
+    "totalConsumed": "Total consumido",
+    "ordersSummary": "{{orders}} {{orderWord}} · {{rounds}} {{roundWord}}",
+    "order_one": "pedido",
+    "order_other": "pedidos",
+    "diners": "Comensales ({{count}})",
+    "requestBill": "Pagar desde la mesa",
+    "requesting": "Solicitando...",
+    "waitingForWaiter": "Esperando al mozo...",
+    "waiterOnTheWay": "{{name}} viene en camino",
+    "estimatedTime": "Tiempo estimado: {{time}}",
+    "billReady": "Cuenta lista",
+    "subtotal": "Subtotal",
+    "tip": "Propina sugerida",
+    "total": "Total",
+    "paymentMethods": "Métodos de pago",
+    "cash": "Efectivo",
+    "card": "Tarjeta",
+    "transfer": "Transferencia",
+    "paid": "Pagado",
+    "remaining": "Restante",
+    "thankYou": "¡Gracias por tu visita!",
+    "comeBackSoon": "Esperamos verte pronto de nuevo",
+    "paidAmount": "Total pagado",
+    "servedBy": "Atendido por",
+    "shareReceipt": "Compartir comprobante",
+    "leaveTable": "Salir de la mesa",
+    "noSession": "No hay sesión activa",
+    "cartWarningTitle": "Items pendientes",
+    "cartWarning": "Tienes {{count}} items en el carrito. Envia el pedido antes de cerrar la mesa.",
+    "cartErrorPending": "Tienes items en el carrito sin enviar. Envia el pedido primero.",
+    "noOrdersToClose": "No hay pedidos para cerrar. Realiza al menos un pedido primero.",
+    "requestingBill": "Solicitando cuenta...",
+    "sendingRequest": "Enviando solicitud al camarero",
+    "billRequested": "Cuenta solicitada",
+    "waitingWaiterAccept": "Esperando que un camarero acepte...",
+    "waiterOnWay": "Camarero en camino",
+    "approachingTable": "se acerca a tu mesa",
+    "table": "Mesa",
+    "billDelivered": "Cuenta entregada",
+    "deliveredBill": "te entregó la cuenta",
+    "suggestedTip": "Propina sugerida (10%)",
+    "suggestedTotal": "Total sugerido",
+    "paymentMethod": "Método de pago",
+    "confirmPayment": "Confirmar pago",
+    "qr": "QR",
+    "processingPayment": "Procesando pago...",
+    "redirectingToPayment": "Redirigiendo a la pasarela de pago",
+    "payWithMercadoPago": "Pagar con Mercado Pago",
+    "paymentError": "Error al procesar el pago. Intentá de nuevo.",
+    "testMode": "Modo de prueba - Los pagos son simulados"
+  },
+  "callWaiter": {
+    "title": "Llamar al mozo",
+    "confirm": "¿Necesitás asistencia?",
+    "calling": "Llamando...",
+    "called": "Mozo notificado",
+    "calledDescription": "Un mozo vendrá a tu mesa en breve"
+  },
+  "search": {
+    "placeholder": "Buscar en el menú...",
+    "noResults": "No se encontraron resultados",
+    "tryDifferent": "Intentá con otros términos"
+  },
+  "categories": {
+    "menuCategories": "Categorías del menú",
+    "home": "Inicio",
+    "food": "Comidas",
+    "drinks": "Bebidas",
+    "desserts": "Postres",
+    "all": "Todo",
+    "featured": "Destacados",
+    "starters": "Entradas",
+    "mains": "Principales"
+  },
+  "subcategories": {
+    "burgers": "Hamburguesas",
+    "pasta": "Pastas",
+    "salads": "Ensaladas",
+    "seafood": "Mariscos",
+    "appetizers": "Entradas",
+    "beer": "Cervezas",
+    "cocktails": "Cócteles",
+    "softDrinks": "Refrescos",
+    "wine": "Vinos",
+    "cakes": "Tortas",
+    "iceCream": "Helados",
+    "fruits": "Frutas"
+  },
+  "ai": {
+    "title": "Asistente Sabor",
+    "subtitle": "Preguntame sobre la carta",
+    "placeholder": "Pregunta sobre la carta...",
+    "welcome": "Hola! Soy tu asistente de Sabor. Puedo ayudarte a elegir que pedir. Preguntame sobre nuestros platos, recomendaciones, opciones veganas, o lo que necesites.",
+    "closeChat": "Cerrar chat",
+    "messageHistory": "Historial de mensajes del chat",
+    "sendMessage": "Enviar mensaje",
+    "suggestions": {
+      "recommend": "¿Qué me recomendás?",
+      "vegetarian": "Opciones veganas",
+      "desserts": "Postres",
+      "drinks": "Bebidas"
+    },
+    "responses": {
+      "recommend": "Te recomiendo estos platos que son los favoritos de nuestros clientes:",
+      "vegan": "Tenemos opciones veganas/vegetarianas para ti:",
+      "veganSingle": "Actualmente tenemos el Veggie Bowl como opcion vegetariana/vegana. Es un plato fresco con vegetales y quinoa.",
+      "cheap": "Estas son nuestras opciones mas accesibles:",
+      "premium": "Nuestros platos premium son:",
+      "drinks": "Tenemos estas bebidas disponibles:",
+      "desserts": "Para endulzar tu experiencia te ofrecemos:",
+      "food": "Te muestro algunas de nuestras comidas:",
+      "burger": "Nuestra Classic Burger es una de las favoritas. Viene con carne de res y salsa especial.",
+      "pasta": "La Pasta Carbonara es cremosa y deliciosa, preparada con bacon.",
+      "salmon": "El Grilled Salmon es perfecto si buscas algo saludable. Viene con salsa de limon y mantequilla.",
+      "menu": "Nuestro menu tiene {{categories}} categorias: {{categoryNames}}. Tenemos {{products}} productos en total. Preguntame por algo especifico!",
+      "greeting": "Hola! Soy tu asistente virtual de Sabor. Puedo ayudarte a elegir platos, contarte sobre ingredientes, o recomendarte segun tus preferencias. Que te gustaria saber?",
+      "default": "No estoy seguro de entender tu consulta. Puedo recomendarte platos populares, opciones veganas, bebidas, postres, o darte informacion sobre algun plato en especifico. Que te gustaria saber?"
+    }
+  },
+  "errors": {
+    "generic": "Algo salió mal",
+    "sectionError": "Error en {{section}}",
+    "sectionErrorGeneric": "Error en esta sección",
+    "somethingWentWrong": "Algo salió mal. Intenta de nuevo.",
+    "unexpected": "Ocurrió un error inesperado. Por favor, intentá de nuevo.",
+    "details": "Ver detalles del error",
+    "network": "Error de conexión",
+    "tryAgain": "Intentar de nuevo",
+    "connectionRestored": "Conexión restaurada",
+    "offlineMode": "Sin conexión - Los datos guardados están disponibles",
+    "unknownError": "Error desconocido",
+    "invalidTable": "Mesa inválida",
+    "qrContainsInvalidTable": "El código QR contiene una mesa no válida:",
+    "enterTableManually": "Ingresar mesa manualmente",
+    "persistsContactWaiter": "Si el problema persiste, avisá al mozo",
+    "timeout": "La conexión tardó demasiado. Verificá tu internet e intentá de nuevo.",
+    "networkError": "Sin conexión a internet. Verificá tu conexión e intentá de nuevo.",
+    "emptyResponse": "El servidor no respondió correctamente. Intentá de nuevo.",
+    "parseError": "Error al procesar la respuesta. Intentá de nuevo.",
+    "httpError": "Error del servidor. Intentá de nuevo más tarde.",
+    "sessionExpired": "Tu sesión expiró. Por favor, volvé a unirte a la mesa.",
+    "api": {
+      "ipAddressNotAllowed": "No se permiten direcciones IP en la URL de la API",
+      "credentialsNotAllowed": "No se permiten credenciales en la URL",
+      "ssrfNotAllowed": "Host no permitido en la URL de la API"
+    }
+  },
+  "validation": {
+    "tableRequired": "El número de mesa es obligatorio",
+    "tableMaxLength": "Máximo {{max}} caracteres",
+    "tableInvalidChars": "Solo letras, números y guiones",
+    "nameMinLength": "Mínimo {{min}} caracteres",
+    "nameMaxLength": "Máximo {{max}} caracteres",
+    "nameInvalidChars": "Solo letras, números y espacios",
+    "urlRequired": "URL requerida",
+    "urlInvalidChars": "La URL contiene caracteres no permitidos",
+    "urlInvalidProtocol": "Solo URLs http/https permitidas",
+    "urlInvalidHost": "Host de imagen no permitido",
+    "urlInvalid": "URL inválida",
+    "emailRequired": "Email requerido",
+    "emailMaxLength": "Máximo {{max}} caracteres",
+    "emailInvalid": "Email inválido",
+    "quantityInvalid": "Cantidad inválida",
+    "quantityMustBeInteger": "La cantidad debe ser un número entero",
+    "quantityMin": "La cantidad mínima es {{min}}",
+    "quantityMax": "La cantidad máxima es {{max}}",
+    "priceInvalid": "Precio inválido",
+    "priceMin": "El precio mínimo es {{min}}",
+    "priceMax": "El precio máximo es {{max}}",
+    "priceDecimals": "Máximo {{decimals}} decimales"
+  },
+  "pwa": {
+    "newVersionAvailable": "Nueva versión disponible",
+    "updateForImprovements": "Actualizá para obtener las últimas mejoras",
+    "later": "Después",
+    "update": "Actualizar",
+    "install": {
+      "title": "Instalá Sabor",
+      "description": "Agregá el menú a tu pantalla de inicio para acceso rápido",
+      "button": "Instalar App",
+      "installing": "Instalando...",
+      "dismiss": "Cerrar",
+      "feature1": "Menú offline",
+      "feature2": "Más rápido",
+      "feature3": "Sin navegador"
+    },
+    "ios": {
+      "title": "Instalá Sabor en tu iPhone",
+      "subtitle": "Seguí estos pasos para agregar la app a tu pantalla de inicio",
+      "step1": "Tocá el botón Compartir",
+      "step1Desc": "El ícono de cuadrado con flecha arriba",
+      "step2": "Seleccioná \"Agregar a inicio\"",
+      "step2Desc": "Deslizá hacia abajo si no lo ves",
+      "step3": "Tocá \"Agregar\"",
+      "step3Desc": "¡Listo! La app estará en tu pantalla",
+      "gotIt": "Entendido"
+    },
+    "offline": {
+      "orderQueued": "Pedido guardado offline",
+      "orderQueuedDescription": "Se enviará automáticamente cuando vuelva la conexión",
+      "pendingOrders": "{{count}} pedido(s) pendiente(s)",
+      "syncing": "Sincronizando pedidos...",
+      "syncComplete": "Pedidos sincronizados",
+      "syncFailed": "Error al sincronizar. Se reintentará."
+    }
+  },
+  "language": {
+    "select": "Idioma",
+    "selectLanguage": "Seleccionar idioma",
+    "availableLanguages": "Idiomas disponibles",
+    "es": "Español",
+    "en": "English",
+    "pt": "Português"
+  },
+  "accessibility": {
+    "loading": "Cargando",
+    "featuredProducts": "Productos destacados",
+    "positionIndicator": "Indicador de posición"
+  },
+  "home": {
+    "loading": "Cargando {{name}}...",
+    "pageTitle": "Mesa {{table}} - Sabor",
+    "pageTitleDefault": "Sabor - Menú Digital",
+    "pageDescription": "Menú digital para Mesa {{table}}",
+    "pageDescriptionDefault": "Menú digital compartido - Pedí desde tu celular",
+    "searchResults": "Resultados para \"{{query}}\"",
+    "noProducts": "No se encontraron productos",
+    "noProductsInCategory": "No hay productos en esta categoría",
+    "noSubcategories": "No hay subcategorías disponibles",
+    "products": "Productos",
+    "viewPromos": "Ver promos",
+    "recommended": "Recomendado para vos",
+    "previous": "Anterior",
+    "next": "Siguiente"
+  },
+  "qrSimulator": {
+    "title": "Simulador de QR de mesas",
+    "simulationMode": "Modo simulación",
+    "simulationDescription": "Seleccioná una mesa para ver su código QR. En un restaurante real, cada mesa tendría un QR físico impreso.",
+    "total": "Total",
+    "free": "Libres",
+    "occupied": "Ocupadas",
+    "allTables": "Todas las mesas",
+    "onlyFree": "Solo libres",
+    "back": "Volver",
+    "table": "Mesa",
+    "statusFree": "Libre",
+    "statusActive": "Ocupada",
+    "statusReady": "Cuenta pedida",
+    "scanInstruction": "Escaneá este código QR con tu celular para unirte a la mesa",
+    "simulateScan": "Simular escaneo de QR",
+    "diners": "comensales",
+    "dinersAtTable": "Ya hay personas en esta mesa"
+  },
+  "products": {
+    "1": {
+      "name": "Tofu Frito",
+      "description": "Cebolla con queso fundido"
+    },
+    "2": {
+      "name": "Risotto de Hongos",
+      "description": "Parmesano con hierbas frescas"
+    },
+    "3": {
+      "name": "Hamburguesa Clásica",
+      "description": "Medallón de carne con salsa especial"
+    },
+    "4": {
+      "name": "Bowl Veggie",
+      "description": "Vegetales frescos y quinoa"
+    },
+    "5": {
+      "name": "Salmón a la Parrilla",
+      "description": "Con salsa de limón y manteca"
+    },
+    "6": {
+      "name": "Pasta Carbonara",
+      "description": "Pasta cremosa con panceta"
+    },
+    "7": {
+      "name": "Cerveza Artesanal",
+      "description": "Selección de IPA local"
+    },
+    "8": {
+      "name": "Limonada Fresca",
+      "description": "Casera con menta"
+    },
+    "9": {
+      "name": "Torta de Chocolate",
+      "description": "Chocolate negro intenso"
+    },
+    "10": {
+      "name": "Helado",
+      "description": "Selección de tres bochas"
+    },
+    "11": {
+      "name": "Hamburguesa BBQ",
+      "description": "Con bacon y salsa barbacoa"
+    },
+    "12": {
+      "name": "Mojito Clásico",
+      "description": "Ron, menta, lima y soda"
+    },
+    "13": {
+      "name": "Vino Tinto Reserva",
+      "description": "Malbec argentino"
+    },
+    "14": {
+      "name": "Ensalada de Frutas",
+      "description": "Frutas frescas de estación"
+    }
+  },
+  "badges": {
+    "texmex": "TEX MEX",
+    "vegan": "VEGANO"
+  },
+  "session": {
+    "expiredTitle": "Sesión Expirada",
+    "expiredMessage": "Tu sesión ha expirado. Por favor, escaneá el código QR de tu mesa nuevamente para continuar.",
+    "rejoinTable": "Volver a unirme"
+  },
+  "paymentResult": {
+    "title": "Resultado del pago",
+    "loading": "Verificando pago...",
+    "loadingDescription": "Estamos verificando el estado de tu pago",
+    "approved": "¡Pago exitoso!",
+    "approvedDescription": "Tu pago fue procesado correctamente",
+    "pending": "Pago pendiente",
+    "pendingDescription": "Tu pago está siendo procesado. Te notificaremos cuando se confirme.",
+    "rejected": "Pago rechazado",
+    "rejectedDescription": "No pudimos procesar tu pago. Intentá con otro método.",
+    "error": "Error en el pago",
+    "errorDescription": "Ocurrió un problema al verificar tu pago.",
+    "total": "Total pagado",
+    "table": "Mesa",
+    "paymentId": "ID de pago",
+    "reference": "Referencia",
+    "mockPayment": "Pago simulado (modo de prueba)",
+    "leaveTable": "Salir de la mesa",
+    "pendingNote": "Recibirás una notificación cuando se confirme el pago",
+    "retry": "Intentar de nuevo",
+    "cancel": "Cancelar y volver"
+  },
+  "feedback": {
+    "title": "Tu opinion nos importa",
+    "selectRating": "Selecciona una calificacion",
+    "stars": "estrellas",
+    "commentPlaceholder": "Comentario opcional...",
+    "submit": "Enviar opinion",
+    "sending": "Enviando...",
+    "thanks": "Gracias por tu opinion!",
+    "close": "Cerrar",
+    "error": "No se pudo enviar. Intenta de nuevo.",
+    "leaveReview": "Dejar opinion"
+  }
+}

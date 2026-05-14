@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <!-- Security headers are managed by vercel.json for proper COOP/COEP support -->
+
+    <!-- SEO & Meta -->
+    <title>Sabor - Menú Digital</title>
+    <meta name="description" content="Menú digital compartido para restaurantes. Pedí desde tu mesa con tus amigos." />
+    <meta name="author" content="Sabor" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Theme & Colors -->
+    <meta name="theme-color" content="#f97316" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#f97316" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="msapplication-TileColor" content="#f97316" />
+    <meta name="msapplication-navbutton-color" content="#f97316" />
+
+    <!-- PWA Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Sabor" />
+    <meta name="application-name" content="Sabor" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Icons - SVG con fallback a PNG -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/pwa-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/pwa-512x512.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="mask-icon" href="/favicon.svg" color="#f97316" />
+
+    <!-- iOS Splash Screens (Launch Images) -->
+    <!-- iPhone 15 Pro Max, 14 Pro Max (430x932) -->
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)" href="/apple-touch-icon.png" />
+    <!-- iPhone 15 Pro, 14 Pro (393x852) -->
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3)" href="/apple-touch-icon.png" />
+    <!-- iPhone 14, 13, 12 (390x844) -->
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)" href="/apple-touch-icon.png" />
+    <!-- iPhone 14 Plus, 13 Pro Max, 12 Pro Max (428x926) -->
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)" href="/apple-touch-icon.png" />
+    <!-- iPhone 11 Pro Max, XS Max (414x896) -->
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)" href="/apple-touch-icon.png" />
+    <!-- iPhone 11, XR (414x896 @2x) -->
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" href="/apple-touch-icon.png" />
+    <!-- iPhone X, XS, 11 Pro (375x812) -->
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" href="/apple-touch-icon.png" />
+    <!-- iPhone 8 Plus (414x736) -->
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)" href="/apple-touch-icon.png" />
+    <!-- iPhone 8, 7, 6s (375x667) -->
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" href="/apple-touch-icon.png" />
+    <!-- iPhone SE (320x568) -->
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" href="/apple-touch-icon.png" />
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/src/index.css" as="style" />
+    <!-- LCP Optimization: Preload hero banner image -->
+    <link rel="preload" href="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&h=400&fit=crop" as="image" fetchpriority="high" />
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="http://localhost:8000" />
+    <link rel="dns-prefetch" href="http://localhost:8000" />
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+    <link rel="dns-prefetch" href="https://images.unsplash.com" />
+    <link rel="preconnect" href="https://accounts.google.com" crossorigin />
+    <link rel="dns-prefetch" href="https://accounts.google.com" />
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Sabor - Menú Digital" />
+    <meta property="og:description" content="Menú digital compartido para restaurantes. Pedí desde tu mesa con tus amigos." />
+    <meta property="og:site_name" content="Sabor" />
+    <meta property="og:locale" content="es_AR" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Sabor - Menú Digital" />
+    <meta name="twitter:description" content="Menú digital compartido para restaurantes." />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+
+    <!-- No-JS fallback -->
+    <noscript>
+      <div style="padding: 20px; text-align: center; font-family: system-ui; background: #0a0a0a; color: white; min-height: 100vh;">
+        <h1>Sabor</h1>
+        <p>Para usar esta aplicación, necesitás habilitar JavaScript en tu navegador.</p>
+      </div>
+    </noscript>
+  </body>
+</html>

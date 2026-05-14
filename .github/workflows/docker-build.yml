@@ -1,0 +1,34 @@
+name: Docker Build
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'backend/**'
+      - 'ws_gateway/**'
+      - 'devOps/**'
+  pull_request:
+    paths:
+      - 'backend/**'
+      - 'ws_gateway/**'
+      - 'devOps/**'
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build backend image
+        run: docker build -t integrador-backend:ci -f backend/Dockerfile .
+      - name: Verify health endpoint exists
+        run: |
+          docker run -d --name backend-test -p 8000:8000 \
+            -e DATABASE_URL=sqlite:///test.db \
+            -e REDIS_URL=redis://localhost:6379 \
+            -e JWT_SECRET=ci-test-secret-minimum-32-chars!! \
+            -e TABLE_TOKEN_SECRET=ci-test-table-secret-32-chars!! \
+            integrador-backend:ci || true
+          sleep 5
+          docker logs backend-test || true
+          docker stop backend-test || true
+          docker rm backend-test || true

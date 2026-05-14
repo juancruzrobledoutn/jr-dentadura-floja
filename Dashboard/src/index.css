@@ -1,0 +1,514 @@
+@import "tailwindcss";
+
+/* Custom theme variables - Finexy Dashboard Theme */
+:root {
+  /* Primary Colors - Finexy Orange/Coral */
+  --primary-50: #fff7ed;
+  --primary-100: #ffedd5;
+  --primary-200: #fed7aa;
+  --primary-300: #fdba74;
+  --primary-400: #fb923c;
+  --primary-500: #f97316;
+  --primary-600: #ea580c;
+  --primary-700: #c2410c;
+  --primary-800: #9a3412;
+  --primary-900: #7c2d12;
+
+  /* Accent - Coral for highlights */
+  --accent-warm: #ff6b35;
+  --accent-warm-dark: #e85a2a;
+
+  /* Backgrounds - Finexy Light */
+  --bg-primary: #ffffff;       /* Main background - white */
+  --bg-secondary: #f5f5f5;     /* Secondary panels - light gray */
+  --bg-tertiary: #ebebeb;      /* Tertiary elements */
+  --bg-hover: #fff7ed;         /* Hover state - orange tint */
+  --bg-elevated: #fafafa;      /* Elevated surfaces */
+
+  /* Semantic Colors - Success (light theme) */
+  --success-bg: #dff6dd;
+  --success-border: #22c55e;
+  --success-text: #166534;
+  --success-icon: #16a34a;
+
+  /* Semantic Colors - Warning (light theme) */
+  --warning-bg: #fef3c7;
+  --warning-border: #f59e0b;
+  --warning-text: #92400e;
+  --warning-icon: #d97706;
+
+  /* Semantic Colors - Danger (light theme) */
+  --danger-bg: #fee2e2;
+  --danger-border: #ef4444;
+  --danger-text: #991b1b;
+  --danger-icon: #dc2626;
+  --danger-hover: #f87171;
+  --danger-dark: #dc2626;
+
+  /* Semantic Colors - Info (light theme) */
+  --info-bg: #dbeafe;
+  --info-border: #3b82f6;
+  --info-text: #1e40af;
+  --info-icon: #2563eb;
+
+  /* Semantic Colors - New (light theme) */
+  --new-bg: #ede9fe;
+  --new-border: #8b5cf6;
+  --new-text: #5b21b6;
+
+  /* Text Colors - Finexy Theme */
+  --text-primary: #1a1a1a;      /* Main text - dark charcoal */
+  --text-secondary: #374151;    /* Secondary text */
+  --text-tertiary: #6b7280;     /* Tertiary text - gray */
+  --text-muted: #9ca3af;        /* Muted text */
+  --text-inverse: #ffffff;      /* Inverse (for dark backgrounds) */
+  --text-on-primary: #ffffff;
+  --text-on-success: #166534;
+  --text-on-warning: #92400e;
+  --text-on-danger: #991b1b;
+
+  /* Borders - Finexy Theme */
+  --border-subtle: #f3f4f6;     /* Subtle borders */
+  --border-default: #e5e7eb;    /* Default borders */
+  --border-emphasis: #d1d5db;   /* Emphasis borders */
+  --border-interactive: #f97316;
+
+  /* Legacy compatibility - Finexy Theme */
+  --color-orange-500: #f97316;
+  --color-zinc-950: #fafafa;
+  --color-zinc-900: #f5f5f5;
+  --color-zinc-800: #e5e7eb;
+  --color-zinc-700: #d1d5db;
+  --color-zinc-600: #9ca3af;
+  --color-zinc-500: #6b7280;
+  --color-zinc-400: #4b5563;
+  --color-zinc-300: #374151;
+
+  /* Spacing */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* Shadows - Finexy Theme */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --shadow-primary: 0 4px 12px rgba(249, 115, 22, 0.2);
+  --shadow-success: 0 4px 12px rgba(22, 163, 74, 0.15);
+  --shadow-warning: 0 4px 12px rgba(217, 119, 6, 0.15);
+  --shadow-danger: 0 4px 12px rgba(220, 38, 38, 0.15);
+
+  /* Transitions */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 350ms;
+  --duration-slower: 500ms;
+
+  /* Easings */
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* Typography Scale */
+  --text-4xl: 2.441rem;
+  --text-3xl: 1.953rem;
+  --text-2xl: 1.563rem;
+  --text-xl: 1.25rem;
+  --text-lg: 1.125rem;
+  --text-base: 1rem;
+  --text-sm: 0.875rem;
+  --text-xs: 0.75rem;
+  --text-2xs: 0.625rem;
+
+  /* Line Heights */
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+
+  /* Font Weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+
+  /* Font Families */
+  --font-heading: 'Urbanist', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+/* Dark theme variant */
+[data-theme="dark"] {
+  --primary-50: #431407;
+  --primary-100: #7c2d12;
+  --primary-200: #9a3412;
+  --primary-300: #c2410c;
+  --primary-400: #ea580c;
+  --primary-500: #f97316;
+  --primary-600: #fb923c;
+  --primary-700: #fdba74;
+  --primary-800: #fed7aa;
+  --primary-900: #ffedd5;
+
+  --accent-warm: #ff6b35;
+  --accent-warm-dark: #e85a2a;
+
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #141414;
+  --bg-tertiary: #1e1e1e;
+  --bg-hover: #1c1a17;
+  --bg-elevated: #1a1a1a;
+
+  --success-bg: #14532d;
+  --success-border: #22c55e;
+  --success-text: #86efac;
+  --success-icon: #4ade80;
+
+  --warning-bg: #451a03;
+  --warning-border: #f59e0b;
+  --warning-text: #fde68a;
+  --warning-icon: #fbbf24;
+
+  --danger-bg: #450a0a;
+  --danger-border: #ef4444;
+  --danger-text: #fca5a5;
+  --danger-icon: #f87171;
+  --danger-hover: #dc2626;
+  --danger-dark: #ef4444;
+
+  --info-bg: #172554;
+  --info-border: #3b82f6;
+  --info-text: #93c5fd;
+  --info-icon: #60a5fa;
+
+  --new-bg: #2e1065;
+  --new-border: #8b5cf6;
+  --new-text: #c4b5fd;
+
+  --text-primary: #f5f5f5;
+  --text-secondary: #d4d4d4;
+  --text-tertiary: #a3a3a3;
+  --text-muted: #737373;
+  --text-inverse: #0a0a0a;
+  --text-on-primary: #ffffff;
+  --text-on-success: #86efac;
+  --text-on-warning: #fde68a;
+  --text-on-danger: #fca5a5;
+
+  --border-subtle: #262626;
+  --border-default: #333333;
+  --border-emphasis: #404040;
+  --border-interactive: #f97316;
+
+  --color-orange-500: #f97316;
+  --color-zinc-950: #0a0a0a;
+  --color-zinc-900: #141414;
+  --color-zinc-800: #262626;
+  --color-zinc-700: #404040;
+  --color-zinc-600: #525252;
+  --color-zinc-500: #737373;
+  --color-zinc-400: #a3a3a3;
+  --color-zinc-300: #d4d4d4;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+  --shadow-primary: 0 4px 12px rgba(249, 115, 22, 0.3);
+  --shadow-success: 0 4px 12px rgba(22, 163, 74, 0.25);
+  --shadow-warning: 0 4px 12px rgba(217, 119, 6, 0.25);
+  --shadow-danger: 0 4px 12px rgba(220, 38, 38, 0.25);
+}
+
+/* Base styles */
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar - Finexy style */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Animation utilities */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoom-in-95 {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slide-in-from-right {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-in {
+  animation-duration: 0.2s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+
+.fade-in {
+  animation-name: fade-in;
+}
+
+.zoom-in-95 {
+  animation-name: zoom-in-95;
+}
+
+.slide-in-from-right {
+  animation-name: slide-in-from-right;
+}
+
+/* Focus styles - Finexy Orange */
+*:focus-visible {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
+
+/* Toggle switch peer styles - Orange accent */
+.peer:checked ~ div:first-of-type {
+  background-color: var(--primary-500);
+}
+
+/* Selection - Finexy Orange tint */
+::selection {
+  background-color: #fed7aa;
+  color: var(--text-primary);
+}
+
+/* Form elements */
+input[type="color"] {
+  -webkit-appearance: none;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 4px;
+}
+
+/* Toggle switch peer styles */
+.peer:checked ~ div:first-of-type {
+  background-color: var(--primary-500);
+}
+
+.peer:checked ~ div:last-of-type {
+  transform: translateX(1.25rem);
+}
+
+/* Table animations for urgent states - Yellow blink for pending orders */
+@keyframes pulse-warning {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(234, 179, 8, 0.4);
+    border-color: rgb(234, 179, 8);
+    background-color: rgba(234, 179, 8, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(234, 179, 8, 0.6), 0 0 30px rgba(234, 179, 8, 0.3);
+    border-color: rgb(250, 204, 21);
+    background-color: rgba(234, 179, 8, 0.3);
+  }
+}
+
+@keyframes pulse-urgent {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(168, 85, 247, 0.3);
+    border-color: rgb(168, 85, 247);
+    background-color: rgba(168, 85, 247, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.6), 0 0 30px rgba(168, 85, 247, 0.3);
+    border-color: rgb(192, 132, 252);
+    background-color: rgba(168, 85, 247, 0.25);
+  }
+}
+
+.animate-pulse-warning {
+  animation: pulse-warning 1s infinite ease-in-out;
+}
+
+.animate-pulse-urgent {
+  animation: pulse-urgent 0.8s infinite ease-in-out;
+}
+
+/* Status change blink animation - triggers when order status changes */
+@keyframes status-blink {
+  0%, 100% {
+    box-shadow: 0 0 0 0 transparent;
+    transform: scale(1);
+  }
+  20% {
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.6), 0 0 25px rgba(59, 130, 246, 0.3);
+    transform: scale(1.05);
+  }
+  40% {
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+    transform: scale(1);
+  }
+  60% {
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.6), 0 0 25px rgba(59, 130, 246, 0.3);
+    transform: scale(1.05);
+  }
+  80% {
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+    transform: scale(1);
+  }
+}
+
+.animate-status-blink {
+  animation: status-blink 1.5s ease-in-out;
+}
+
+/* KDS Kitchen: Pulse flash for items waiting > 20 minutes */
+@keyframes kds-pulse-urgent {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+    border-color: rgb(239, 68, 68);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(239, 68, 68, 0.7), 0 0 40px rgba(239, 68, 68, 0.3);
+    border-color: rgb(252, 165, 165);
+    background-color: rgba(239, 68, 68, 0.08);
+  }
+}
+
+.kds-pulse-urgent {
+  animation: kds-pulse-urgent 1.2s infinite ease-in-out;
+}
+
+/* Ready + Kitchen blink - 5 second attention-grabbing animation for mixed order states */
+@keyframes ready-kitchen-blink {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(251, 146, 60, 0.5);
+    border-color: rgb(251, 146, 60);
+    transform: scale(1);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    box-shadow: 0 0 20px rgba(251, 146, 60, 0.8), 0 0 35px rgba(251, 146, 60, 0.4);
+    border-color: rgb(253, 186, 116);
+    transform: scale(1.06);
+  }
+  20%, 40%, 60%, 80% {
+    box-shadow: 0 0 8px rgba(251, 146, 60, 0.5);
+    border-color: rgb(251, 146, 60);
+    transform: scale(1);
+  }
+}
+
+.animate-ready-kitchen-blink {
+  animation: ready-kitchen-blink 5s ease-in-out infinite;
+}
+
+/* Modal animations */
+@keyframes modal-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-enter {
+  animation: modal-enter var(--duration-slow) var(--ease-out);
+}
+
+/* Toast animations */
+@keyframes toast-slide {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.toast-slide {
+  animation: toast-slide var(--duration-normal) var(--ease-bounce);
+}
+
+/* Line clamp */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
