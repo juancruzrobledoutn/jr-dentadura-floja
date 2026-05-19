@@ -2,8 +2,8 @@
 
 > Resumen de los **57 patrones de diseño** encontrados en el proyecto Integrador / Buen Sabor, incluyendo análisis de brecha entre lo planificado y lo implementado.
 >
-> Para documentación completa con código, propósito y ejemplos de uso, ver [`UsadoPatrones.md`](../../UsadoPatrones.md).
-> Para los patrones originalmente planificados, ver [`patronesAusar.md`](../../patronesAusar.md).
+> Para documentación completa con código, propósito y ejemplos de uso, ver [`UsadoPatrones.md`](../../archive/legacy-docs/2026-05-19/UsadoPatrones.md) (archivado 2026-05-19).
+> Para los patrones originalmente planificados, ver [`patronesAusar.md`](../../archive/legacy-docs/2026-05-19/patronesAusar.md) (archivado 2026-05-19).
 
 ---
 
@@ -300,4 +300,4 @@ Además de los 12 patrones planificados, el proyecto implementó **45 patrones a
 Esto demuestra que la planificación inicial cubrió los patrones de dominio críticos, pero la implementación requirió una cantidad significativa de patrones de infraestructura, resiliencia y rendimiento que no fueron anticipados.
 
 > **Nota:** Todos los archivos referenciados usan rutas relativas desde `backend/` o la raíz del proyecto.
-> Para detalles completos de implementación, código y propósito de cada patrón, consultar [`UsadoPatrones.md`](../../UsadoPatrones.md).
+> Para detalles completos de implementación, código y propósito de cada patrón, consultar [`UsadoPatrones.md`](../../archive/legacy-docs/2026-05-19/UsadoPatrones.md) (archivado 2026-05-19).

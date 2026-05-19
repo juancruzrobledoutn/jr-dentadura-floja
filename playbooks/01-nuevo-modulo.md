@@ -63,7 +63,7 @@ Leer existentes ANTES:
 1. Verificar que el módulo se integra con los eventos WebSocket si aplica
 2. Actualizar `knowledge-base/01-negocio/03_funcionalidades.md` con el nuevo módulo
 3. Actualizar `knowledge-base/04-infraestructura/04_migraciones.md` con la nueva migración
-4. Actualizar `misReglas.md` con las reglas de negocio del módulo
+4. Actualizar `knowledge-base/01-negocio/04_reglas_de_negocio.md` con las reglas de negocio del módulo
 5. Si el módulo tiene roles especiales, actualizar RBAC en `knowledge-base/01-negocio/02_actores_y_roles.md`
 
 ## Reglas críticas

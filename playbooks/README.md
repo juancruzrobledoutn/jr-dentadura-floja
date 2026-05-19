@@ -25,4 +25,4 @@ Todos los playbooks asumen:
 - **Engram activo**: guarda decisiones con `mem_save`, consulta con `mem_search`
 - **Knowledge base v4**: carpetas en `knowledge-base/` como contexto
 - **CLAUDE.md**: guía principal del proyecto
-- **misReglas.md**: reglas de negocio canonical
+- **Reglas de negocio**: `knowledge-base/01-negocio/04_reglas_de_negocio.md` (reemplaza a `misReglas.md`, archivado en `archive/legacy-docs/2026-05-19/`)

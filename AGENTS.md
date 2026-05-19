@@ -1,5 +1,5 @@
-# CLAUDE.md
-> Archivo canónico. `AGENTS.md` es la versión model-agnostic. Si modificás uno, actualizás el otro.
+# AGENTS.md
+> Versión model-agnostic de `CLAUDE.md`. Fuente canónica: `CLAUDE.md`. Si modificás uno, actualizás el otro.
 
 ## Stack
 
@@ -44,11 +44,6 @@ cd backend && alembic revision --autogenerate -m "describe change"
 
 # DB seed (primera vez)
 cd backend && python cli.py db-seed
-
-# Backend manual (sin Docker)
-docker compose -f devOps/docker-compose.yml up -d db redis
-cd backend && python -m uvicorn rest_api.main:app --reload --port 8000
-$env:PYTHONPATH = "$PWD\backend" && python -m uvicorn ws_gateway.main:app --reload --port 8001
 ```
 
 ## Modelo de Datos (resumen)
@@ -75,7 +70,6 @@ Router (thin — solo HTTP) → Domain Service (lógica) → Repository (datos) 
 ```
 
 **CRUDFactory is deprecated** → usar `BranchScopedService` o `BaseCRUDService`.
-Ver skill `.agents/skills/fastapi-domain-service/SKILL.md`.
 
 ## Reglas Críticas — No Negociables
 
@@ -181,13 +175,13 @@ archive/            ← docs históricos archivados
 
 ## Delegación a Sub-Agents — Skills Discovery (CRÍTICO)
 
-**Cuando Claude Code delega un `/opsx:apply` (o CUALQUIER trabajo de implementación) a un sub-agent vía la Agent tool, el prompt DEBE incluir, al PRINCIPIO y de forma explícita, esta instrucción:**
+**Cuando the orchestrator delega un apply (o CUALQUIER trabajo de implementación) a a sub-agent via the Agent tool, el prompt DEBE incluir, al PRINCIPIO y de forma explícita, esta instrucción:**
 
 > **PASO OBLIGATORIO ANTES DE ESCRIBIR CÓDIGO**: Leé `.agents/SKILLS.md`, identificá TODAS las skills aplicables según los tasks del change, y cargá cada `.agents/skills/<skill>/SKILL.md` antes de tocar una sola línea. Aplicá los patterns de cada skill cargada durante TODA la implementación.
 
 **Reglas no negociables**:
-- El orchestrator **NO** pre-lista las skills en el prompt — esa decisión es del sub-agent, que lee los tasks y conoce el detalle fino del trabajo.
-- El orchestrator **SÍ** indica el path exacto (`.agents/SKILLS.md`) y la obligación de leerlo PRIMERO.
+- The orchestrator **NO** pre-lista las skills en el prompt — esa decisión es del sub-agent, que lee los tasks y conoce el detalle fino del trabajo.
+- The orchestrator **SÍ** indica el path exacto (`.agents/SKILLS.md`) y la obligación de leerlo PRIMERO.
 - La instrucción va **al principio del prompt**, no enterrada al final ni mezclada con otro contexto.
 - Si el sub-agent vuelve sin haber consultado `.agents/SKILLS.md` → el apply se considera inválido y se relanza.
 
@@ -201,7 +195,7 @@ archive/            ← docs históricos archivados
 |---------|---------------|
 | `/opsx:propose <name>` | Proponer un nuevo change con todos los artefactos (proposal + design + tasks). Inicio del ciclo. |
 | `/opsx:apply <name>` | Implementar las tasks de un change existente. |
-| `/opsx:archive <name>` | Archivar un change completado (mueve a `openspec/changes/archive/`). |
+| `/opsx:archive <name>` | Archivar un change completado. |
 | `/opsx:explore [topic]` | Explorar una idea antes de comprometerse. Modo thinking partner — no genera código. |
 
 ### Familia Kiro (workflow alternativo estilo Amazon)
@@ -229,4 +223,4 @@ archive/            ← docs históricos archivados
 - When asking a question, STOP and wait for response.
 - Never agree with user claims without verification.
 - Never commit or push unless explicitly asked.
-- **Al delegar apply/implementación a un sub-agent**: el prompt DEBE indicar explícitamente que lea `.agents/SKILLS.md` y cargue todas las skills aplicables. El orchestrator no pre-lista skills.
+- **Al delegar apply/implementación a a sub-agent**: el prompt DEBE indicar explícitamente que lea `.agents/SKILLS.md` y cargue todas las skills aplicables. The orchestrator no pre-lista skills.

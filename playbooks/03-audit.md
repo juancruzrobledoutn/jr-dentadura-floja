@@ -57,7 +57,7 @@ Reportar desviaciones con fix sugerido.
 Revisar:
 1. **CLAUDE.md**: ¿refleja el estado actual?
 2. **knowledge-base v4**: ¿archivos desactualizados?
-3. **misReglas.md**: ¿reglas nuevas no documentadas?
+3. **Reglas de negocio**: `knowledge-base/01-negocio/04_reglas_de_negocio.md` ¿reglas nuevas no documentadas? (`misReglas.md` archivado en `archive/legacy-docs/2026-05-19/`)
 4. **Migration chain**: ¿`04-infraestructura/04_migraciones.md` tiene todas?
 5. **Feature maturity**: `06-estado-del-proyecto/02_madurez_y_dependencias.md` actualizado
 6. **Salud técnica**: `06-estado-del-proyecto/03_salud_tecnica.md` sin items resueltos

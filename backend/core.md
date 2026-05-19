@@ -687,5 +687,5 @@ Las recetas son particularmente detalladas: cada una incluye ingredientes con ca
 
 - [arquiBackend.md](arquiBackend.md) — Arquitectura general del backend
 - [api.md](api.md) — Documentación detallada del directorio `rest_api/`
-- [compartidoSha.md](../compartidoSha.md) — Documentación del módulo `shared/`
+- [compartidoSha.md](../archive/legacy-docs/2026-05-19/compartidoSha.md) — Documentación histórica del módulo `shared/` (archivada 2026-05-19)
 - [CLAUDE.md](../CLAUDE.md) — Guía de desarrollo del proyecto

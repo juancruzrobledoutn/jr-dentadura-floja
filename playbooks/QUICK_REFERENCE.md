@@ -34,7 +34,7 @@ Cada agente necesita:
 - Path del proyecto: `C:\Users\Admin\Desktop\jr\Jr-main\Jr-main`
 - Referencias a KB: `knowledge-base/0X-area/`
 - Convenciones: `knowledge-base/05-dx/04_convenciones_y_estandares.md`
-- Reglas de negocio: `misReglas.md`
+- Reglas de negocio: `knowledge-base/01-negocio/04_reglas_de_negocio.md`
 
 ### Engram como memoria compartida
 
@@ -111,4 +111,4 @@ cd backend && python cli.py db-seed
 - ❌ Inventar nuevos patterns en lugar de reutilizar los del proyecto
 - ❌ Delegar "entendimiento" al sub-agente sin especificar qué cambiar
 - ❌ Paralelizar agentes que dependen del output de otros
-- ❌ Olvidar actualizar KB/CLAUDE.md/misReglas.md después del cambio
+- ❌ Olvidar actualizar KB/CLAUDE.md y `knowledge-base/01-negocio/04_reglas_de_negocio.md` después del cambio

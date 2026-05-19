@@ -16,12 +16,11 @@ Jr-main/
 ├── devOps/                           # Infraestructura Docker
 ├── .devcontainer/                    # VSCode DevContainer
 ├── knowledge-base/                   # Documentacion del sistema
-├── CLAUDE.md                         # Guia raiz del proyecto
+├── CLAUDE.md                         # Hub navegacional del proyecto (~11KB)
+├── AGENTS.md                         # Mirror model-agnostic de CLAUDE.md
 ├── README.md                         # README general
-├── proyehisto0.md                    # Backlog de historias de usuario (21KB)
-├── proyehisto1.md                    # Backlog de gaps (11KB)
-├── prompt00.md                       # Prompts de implementacion (44KB)
-└── [25+ documentos de arquitectura]  # Documentacion tecnica variada
+├── archive/legacy-docs/2026-05-19/   # Docs historicos archivados (proyehisto*, prompt00*, doc*.md, etc.)
+└── openspec/CHANGES.md               # Roadmap de changes (entry point OPSX)
 ```
 
 ---
