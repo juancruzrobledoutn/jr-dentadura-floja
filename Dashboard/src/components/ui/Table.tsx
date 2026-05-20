@@ -15,7 +15,7 @@ interface TableProps<T> {
  * Prevents re-renders when parent updates but table props unchanged
  * Used extensively across all CRUD pages
  */
-function TableComponent<T extends { id: string }>({
+function TableComponent<T extends { id: string | number }>({
   data,
   columns,
   onRowClick,

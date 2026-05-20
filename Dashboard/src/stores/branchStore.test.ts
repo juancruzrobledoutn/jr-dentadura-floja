@@ -28,8 +28,8 @@ describe('branchStore', () => {
 
   it('should fetch branches and populate state', async () => {
     const apiBranches = [
-      { id: 1, name: 'Central', tenant_id: 1, address: 'Av. 9 de Julio', phone: null, slug: 'central', opening_time: '08:00', closing_time: '23:00', is_active: true, created_at: '2024-01-01' },
-      { id: 2, name: 'Norte', tenant_id: 1, address: null, phone: null, slug: 'norte', opening_time: '09:00', closing_time: '22:00', is_active: true, created_at: '2024-01-01' },
+      { id: 1, name: 'Central', tenant_id: 1, address: 'Av. 9 de Julio', phone: null, slug: 'central', timezone: 'America/Argentina/Buenos_Aires', opening_time: '08:00', closing_time: '23:00', is_active: true, created_at: '2024-01-01' },
+      { id: 2, name: 'Norte', tenant_id: 1, address: null, phone: null, slug: 'norte', timezone: 'America/Argentina/Buenos_Aires', opening_time: '09:00', closing_time: '22:00', is_active: true, created_at: '2024-01-01' },
     ]
     vi.mocked(branchAPI.list).mockResolvedValueOnce(apiBranches)
 

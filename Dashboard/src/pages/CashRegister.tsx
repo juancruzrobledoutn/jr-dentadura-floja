@@ -1,19 +1,17 @@
-import { useState, useMemo, useCallback, useEffect } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { PageContainer } from '../components/layout'
 import { Card, Button, Select } from '../components/ui'
 import {
   DollarSign,
-  ArrowUpCircle,
-  ArrowDownCircle,
   Clock,
   CheckCircle,
   AlertTriangle,
   Plus,
 } from 'lucide-react'
 import { useBranchStore, selectBranches, selectSelectedBranchId } from '../stores/branchStore'
-import { handleError } from '../utils/logger'
+import { helpContent } from '../utils/helpContent'
 import { toast } from '../stores/toastStore'
 
 // -------------------------------------------------------------------------
@@ -124,7 +122,8 @@ export function CashRegisterPage() {
   const [currentSession, setCurrentSession] = useState<CashSessionData | null>(null)
   const [sessionSummary, setSessionSummary] = useState<SessionSummary | null>(null)
   const [sessionHistory, setSessionHistory] = useState<SessionHistory[]>([])
-  const [isLoading, setIsLoading] = useState(false)
+  // Reserved for API loading state when scaffold is implemented
+  // const [isLoading, setIsLoading] = useState(false)
 
   // Open session form
   const [openingAmount, setOpeningAmount] = useState<string>('')
@@ -287,6 +286,7 @@ export function CashRegisterPage() {
     <PageContainer
       title={t('pages.cashRegister.title')}
       description={t('pages.cashRegister.description')}
+      helpContent={helpContent.cashRegister}
     >
       {/* Branch filter */}
       <div className="flex gap-4 mb-6">

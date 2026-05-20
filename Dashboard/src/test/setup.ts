@@ -33,7 +33,8 @@ Object.defineProperty(window, 'matchMedia', {
 })
 
 // Mock IntersectionObserver (required for lazy loading components)
-global.IntersectionObserver = class IntersectionObserver {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+;(globalThis as any).IntersectionObserver = class IntersectionObserver {
   constructor() {}
   disconnect() {}
   observe() {}

@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { PageContainer } from '../components/layout'
 import { Button, Select } from '../components/ui'
+import { helpContent } from '../utils/helpContent'
 import { Save, RotateCcw, Grid, Eye } from 'lucide-react'
-import { useBranchStore, selectBranches, selectSelectedBranchId } from '../stores/branchStore'
-import { handleError } from '../utils/logger'
+import { useBranchStore, selectSelectedBranchId } from '../stores/branchStore'
+
 import { toast } from '../stores/toastStore'
 
 // -------------------------------------------------------------------------
@@ -68,13 +69,11 @@ export function FloorPlanPage() {
     OUT_OF_SERVICE: t('pages.floorPlan.statusOutOfService'),
   }
 
-  const branches = useBranchStore(selectBranches)
   const selectedBranchId = useBranchStore(selectSelectedBranchId)
 
   const [plans, setPlans] = useState<FloorPlanData[]>([])
   const [selectedPlanId, setSelectedPlanId] = useState<string>('')
   const [liveTables, setLiveTables] = useState<FloorTable[]>([])
-  const [isLoading, setIsLoading] = useState(false)
   const [isDirty, setIsDirty] = useState(false)
   const [viewMode, setViewMode] = useState<'edit' | 'live'>('live')
 
@@ -231,7 +230,7 @@ export function FloorPlanPage() {
 
   if (!selectedBranchId) {
     return (
-      <PageContainer title={t('pages.floorPlan.title')} description={t('pages.floorPlan.selectBranchDesc')}>
+      <PageContainer title={t('pages.floorPlan.title')} description={t('pages.floorPlan.selectBranchDesc')} helpContent={helpContent.floorPlan}>
         <div className="flex items-center justify-center h-64 text-[var(--text-muted)]">
           {t('pages.floorPlan.selectBranchMessage')}
         </div>
@@ -240,7 +239,7 @@ export function FloorPlanPage() {
   }
 
   return (
-    <PageContainer title={t('pages.floorPlan.title')} description={t('pages.floorPlan.description')}>
+    <PageContainer title={t('pages.floorPlan.title')} description={t('pages.floorPlan.description')} helpContent={helpContent.floorPlan}>
       {/* Toolbar */}
       <div className="flex items-center gap-4 mb-4 flex-wrap">
         {planOptions.length > 1 && (

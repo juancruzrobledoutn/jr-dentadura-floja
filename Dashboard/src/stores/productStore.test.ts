@@ -2,7 +2,7 @@
  * Tests for productStore - Product management state
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { useProductStore, selectProducts, selectProductsByCategory, selectFeaturedProducts } from './productStore'
+import { useProductStore } from './productStore'
 
 vi.mock('../services/api', () => ({
   productAPI: {
@@ -27,13 +27,14 @@ describe('productStore', () => {
   })
 
   it('should fetch products and populate state', async () => {
-    const apiProducts = [
+    const apiProducts: import('../services/api').Product[] = [
       {
-        id: 1, name: 'Milanesa', description: 'Con papas', image: null,
+        id: 1, tenant_id: 1, name: 'Milanesa', description: 'Con papas', image: null,
         category_id: 1, subcategory_id: null, featured: true, popular: false,
         badge: null, seal: null, allergen_ids: [], allergens: [],
         is_active: true, branch_prices: [{ branch_id: 1, price_cents: 15000, is_available: true }],
         recipe_id: null, inherits_from_recipe: false, recipe_name: null,
+        created_at: '2024-01-01',
       },
     ]
     vi.mocked(productAPI.list).mockResolvedValueOnce(apiProducts)
@@ -53,11 +54,19 @@ describe('productStore', () => {
       name: 'Pizza',
       description: 'Muzzarella',
       price: 200,
+      branch_prices: [],
+      use_branch_prices: false,
       category_id: 'cat-1',
       subcategory_id: '',
       featured: false,
       popular: true,
       is_active: true,
+      allergen_ids: [],
+      allergens: [],
+      ingredients: [],
+      dietary_profile: { is_vegetarian: false, is_vegan: false, is_gluten_free: false, is_dairy_free: false, is_celiac_safe: false, is_keto: false, is_low_sodium: false },
+      cooking: { methods: [], uses_oil: false },
+      sensory: { flavors: [], textures: [] },
     })
 
     const state = useProductStore.getState()

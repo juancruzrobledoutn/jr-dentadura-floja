@@ -236,7 +236,15 @@ export interface WSEvent {
     product_id?: number
     /** Product availability flag - for PRODUCT_AVAILABILITY_CHANGED events */
     is_available?: boolean
+    /** Product name - for ROUND_ITEM_VOIDED events */
+    product_name?: string
+    /** Whether the round was cancelled - for ROUND_ITEM_VOIDED events */
+    round_canceled?: boolean
+    /** Item ID - for ROUND_ITEM_VOIDED events */
+    item_id?: number
   }
+  /** Required for structural compatibility with BaseWebSocketClient.WSEvent */
+  [key: string]: unknown
   /** @deprecated Use entity.round_id instead */
   round_id?: number
   /** @deprecated Use entity.call_id instead */

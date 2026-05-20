@@ -15,8 +15,10 @@ import { Textarea } from '../components/ui/Textarea'
 import { ConfirmDialog } from '../components/ui/ConfirmDialog'
 import { Badge } from '../components/ui/Badge'
 import { Pagination } from '../components/ui/Pagination'
+import { HelpButton } from '../components/ui/HelpButton'
 import { toast } from '../stores/toastStore'
 import { handleError } from '../utils/logger'
+import { helpContent } from '../utils/helpContent'
 import type { TableColumn } from '../types'
 import type { FormState } from '../types/form'
 
@@ -266,6 +268,7 @@ export function SuppliersPage() {
     <PageContainer
       title={t('pages.suppliers.title')}
       description={t('pages.suppliers.descriptionFull')}
+      helpContent={helpContent.suppliers}
       actions={
         <Button onClick={() => modal.openCreate(initialFormData)} aria-label={t('pages.suppliers.newSupplier')}>
           <Plus className="w-4 h-4 mr-2" aria-hidden="true" />
@@ -315,6 +318,30 @@ export function SuppliersPage() {
         }
       >
         <form id="supplier-form" action={formAction} className="space-y-4">
+          <div className="flex items-center gap-2 mb-2">
+            <HelpButton
+              title="Formulario de Proveedor"
+              size="sm"
+              content={
+                <div className="space-y-3">
+                  <p><strong>Completa los siguientes campos</strong> para crear o editar un proveedor:</p>
+                  <ul className="list-disc pl-5 space-y-2">
+                    <li><strong>Nombre:</strong> Razon social o nombre comercial del proveedor. Es obligatorio.</li>
+                    <li><strong>Contacto:</strong> Nombre de la persona de referencia dentro del proveedor.</li>
+                    <li><strong>Telefono:</strong> Numero para llamar ante pedidos urgentes o consultas.</li>
+                    <li><strong>Email:</strong> Correo para enviar ordenes de compra o consultas formales.</li>
+                    <li><strong>Direccion:</strong> Ubicacion del proveedor para retiros o correspondencia.</li>
+                    <li><strong>Notas:</strong> Condiciones de pago, dias de entrega u observaciones internas.</li>
+                  </ul>
+                  <div className="bg-zinc-800 p-3 rounded-lg mt-3">
+                    <p className="text-orange-400 font-medium text-sm">Consejo:</p>
+                    <p className="text-sm mt-1">Registra al menos telefono y contacto para agilizar comunicaciones ante faltantes de stock.</p>
+                  </div>
+                </div>
+              }
+            />
+            <span className="text-sm text-[var(--text-tertiary)]">Ayuda sobre el formulario</span>
+          </div>
           <Input
             label={`${t('common.name')} *`}
             name="name"

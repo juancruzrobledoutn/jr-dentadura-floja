@@ -63,8 +63,7 @@ export function PromotionsPage() {
   const createPromotionAsync = usePromotionStore((s) => s.createPromotionAsync)
   const updatePromotionAsync = usePromotionStore((s) => s.updatePromotionAsync)
   const deletePromotionAsync = usePromotionStore((s) => s.deletePromotionAsync)
-  // LOW-01 FIX: Prefixed unused variable (reserved for future loading state UI)
-  const _isLoading = usePromotionStore((s) => s.isLoading)
+
 
   const branches = useBranchStore(selectBranches)
   const promotionTypes = usePromotionTypeStore(selectPromotionTypes)

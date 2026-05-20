@@ -1,13 +1,14 @@
 import { useState, useMemo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Users, Plus, Search, BarChart3, Pencil, Trash2, Eye, Download, ShieldOff } from 'lucide-react'
+import { Plus, Search, BarChart3, Pencil, Trash2, Eye, Download, ShieldOff } from 'lucide-react'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { PageContainer } from '../components/layout/PageContainer'
+import { helpContent } from '../utils/helpContent'
 import { Card } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { Badge } from '../components/ui/Badge'
+import { HelpButton } from '../components/ui/HelpButton'
 import { toast } from '../stores/toastStore'
-import { handleError } from '../utils/logger'
 
 // -------------------------------------------------------------------------
 // Types
@@ -250,7 +251,7 @@ export function CRMPage() {
   }, [customers])
 
   return (
-    <PageContainer title={t('pages.crm.title')} description={t('pages.crm.description')}>
+    <PageContainer title={t('pages.crm.title')} description={t('pages.crm.description')} helpContent={helpContent.crm}>
       <div className="flex gap-2 mb-6" role="tablist">
         {([{ key: 'customers' as TabKey, label: t('pages.crm.tabCustomers') }, { key: 'top' as TabKey, label: t('pages.crm.tabTopCustomers') }, { key: 'loyalty' as TabKey, label: t('pages.crm.tabLoyalty') }, { key: 'reports' as TabKey, label: t('pages.crm.tabReports') }]).map((tab) => (
           <button key={tab.key} role="tab" aria-selected={activeTab === tab.key} onClick={() => setActiveTab(tab.key)} className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === tab.key ? 'bg-orange-500 text-white' : 'bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)]'}`}>{tab.label}</button>
@@ -457,6 +458,27 @@ export function CRMPage() {
           <div className="relative bg-[var(--bg-primary)] rounded-xl shadow-xl p-6 w-full max-w-md border border-[var(--border-default)]">
             <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-4">{editingCustomer ? t('pages.crm.editCustomer') : t('pages.crm.newCustomerTitle')}</h3>
             <div className="space-y-4">
+              <div className="flex items-center gap-2 mb-2">
+                <HelpButton
+                  title="Formulario de Cliente"
+                  size="sm"
+                  content={
+                    <div className="space-y-3">
+                      <p><strong>Completa los siguientes campos</strong> para crear o editar un cliente:</p>
+                      <ul className="list-disc pl-5 space-y-2">
+                        <li><strong>Nombre:</strong> Nombre completo del cliente. Es obligatorio.</li>
+                        <li><strong>Email:</strong> Correo electronico del cliente (opcional). Se usa para identificar al cliente entre visitas.</li>
+                        <li><strong>Telefono:</strong> Numero de telefono del cliente (opcional). Tambien se usa para identificacion.</li>
+                      </ul>
+                      <div className="bg-zinc-800 p-3 rounded-lg mt-3">
+                        <p className="text-orange-400 font-medium text-sm">Consejo:</p>
+                        <p className="text-sm mt-1">Cuanta mas informacion de contacto cargues, mas facil sera reconocer al cliente y sumarle puntos a su perfil entre visitas.</p>
+                      </div>
+                    </div>
+                  }
+                />
+                <span className="text-sm text-[var(--text-tertiary)]">Ayuda sobre el formulario</span>
+              </div>
               <div>
                 <label htmlFor="cust-name" className="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">{t('pages.crm.nameCol')}</label>
                 <input id="cust-name" type="text" value={custName} onChange={(e) => setCustName(e.target.value)} placeholder="Nombre completo" className="w-full px-3 py-2 bg-[var(--bg-tertiary)] border border-[var(--border-default)] rounded-lg text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)]" />
@@ -522,6 +544,28 @@ export function CRMPage() {
           <div className="relative bg-[var(--bg-primary)] rounded-xl shadow-xl p-6 w-full max-w-md border border-[var(--border-default)]">
             <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-4">{editingRule ? t('pages.crm.editRule') : t('pages.crm.newRuleTitle')}</h3>
             <div className="space-y-4">
+              <div className="flex items-center gap-2 mb-2">
+                <HelpButton
+                  title="Formulario de Regla de Lealtad"
+                  size="sm"
+                  content={
+                    <div className="space-y-3">
+                      <p><strong>Completa los siguientes campos</strong> para crear o editar una regla de lealtad:</p>
+                      <ul className="list-disc pl-5 space-y-2">
+                        <li><strong>Nombre:</strong> Etiqueta visible de la regla (ej: "Puntos por compra").</li>
+                        <li><strong>Descripcion:</strong> Texto interno opcional para describir el criterio de la regla.</li>
+                        <li><strong>Puntos por unidad:</strong> Cuantos puntos otorga la regla por cada unidad del monto de compra.</li>
+                        <li><strong>Monto minimo:</strong> Monto minimo de compra (en pesos) para que la regla aplique.</li>
+                      </ul>
+                      <div className="bg-zinc-800 p-3 rounded-lg mt-3">
+                        <p className="text-orange-400 font-medium text-sm">Importante:</p>
+                        <p className="text-sm mt-1">Las Reglas de Lealtad alimentan el reporte de Programa de Lealtad. Si modificas Puntos por unidad o Monto minimo, los proximos calculos usaran los nuevos valores; los puntos ya emitidos no se recalculan.</p>
+                      </div>
+                    </div>
+                  }
+                />
+                <span className="text-sm text-[var(--text-tertiary)]">Ayuda sobre el formulario</span>
+              </div>
               <div>
                 <label htmlFor="rule-name" className="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">{t('pages.crm.nameCol')}</label>
                 <input id="rule-name" type="text" value={ruleName} onChange={(e) => setRuleName(e.target.value)} placeholder="Ej: Puntos por compra" className="w-full px-3 py-2 bg-[var(--bg-tertiary)] border border-[var(--border-default)] rounded-lg text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)]" />

@@ -229,6 +229,11 @@ export interface Product {
   stock?: number
   created_at?: string
   updated_at?: string
+  // Canonical model fields (producto3.md — optional on the entity, required on the form)
+  ingredients?: ProductIngredientInput[]
+  dietary_profile?: ProductDietaryProfile
+  cooking?: ProductCookingInfo
+  sensory?: ProductSensoryProfile
 }
 
 // Form types for CRUD operations
@@ -786,10 +791,11 @@ export interface TextureProfile {
 }
 
 // Extended ProductFormData with canonical model fields
-export interface ProductFormDataCanonical extends ProductFormData {
+// Uses Omit to safely override dietary_profile from ProductDietaryProfile to DietaryProfileInput
+export interface ProductFormDataCanonical extends Omit<ProductFormData, 'dietary_profile'> {
   // Phase 1: Ingredients
   ingredients: ProductIngredientInput[]
-  // Phase 2: Dietary Profile
+  // Phase 2: Dietary Profile (uses DietaryProfileInput for the API canonical model)
   dietary_profile?: DietaryProfileInput
   // Phase 3: Cooking & Sensory
   cooking_info?: CookingInfoInput

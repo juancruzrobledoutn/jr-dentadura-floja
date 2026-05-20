@@ -25,7 +25,7 @@ import { storeLogger } from '../utils/logger'
 import { WS_EVENT_TYPES, ANIMATION_DURATIONS } from '../utils/constants'
 import { useRetryQueueStore } from './retryQueueStore'
 import { useAuthStore } from './authStore'
-import type { TableCard, WSEvent, OrderStatus } from '../types'
+import type { TableCard, WSEvent, OrderStatus, WSEventType } from '../types'
 
 // =============================================================================
 // Animation Timeout Tracking (prevents memory leaks with Maps)
@@ -40,7 +40,7 @@ const seenServiceCallIds = new Set<number>()
 const MAX_SEEN_SERVICE_CALLS = 100 // Prevent unbounded growth
 
 // Clear all timeouts on store reset (e.g., logout)
-function clearAllAnimationTimeouts(): void {
+export function clearAllAnimationTimeouts(): void {
   statusBlinkTimeouts.forEach((timeout) => clearTimeout(timeout))
   statusBlinkTimeouts.clear()
   newOrderTimeouts.forEach((timeout) => clearTimeout(timeout))
@@ -530,7 +530,7 @@ function handleWSEvent(
     WS_EVENT_TYPES.PAYMENT_REJECTED,
   ]
 
-  if (!eventsRequiringUpdate.includes(event.type)) {
+  if (!(eventsRequiringUpdate as WSEventType[]).includes(event.type)) {
     return
   }
 
@@ -547,7 +547,7 @@ function handleWSEvent(
     WS_EVENT_TYPES.ROUND_SERVED,
   ]
 
-  if (roundEvents.includes(event.type) && tableIndex !== -1 && tableId !== undefined) {
+  if ((roundEvents as WSEventType[]).includes(event.type) && tableIndex !== -1 && tableId !== undefined) {
     const roundId = event.entity?.round_id ?? event.round_id
     if (roundId !== undefined) {
       const roundKey = String(roundId)

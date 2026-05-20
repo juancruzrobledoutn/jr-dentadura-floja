@@ -20,7 +20,7 @@ describe('extractFormFields', () => {
     formData.append('email', 'john@example.com')
     formData.append('age', '30')
 
-    interface TestData {
+    interface TestData extends Record<string, unknown> {
       name: string
       email: string
       age: string
@@ -38,7 +38,7 @@ describe('extractFormFields', () => {
     formData.append('name', 'John Doe')
     // email is not appended
 
-    interface TestData {
+    interface TestData extends Record<string, unknown> {
       name: string
       email: string
     }
@@ -52,7 +52,7 @@ describe('extractFormFields', () => {
   it('should handle empty FormData', () => {
     const formData = new FormData()
 
-    interface TestData {
+    interface TestData extends Record<string, unknown> {
       name: string
       email: string
     }

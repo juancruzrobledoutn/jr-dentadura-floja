@@ -54,9 +54,9 @@ describe('tableStore', () => {
   })
 
   it('should fetch tables and populate state', async () => {
-    const apiTables = [
-      { id: 1, branch_id: 1, code: 'Mesa 1', capacity: 4, sector: 'Interior', status: 'FREE', is_active: true, active_round_statuses: null, confirmed_by_name: null },
-      { id: 2, branch_id: 1, code: 'Mesa 2', capacity: 6, sector: 'Terraza', status: 'ACTIVE', is_active: true, active_round_statuses: null, confirmed_by_name: null },
+    const apiTables: import('../services/api').TableData[] = [
+      { id: 1, tenant_id: 1, branch_id: 1, code: 'Mesa 1', capacity: 4, sector: 'Interior', status: 'FREE', is_active: true, confirmed_by_name: null },
+      { id: 2, tenant_id: 1, branch_id: 1, code: 'Mesa 2', capacity: 6, sector: 'Terraza', status: 'ACTIVE', is_active: true, confirmed_by_name: null },
     ]
     vi.mocked(tableAPI.list).mockResolvedValueOnce(apiTables)
 

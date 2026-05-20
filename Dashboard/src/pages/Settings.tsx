@@ -5,6 +5,7 @@ import { PageContainer } from '../components/layout'
 import { Card, CardHeader, Button, ConfirmDialog, Input } from '../components/ui'
 import { RefreshCw, Trash2, Download, Upload, Shield } from 'lucide-react'
 import { authAPI } from '../services/api'
+import type { Restaurant, Category, Subcategory, Product } from '../types'
 
 // Maximum file size for import (5MB)
 const MAX_IMPORT_FILE_SIZE = 5 * 1024 * 1024
@@ -303,18 +304,19 @@ export function SettingsPage() {
           return
         }
 
-        // Only import valid data
+        // Only import valid data.
+        // Runtime validation above guarantees the structure — casts are safe here.
         if (data.restaurant && typeof data.restaurant === 'object') {
-          setRestaurant(data.restaurant)
+          setRestaurant(data.restaurant as Restaurant)
         }
         if (data.categories && Array.isArray(data.categories)) {
-          setCategories(data.categories)
+          setCategories(data.categories as Category[])
         }
         if (data.subcategories && Array.isArray(data.subcategories)) {
-          setSubcategories(data.subcategories)
+          setSubcategories(data.subcategories as Subcategory[])
         }
         if (data.products && Array.isArray(data.products)) {
-          setProducts(data.products)
+          setProducts(data.products as Product[])
         }
 
         toast.success(t('pages.settings.dataImported'))

@@ -28,7 +28,7 @@ describe('promotionStore', () => {
   it('should fetch promotions and populate state', async () => {
     const apiPromotions = [
       {
-        id: 1, name: 'Happy Hour', description: '2x1 en cervezas',
+        id: 1, tenant_id: 1, name: 'Happy Hour', description: '2x1 en cervezas',
         price_cents: 50000, image: null,
         start_date: '2024-04-01', end_date: '2024-04-30',
         start_time: '17:00', end_time: '20:00',

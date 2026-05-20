@@ -120,9 +120,13 @@ export interface WSEvent {
     amount_cents?: number
     provider?: string
     table_code?: string
-    // ROUND_ITEM_DELETED event fields
+    // ROUND_ITEM_DELETED / ROUND_ITEM_VOIDED event fields
     item_id?: number
     round_deleted?: boolean
+    // ROUND_ITEM_VOIDED: true when the void caused the round to auto-cancel
+    round_canceled?: boolean
+    // ROUND_ITEM_VOIDED: reason for voiding the item
+    void_reason?: string | null
     // DEF-HIGH-01 FIX: Admin CRUD entity data
     entity_type?: AdminEntityType
     entity_id?: number
@@ -134,6 +138,8 @@ export interface WSEvent {
     }>
   }
   timestamp?: string
+  // Required for structural compatibility with BaseWebSocketClient.WSEvent
+  [key: string]: unknown
 }
 
 type EventCallback = (event: WSEvent) => void

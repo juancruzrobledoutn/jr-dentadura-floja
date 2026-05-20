@@ -524,20 +524,8 @@ export function TablesPage() {
     setIsModalOpen(true)
   }, [branches, getNextTableNumber, effectiveBranchId])
 
-  const openEditModal = useCallback((table: RestaurantTable) => {
-    setSelectedTable(table)
-    setFormData({
-      branch_id: table.branch_id,
-      number: table.number,
-      capacity: table.capacity,
-      sector: table.sector,
-      status: table.status,
-      order_time: table.order_time ?? TABLE_DEFAULT_TIME,
-      close_time: table.close_time ?? TABLE_DEFAULT_TIME,
-      is_active: table.is_active ?? true,
-    })
-    setIsModalOpen(true)
-  }, [])
+  // TODO: Wire openEditModal to a button in the table card when edit flow is designed
+  // The logic would mirror openCreateModal but pre-filled from the selected table
 
   // Open session modal to view current order
   const openSessionModal = useCallback((table: RestaurantTable) => {

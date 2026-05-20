@@ -27,8 +27,8 @@ describe('subcategoryStore', () => {
 
   it('should fetch subcategories and populate state', async () => {
     const apiSubcategories = [
-      { id: 1, name: 'Ensaladas', image: null, order: 1, category_id: 10, is_active: true },
-      { id: 2, name: 'Sopas', image: null, order: 2, category_id: 10, is_active: true },
+      { id: 1, tenant_id: 1, name: 'Ensaladas', image: null, order: 1, category_id: 10, is_active: true },
+      { id: 2, tenant_id: 1, name: 'Sopas', image: null, order: 2, category_id: 10, is_active: true },
     ]
     vi.mocked(subcategoryAPI.list).mockResolvedValueOnce(apiSubcategories)
 

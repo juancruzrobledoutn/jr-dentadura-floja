@@ -29,15 +29,15 @@ describe('recipeStore', () => {
   })
 
   it('should fetch recipes and populate state', async () => {
-    const apiRecipes = [
+    const apiRecipes: import('../services/api').Recipe[] = [
       {
-        id: 1, branch_id: 1, branch_name: 'Central', product_id: null, product_name: null,
+        id: 1, tenant_id: 1, branch_id: 1, branch_name: 'Central', product_id: null, product_name: null,
         subcategory_id: null, subcategory_name: null, category_id: null, category_name: null,
         name: 'Milanesa Napolitana', description: 'Clásica milanesa', short_description: null,
         image: null, cuisine_type: 'Argentina', difficulty: 'medium',
         prep_time_minutes: 20, cook_time_minutes: 30, total_time_minutes: 50,
         servings: 4, calories_per_serving: 500,
-        ingredients: ['carne', 'pan rallado'], preparation_steps: ['paso 1', 'paso 2'],
+        ingredients: [], preparation_steps: [],
         chef_notes: null, presentation_tips: null, storage_instructions: null,
         allergen_ids: [], allergens: [], dietary_tags: [],
         flavors: [], textures: [], cooking_methods: [],
@@ -67,6 +67,18 @@ describe('recipeStore', () => {
       name: 'Empanadas',
       branch_id: '1',
       is_active: true,
+      ingredients: [],
+      preparation_steps: [],
+      allergen_ids: [],
+      dietary_tags: [],
+      flavors: [],
+      textures: [],
+      cooking_methods: [],
+      uses_oil: false,
+      is_celiac_safe: false,
+      modifications: [],
+      warnings: [],
+      risk_level: 'low',
     })
 
     const state = useRecipeStore.getState()
@@ -77,10 +89,16 @@ describe('recipeStore', () => {
   })
 
   it('should delete a recipe from the list', () => {
+    const baseRecipe = {
+      is_active: true, is_ingested: false, ingredients: [], preparation_steps: [],
+      allergen_ids: [], allergens: [], dietary_tags: [], created_at: '2024-01-01',
+      flavors: [], textures: [], cooking_methods: [], uses_oil: false,
+      is_celiac_safe: false, modifications: [], warnings: [], risk_level: 'low' as const,
+    }
     useRecipeStore.setState({
       recipes: [
-        { id: 'r-1', name: 'Milanesa', branch_id: '1', is_active: true, is_ingested: false, ingredients: [], preparation_steps: [], allergen_ids: [], allergens: [], dietary_tags: [], created_at: '2024-01-01' },
-        { id: 'r-2', name: 'Empanadas', branch_id: '1', is_active: true, is_ingested: false, ingredients: [], preparation_steps: [], allergen_ids: [], allergens: [], dietary_tags: [], created_at: '2024-01-01' },
+        { id: 'r-1', name: 'Milanesa', branch_id: '1', ...baseRecipe },
+        { id: 'r-2', name: 'Empanadas', branch_id: '1', ...baseRecipe },
       ],
     })
 

@@ -42,7 +42,7 @@ function escapeCsvCell(value: unknown): string {
  * @param filename Name for the downloaded file (without .csv extension)
  * @param columns Optional column configuration. If not provided, uses all object keys
  */
-export function exportToCsv<T extends Record<string, unknown>>(
+export function exportToCsv<T extends object>(
   data: T[],
   filename: string,
   columns?: ColumnConfig<T>[]

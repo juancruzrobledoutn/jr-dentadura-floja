@@ -27,9 +27,9 @@ describe('allergenStore', () => {
   })
 
   it('should fetch allergens from API and populate state', async () => {
-    const apiAllergens = [
-      { id: 1, name: 'Gluten', icon: '🌾', description: 'Cereales con gluten', is_mandatory: true, severity: 'severe', is_active: true, cross_reactions: null },
-      { id: 2, name: 'Lacteos', icon: '🥛', description: 'Leche y derivados', is_mandatory: true, severity: 'moderate', is_active: true, cross_reactions: null },
+    const apiAllergens: import('../services/api').Allergen[] = [
+      { id: 1, tenant_id: 1, name: 'Gluten', icon: '🌾', description: 'Cereales con gluten', is_mandatory: true, severity: 'severe', is_active: true, cross_reactions: null },
+      { id: 2, tenant_id: 1, name: 'Lacteos', icon: '🥛', description: 'Leche y derivados', is_mandatory: true, severity: 'moderate', is_active: true, cross_reactions: null },
     ]
     vi.mocked(allergenAPI.list).mockResolvedValueOnce(apiAllergens)
 

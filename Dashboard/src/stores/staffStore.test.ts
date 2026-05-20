@@ -28,7 +28,7 @@ describe('staffStore', () => {
   it('should fetch staff and populate state', async () => {
     const apiStaff = [
       {
-        id: 1, email: 'waiter@demo.com', first_name: 'Carlos', last_name: 'Lopez',
+        id: 1, tenant_id: 1, email: 'waiter@demo.com', first_name: 'Carlos', last_name: 'Lopez',
         phone: '1234567890', dni: '12345678', hire_date: '2024-01-01',
         is_active: true, created_at: '2024-01-01',
         branch_roles: [{ branch_id: 1, role: 'WAITER' }],

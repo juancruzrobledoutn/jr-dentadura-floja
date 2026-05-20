@@ -103,7 +103,7 @@ describe('retryQueueStore', () => {
 
     it('should process queue immediately if online', async () => {
       navigatorOnLine.value = true
-      vi.mocked(roundsAPI.markAsServed).mockResolvedValue(undefined)
+      vi.mocked(roundsAPI.markAsServed).mockResolvedValue({ id: 1, session_id: 1, round_number: 1, status: 'SERVED', submitted_at: '', items: [] })
 
       useRetryQueueStore.getState().enqueue('MARK_ROUND_SERVED', { roundId: 123 })
 
@@ -154,7 +154,7 @@ describe('retryQueueStore', () => {
     })
 
     it('should execute MARK_ROUND_SERVED action', async () => {
-      vi.mocked(roundsAPI.markAsServed).mockResolvedValue(undefined)
+      vi.mocked(roundsAPI.markAsServed).mockResolvedValue({ id: 1, session_id: 1, round_number: 1, status: 'SERVED', submitted_at: '', items: [] })
       useRetryQueueStore.setState({
         queue: [{
           id: 'test-1',
@@ -172,7 +172,7 @@ describe('retryQueueStore', () => {
     })
 
     it('should execute ACK_SERVICE_CALL action', async () => {
-      vi.mocked(serviceCallsAPI.acknowledge).mockResolvedValue(undefined)
+      vi.mocked(serviceCallsAPI.acknowledge).mockResolvedValue({ id: 1, type: 'WAITER_CALL', status: 'ACKED', created_at: '', acked_by_user_id: null })
       useRetryQueueStore.setState({
         queue: [{
           id: 'test-1',
@@ -189,7 +189,7 @@ describe('retryQueueStore', () => {
     })
 
     it('should execute RESOLVE_SERVICE_CALL action', async () => {
-      vi.mocked(serviceCallsAPI.resolve).mockResolvedValue(undefined)
+      vi.mocked(serviceCallsAPI.resolve).mockResolvedValue({ id: 1, type: 'WAITER_CALL', status: 'CLOSED', created_at: '', acked_by_user_id: null })
       useRetryQueueStore.setState({
         queue: [{
           id: 'test-1',
@@ -223,7 +223,7 @@ describe('retryQueueStore', () => {
     })
 
     it('should retry network errors up to max retries', async () => {
-      const networkError = new ApiError('Network failed', 'NETWORK_ERROR')
+      const networkError = new ApiError('Network failed', 0, 'NETWORK_ERROR')
       vi.mocked(roundsAPI.markAsServed).mockRejectedValue(networkError)
       useRetryQueueStore.setState({
         queue: [{
@@ -244,7 +244,7 @@ describe('retryQueueStore', () => {
     })
 
     it('should discard action after max retries', async () => {
-      const networkError = new ApiError('Network failed', 'NETWORK_ERROR')
+      const networkError = new ApiError('Network failed', 0, 'NETWORK_ERROR')
       vi.mocked(roundsAPI.markAsServed).mockRejectedValue(networkError)
       useRetryQueueStore.setState({
         queue: [{
@@ -262,7 +262,7 @@ describe('retryQueueStore', () => {
     })
 
     it('should discard action on non-network errors', async () => {
-      const authError = new ApiError('Not found', 'NOT_FOUND', 404)
+      const authError = new ApiError('Not found', 404, 'NOT_FOUND')
       vi.mocked(roundsAPI.markAsServed).mockRejectedValue(authError)
       useRetryQueueStore.setState({
         queue: [{
@@ -280,8 +280,8 @@ describe('retryQueueStore', () => {
     })
 
     it('should process multiple actions', async () => {
-      vi.mocked(roundsAPI.markAsServed).mockResolvedValue(undefined)
-      vi.mocked(serviceCallsAPI.acknowledge).mockResolvedValue(undefined)
+      vi.mocked(roundsAPI.markAsServed).mockResolvedValue({ id: 1, session_id: 1, round_number: 1, status: 'SERVED', submitted_at: '', items: [] })
+      vi.mocked(serviceCallsAPI.acknowledge).mockResolvedValue({ id: 1, type: 'WAITER_CALL', status: 'ACKED', created_at: '', acked_by_user_id: null })
       useRetryQueueStore.setState({
         queue: [
           {

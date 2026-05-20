@@ -51,6 +51,7 @@ describe('restaurantStore', () => {
         id: 'rest-1',
         name: 'Buen Sabor',
         slug: 'buen-sabor',
+        description: 'Restaurante familiar',
         address: 'Calle 1',
         phone: '123456',
         email: 'info@buen.com',
@@ -63,6 +64,7 @@ describe('restaurantStore', () => {
     useRestaurantStore.getState().updateRestaurant({
       name: 'Buen Sabor Premium',
       slug: 'buen-sabor',
+      description: 'Restaurante familiar',
       address: 'Calle 2',
       phone: '123456',
       email: 'info@buen.com',
@@ -78,6 +80,7 @@ describe('restaurantStore', () => {
     useRestaurantStore.getState().updateRestaurant({
       name: 'Test',
       slug: 'test',
+      description: '',
       address: '',
       phone: '',
       email: '',

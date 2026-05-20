@@ -7,9 +7,11 @@ import { Card } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { Badge } from '../components/ui/Badge'
 import { Select } from '../components/ui'
+import { HelpButton } from '../components/ui/HelpButton'
 import { useBranchStore, selectSelectedBranchId } from '../stores/branchStore'
+import { helpContent } from '../utils/helpContent'
 import { toast } from '../stores/toastStore'
-import { handleError } from '../utils/logger'
+
 
 // -------------------------------------------------------------------------
 // Types
@@ -222,7 +224,7 @@ export function FiscalPage() {
 
   if (!selectedBranchId) {
     return (
-      <PageContainer title={t('pages.fiscal.title')} description={t('pages.fiscal.selectBranchDesc')}>
+      <PageContainer title={t('pages.fiscal.title')} description={t('pages.fiscal.selectBranchDesc')} helpContent={helpContent.fiscal}>
         <Card>
           <div className="text-center py-12 text-[var(--text-muted)]">
             <FileText className="mx-auto h-12 w-12 mb-4 opacity-50" aria-hidden="true" />
@@ -234,7 +236,7 @@ export function FiscalPage() {
   }
 
   return (
-    <PageContainer title={t('pages.fiscal.title')} description={t('pages.fiscal.description')}>
+    <PageContainer title={t('pages.fiscal.title')} description={t('pages.fiscal.description')} helpContent={helpContent.fiscal}>
       <div className="flex gap-2 mb-6" role="tablist">
         {([{ key: 'invoices' as TabKey, label: t('pages.fiscal.tabInvoices') }, { key: 'points' as TabKey, label: t('pages.fiscal.tabPoints') }, { key: 'credit-notes' as TabKey, label: t('pages.fiscal.tabCreditNotes') }, { key: 'iva-report' as TabKey, label: t('pages.fiscal.tabIvaReport') }]).map((tab) => (
           <button key={tab.key} role="tab" aria-selected={activeTab === tab.key} onClick={() => setActiveTab(tab.key)} className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === tab.key ? 'bg-orange-500 text-white' : 'bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)]'}`}>{tab.label}</button>
@@ -421,6 +423,27 @@ export function FiscalPage() {
           <div className="relative bg-[var(--bg-primary)] rounded-xl shadow-xl p-6 w-full max-w-md border border-[var(--border-default)]">
             <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-4">{t('pages.fiscal.issueInvoice')}</h3>
             <div className="space-y-4">
+              <div className="flex items-center gap-2 mb-2">
+                <HelpButton
+                  title="Formulario de Emitir Factura"
+                  size="sm"
+                  content={
+                    <div className="space-y-3">
+                      <p><strong>Completa los siguientes campos</strong> para emitir una factura:</p>
+                      <ul className="list-disc pl-5 space-y-2">
+                        <li><strong>ID de Cuenta:</strong> identificador numerico de la cuenta a facturar.</li>
+                        <li><strong>Tipo:</strong> A (responsable inscripto), B (consumidor final o monotributista), C (sin discriminar IVA).</li>
+                        <li><strong>Documento del Cliente:</strong> CUIT, CUIL o DNI del receptor de la factura.</li>
+                      </ul>
+                      <div className="bg-zinc-800 p-3 rounded-lg mt-3">
+                        <p className="text-orange-400 font-medium text-sm">Nota:</p>
+                        <p className="text-sm mt-1">La integracion con AFIP esta en proceso. Hoy el CAE devuelto es simulado y la factura se guarda localmente para ensayar el flujo completo.</p>
+                      </div>
+                    </div>
+                  }
+                />
+                <span className="text-sm text-[var(--text-tertiary)]">Ayuda sobre el formulario</span>
+              </div>
               <div>
                 <label htmlFor="inv-check" className="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">{t('pages.fiscal.checkId')}</label>
                 <input id="inv-check" type="number" value={invoiceCheckId} onChange={(e) => setInvoiceCheckId(e.target.value)} placeholder="Ej: 42" className="w-full px-3 py-2 bg-[var(--bg-tertiary)] border border-[var(--border-default)] rounded-lg text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)]" />
@@ -446,6 +469,29 @@ export function FiscalPage() {
           <div className="relative bg-[var(--bg-primary)] rounded-xl shadow-xl p-6 w-full max-w-md border border-[var(--border-default)]">
             <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-4">{editingPoint ? t('pages.fiscal.editPoint') : t('pages.fiscal.newPoint')}</h3>
             <div className="space-y-4">
+              <div className="flex items-center gap-2 mb-2">
+                <HelpButton
+                  title="Formulario de Punto de Venta"
+                  size="sm"
+                  content={
+                    <div className="space-y-3">
+                      <p><strong>Completa los siguientes campos</strong> para crear o editar un punto de venta:</p>
+                      <ul className="list-disc pl-5 space-y-2">
+                        <li><strong>Numero de Factura:</strong> numero inicial del talonario asociado al punto.</li>
+                        <li><strong>Tipo:</strong> Electronico (factura por AFIP) o Impresora Fiscal (controlador fiscal).</li>
+                        <li><strong>CUIT:</strong> identificacion tributaria del titular del punto (formato 20-12345678-9).</li>
+                        <li><strong>Razon Social:</strong> nombre legal del negocio para imprimir en la factura.</li>
+                        <li><strong>Condicion IVA:</strong> situacion tributaria (Responsable Inscripto, Monotributo, Exento, etc.).</li>
+                      </ul>
+                      <div className="bg-zinc-800 p-3 rounded-lg mt-3">
+                        <p className="text-orange-400 font-medium text-sm">Consejo:</p>
+                        <p className="text-sm mt-1">Verifica el CUIT y la condicion IVA antes de habilitar el punto. Los datos se utilizan tal cual al emitir comprobantes.</p>
+                      </div>
+                    </div>
+                  }
+                />
+                <span className="text-sm text-[var(--text-tertiary)]">Ayuda sobre el formulario</span>
+              </div>
               <div>
                 <label htmlFor="pt-num" className="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">{t('pages.fiscal.invoiceNumber')}</label>
                 <input id="pt-num" type="number" min="1" value={pointNumber} onChange={(e) => setPointNumber(e.target.value)} placeholder="Ej: 1" className="w-full px-3 py-2 bg-[var(--bg-tertiary)] border border-[var(--border-default)] rounded-lg text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)]" />

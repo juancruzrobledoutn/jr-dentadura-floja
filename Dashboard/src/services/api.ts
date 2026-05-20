@@ -189,11 +189,6 @@ async function fetchAPI<T>(
 // Auth Types
 // =============================================================================
 
-interface LoginRequest {
-  email: string
-  password: string
-}
-
 export interface AuthUser {
   id: number
   email: string
@@ -703,7 +698,7 @@ interface RoundItem {
 export interface Round {
   id: number
   round_number: number
-  status: 'DRAFT' | 'PENDING' | 'SUBMITTED' | 'IN_KITCHEN' | 'READY' | 'SERVED' | 'CANCELED'
+  status: 'DRAFT' | 'PENDING' | 'CONFIRMED' | 'SUBMITTED' | 'IN_KITCHEN' | 'READY' | 'SERVED' | 'CANCELED'
   items: RoundItem[]
   created_at: string
   table_id: number | null

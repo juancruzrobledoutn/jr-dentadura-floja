@@ -85,36 +85,30 @@ vi.mock('./authStore', () => ({
 import { tablesAPI, roundsAPI, billingAPI, serviceCallsAPI, ApiError } from '../services/api'
 import { wsService } from '../services/websocket'
 
-const mockTables = [
+const mockTables: import('../types').TableCard[] = [
   {
     table_id: 1,
-    table_code: 'T-01',
-    capacity: 4,
+    code: 'T-01',
     status: 'ACTIVE',
     session_id: 100,
-    diner_count: 2,
     open_rounds: 1,
     pending_calls: 0,
     check_status: null,
   },
   {
     table_id: 2,
-    table_code: 'T-02',
-    capacity: 6,
+    code: 'T-02',
     status: 'FREE',
     session_id: null,
-    diner_count: 0,
     open_rounds: 0,
     pending_calls: 0,
     check_status: null,
   },
   {
     table_id: 3,
-    table_code: 'T-03',
-    capacity: 4,
+    code: 'T-03',
     status: 'PAYING',
     session_id: 101,
-    diner_count: 3,
     open_rounds: 0,
     pending_calls: 1,
     check_status: 'REQUESTED',
@@ -170,9 +164,9 @@ describe('tablesStore', () => {
     })
 
     it('should set isLoading during fetch', async () => {
-      let resolveFetch: (value: unknown) => void
+      let resolveFetch: (value: import('../types').TableCard[] | PromiseLike<import('../types').TableCard[]>) => void
       vi.mocked(tablesAPI.getTables).mockImplementation(
-        () => new Promise((resolve) => { resolveFetch = resolve })
+        () => new Promise<import('../types').TableCard[]>((resolve) => { resolveFetch = resolve })
       )
 
       const fetchPromise = useTablesStore.getState().fetchTables(1)
@@ -184,7 +178,7 @@ describe('tablesStore', () => {
     })
 
     it('should handle 401 authentication error and logout', async () => {
-      const authError = new ApiError('Unauthorized', 'AUTH_ERROR', 401)
+      const authError = new ApiError('Unauthorized', 401, 'AUTH_ERROR')
       vi.mocked(tablesAPI.getTables).mockRejectedValue(authError)
 
       await expect(useTablesStore.getState().fetchTables(1)).rejects.toThrow('Session expired')
@@ -207,7 +201,7 @@ describe('tablesStore', () => {
 
   describe('markRoundAsServed', () => {
     it('should mark round as served successfully', async () => {
-      vi.mocked(roundsAPI.markAsServed).mockResolvedValue(undefined)
+      vi.mocked(roundsAPI.markAsServed).mockResolvedValue({ id: 123, session_id: 1, round_number: 1, status: 'SERVED', submitted_at: '', items: [] })
 
       await useTablesStore.getState().markRoundAsServed(123)
 
@@ -215,7 +209,7 @@ describe('tablesStore', () => {
     })
 
     it('should queue action on network error', async () => {
-      const networkError = new ApiError('Network failed', 'NETWORK_ERROR')
+      const networkError = new ApiError('Network failed', 0, 'NETWORK_ERROR')
       vi.mocked(roundsAPI.markAsServed).mockRejectedValue(networkError)
 
       await expect(useTablesStore.getState().markRoundAsServed(123)).rejects.toThrow()
@@ -223,7 +217,7 @@ describe('tablesStore', () => {
     })
 
     it('should logout on 401 error', async () => {
-      const authError = new ApiError('Unauthorized', 'AUTH_ERROR', 401)
+      const authError = new ApiError('Unauthorized', 401, 'AUTH_ERROR')
       vi.mocked(roundsAPI.markAsServed).mockRejectedValue(authError)
 
       await expect(useTablesStore.getState().markRoundAsServed(123)).rejects.toThrow('Session expired')
@@ -232,7 +226,7 @@ describe('tablesStore', () => {
 
   describe('confirmCashPayment', () => {
     it('should confirm cash payment successfully', async () => {
-      vi.mocked(billingAPI.confirmCashPayment).mockResolvedValue(undefined)
+      vi.mocked(billingAPI.confirmCashPayment).mockResolvedValue({ id: 1, session_id: 1, total_cents: 5000, paid_cents: 5000, requested_at: '', closed_at: null, payments: [] })
 
       await useTablesStore.getState().confirmCashPayment(100, 5000)
 
@@ -256,7 +250,7 @@ describe('tablesStore', () => {
     })
 
     it('should queue action on network error', async () => {
-      const networkError = new ApiError('Network failed', 'NETWORK_ERROR')
+      const networkError = new ApiError('Network failed', 0, 'NETWORK_ERROR')
       vi.mocked(billingAPI.clearTable).mockRejectedValue(networkError)
 
       await expect(useTablesStore.getState().clearTable(1)).rejects.toThrow()
@@ -266,7 +260,7 @@ describe('tablesStore', () => {
 
   describe('acknowledgeServiceCall', () => {
     it('should acknowledge service call successfully', async () => {
-      vi.mocked(serviceCallsAPI.acknowledge).mockResolvedValue(undefined)
+      vi.mocked(serviceCallsAPI.acknowledge).mockResolvedValue({ id: 50, type: 'WAITER_CALL', status: 'ACKED', created_at: '', acked_by_user_id: null })
 
       await useTablesStore.getState().acknowledgeServiceCall(50)
 
@@ -274,7 +268,7 @@ describe('tablesStore', () => {
     })
 
     it('should queue action on network error', async () => {
-      const networkError = new ApiError('Network failed', 'TIMEOUT')
+      const networkError = new ApiError('Network failed', 0, 'TIMEOUT')
       vi.mocked(serviceCallsAPI.acknowledge).mockRejectedValue(networkError)
 
       await expect(useTablesStore.getState().acknowledgeServiceCall(50)).rejects.toThrow()
@@ -284,7 +278,7 @@ describe('tablesStore', () => {
 
   describe('resolveServiceCall', () => {
     it('should resolve service call successfully', async () => {
-      vi.mocked(serviceCallsAPI.resolve).mockResolvedValue(undefined)
+      vi.mocked(serviceCallsAPI.resolve).mockResolvedValue({ id: 50, type: 'WAITER_CALL', status: 'CLOSED', created_at: '', acked_by_user_id: null })
 
       await useTablesStore.getState().resolveServiceCall(50)
 
@@ -292,7 +286,7 @@ describe('tablesStore', () => {
     })
 
     it('should queue action on network error', async () => {
-      const networkError = new ApiError('Network failed', 'NETWORK_ERROR')
+      const networkError = new ApiError('Network failed', 0, 'NETWORK_ERROR')
       vi.mocked(serviceCallsAPI.resolve).mockRejectedValue(networkError)
 
       await expect(useTablesStore.getState().resolveServiceCall(50)).rejects.toThrow()

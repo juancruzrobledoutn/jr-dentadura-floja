@@ -49,7 +49,6 @@ describe('sectorStore', () => {
       branch_id: 1,
       name: 'VIP',
       prefix: 'VIP',
-      display_order: 3,
     })
 
     const state = useSectorStore.getState()

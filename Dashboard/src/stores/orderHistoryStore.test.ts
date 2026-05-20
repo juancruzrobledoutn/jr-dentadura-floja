@@ -57,9 +57,9 @@ describe('orderHistoryStore', () => {
     // Manually set records with known dates
     useOrderHistoryStore.setState({
       orderHistory: [
-        { id: 'h1', branch_id: '1', table_id: 't1', table_number: 1, date: '2024-03-15', commands: [], order_time: '12:00', total: 0, status: 'cerrada', created_at: '', updated_at: '' },
-        { id: 'h2', branch_id: '1', table_id: 't2', table_number: 2, date: '2024-03-16', commands: [], order_time: '13:00', total: 0, status: 'cerrada', created_at: '', updated_at: '' },
-        { id: 'h3', branch_id: '2', table_id: 't3', table_number: 1, date: '2024-03-15', commands: [], order_time: '14:00', total: 0, status: 'cerrada', created_at: '', updated_at: '' },
+        { id: 'h1', branch_id: '1', table_id: 't1', table_number: 1, date: '2024-03-15', commands: [], order_time: '12:00', close_time: '22:00', total: 0, status: 'cerrada', created_at: '', updated_at: '' },
+        { id: 'h2', branch_id: '1', table_id: 't2', table_number: 2, date: '2024-03-16', commands: [], order_time: '13:00', close_time: '23:00', total: 0, status: 'cerrada', created_at: '', updated_at: '' },
+        { id: 'h3', branch_id: '2', table_id: 't3', table_number: 1, date: '2024-03-15', commands: [], order_time: '14:00', close_time: '21:00', total: 0, status: 'cerrada', created_at: '', updated_at: '' },
       ],
     })
 

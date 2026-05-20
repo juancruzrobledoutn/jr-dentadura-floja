@@ -1,5 +1,5 @@
 import { useMemo, useCallback, useState, useEffect } from 'react'
-import { Package, AlertTriangle, Trash2, Plus, RefreshCw } from 'lucide-react'
+import { Package, AlertTriangle, RefreshCw } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { usePagination } from '../hooks/usePagination'
@@ -10,9 +10,10 @@ import { Table } from '../components/ui/Table'
 import { Badge } from '../components/ui/Badge'
 import { Pagination } from '../components/ui/Pagination'
 import { useBranchStore, selectSelectedBranchId } from '../stores/branchStore'
-import { useAuthStore, selectUserRoles } from '../stores/authStore'
+
 import { toast } from '../stores/toastStore'
 import { handleError } from '../utils/logger'
+import { helpContent } from '../utils/helpContent'
 import type { TableColumn } from '../types'
 
 // Types for inventory data from backend
@@ -56,7 +57,7 @@ interface FoodCostItem {
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
 
-function getStockStatus(item: StockItem): { label: string; variant: 'success' | 'warning' | 'danger' } {
+function getStockStatus(item: StockItem, t: (key: string) => string): { label: string; variant: 'success' | 'warning' | 'danger' } {
   if (item.current_qty <= 0) return { label: t('pages.inventory.outOfStock'), variant: 'danger' }
   if (item.current_qty < item.min_level) return { label: t('pages.inventory.lowStock'), variant: 'warning' }
   if (item.current_qty < item.min_level * 1.5) return { label: t('pages.inventory.attention'), variant: 'warning' }
@@ -223,7 +224,7 @@ export function InventoryPage() {
         key: 'is_active',
         label: t('common.status'),
         render: (item: StockItem) => {
-          const status = getStockStatus(item)
+          const status = getStockStatus(item, t)
           return <Badge variant={status.variant}>{status.label}</Badge>
         },
       },
@@ -233,7 +234,7 @@ export function InventoryPage() {
 
   if (!selectedBranchId) {
     return (
-      <PageContainer title={t('pages.inventory.title')} description={t('pages.inventory.selectBranchDesc')}>
+      <PageContainer title={t('pages.inventory.title')} description={t('pages.inventory.selectBranchDesc')} helpContent={helpContent.inventory}>
         <Card>
           <div className="text-center py-12 text-[var(--text-muted)]">
             <Package className="mx-auto h-12 w-12 mb-4 opacity-50" aria-hidden="true" />
@@ -248,6 +249,7 @@ export function InventoryPage() {
     <PageContainer
       title="Inventario"
       description="Control de stock, alertas y costos de ingredientes"
+      helpContent={helpContent.inventory}
       actions={
         <Button onClick={fetchStock} variant="secondary" aria-label="Actualizar inventario">
           <RefreshCw className="w-4 h-4 mr-2" aria-hidden="true" />

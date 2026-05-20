@@ -35,8 +35,8 @@ describe('customizationStore', () => {
 
   it('should fetch customization options and populate state', async () => {
     const apiOptions = [
-      { id: 1, name: 'Sin cebolla', type: 'removal', price_delta_cents: 0, is_active: true, product_ids: [] },
-      { id: 2, name: 'Extra queso', type: 'addition', price_delta_cents: 200, is_active: true, product_ids: [1, 2] },
+      { id: 1, tenant_id: 1, name: 'Sin cebolla', category: 'removal', extra_cost_cents: 0, order: 1, is_active: true, product_ids: [] },
+      { id: 2, tenant_id: 1, name: 'Extra queso', category: 'addition', extra_cost_cents: 200, order: 2, is_active: true, product_ids: [1, 2] },
     ]
     vi.mocked(customizationAPI.list).mockResolvedValueOnce(apiOptions)
 
@@ -45,18 +45,18 @@ describe('customizationStore', () => {
 
     expect(state.options).toHaveLength(2)
     expect(state.options[0].name).toBe('Sin cebolla')
-    expect(state.options[1].price_delta_cents).toBe(200)
+    expect(state.options[1].extra_cost_cents).toBe(200)
     expect(state.isLoading).toBe(false)
   })
 
   it('should create an option and add to state', async () => {
-    const created = { id: 3, name: 'Sin sal', type: 'removal', price_delta_cents: 0, is_active: true, product_ids: [] }
+    const created = { id: 3, tenant_id: 1, name: 'Sin sal', category: 'removal', extra_cost_cents: 0, order: 1, is_active: true, product_ids: [] }
     vi.mocked(customizationAPI.create).mockResolvedValueOnce(created)
 
     const result = await useCustomizationStore.getState().createOption({
       name: 'Sin sal',
-      type: 'removal',
-      price_delta_cents: 0,
+      category: 'removal',
+      extra_cost_cents: 0,
     })
 
     const state = useCustomizationStore.getState()
@@ -68,11 +68,11 @@ describe('customizationStore', () => {
   it('should set product links and update option in state', async () => {
     useCustomizationStore.setState({
       options: [
-        { id: 1, name: 'Sin cebolla', type: 'removal', price_delta_cents: 0, is_active: true, product_ids: [] },
+        { id: 1, tenant_id: 1, name: 'Sin cebolla', category: 'removal', extra_cost_cents: 0, order: 1, is_active: true, product_ids: [] },
       ],
     })
 
-    const updated = { id: 1, name: 'Sin cebolla', type: 'removal', price_delta_cents: 0, is_active: true, product_ids: [10, 20] }
+    const updated = { id: 1, tenant_id: 1, name: 'Sin cebolla', category: 'removal', extra_cost_cents: 0, order: 1, is_active: true, product_ids: [10, 20] }
     vi.mocked(customizationAPI.setProductLinks).mockResolvedValueOnce(updated)
 
     await useCustomizationStore.getState().setProductLinks(1, [10, 20])

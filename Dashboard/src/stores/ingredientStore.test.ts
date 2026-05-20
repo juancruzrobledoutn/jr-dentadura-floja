@@ -56,7 +56,6 @@ describe('ingredientStore', () => {
       description: 'Cebolla blanca',
       group_id: 1,
       is_processed: false,
-      is_active: true,
     })
 
     const state = useIngredientStore.getState()

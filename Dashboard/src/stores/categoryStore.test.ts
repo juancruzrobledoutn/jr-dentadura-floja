@@ -2,7 +2,7 @@
  * Tests for categoryStore - Category management state
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { useCategoryStore, selectCategories, selectCategoriesByBranch } from './categoryStore'
+import { useCategoryStore, selectCategoriesByBranch } from './categoryStore'
 
 vi.mock('../services/api', () => ({
   categoryAPI: {
@@ -28,8 +28,8 @@ describe('categoryStore', () => {
 
   it('should fetch categories and populate state', async () => {
     const apiCategories = [
-      { id: 1, name: 'Entradas', icon: '🥗', image: null, order: 1, branch_id: 1, is_active: true },
-      { id: 2, name: 'Platos Principales', icon: '🍽️', image: null, order: 2, branch_id: 1, is_active: true },
+      { id: 1, tenant_id: 1, name: 'Entradas', icon: '🥗', image: null, order: 1, branch_id: 1, is_active: true },
+      { id: 2, tenant_id: 1, name: 'Platos Principales', icon: '🍽️', image: null, order: 2, branch_id: 1, is_active: true },
     ]
     vi.mocked(categoryAPI.list).mockResolvedValueOnce(apiCategories)
 

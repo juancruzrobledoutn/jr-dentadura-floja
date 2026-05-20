@@ -14,9 +14,10 @@ import { Card } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { Badge } from '../components/ui/Badge'
 import { Select } from '../components/ui'
+import { HelpButton } from '../components/ui/HelpButton'
 import { useBranchStore, selectSelectedBranchId } from '../stores/branchStore'
 import { toast } from '../stores/toastStore'
-import { handleError } from '../utils/logger'
+import { helpContent } from '../utils/helpContent'
 
 // -------------------------------------------------------------------------
 // Types
@@ -316,7 +317,7 @@ export function TipsPage() {
 
   if (!selectedBranchId) {
     return (
-      <PageContainer title={t('pages.tips.title')} description={t('pages.tips.selectBranchDesc')}>
+      <PageContainer title={t('pages.tips.title')} description={t('pages.tips.selectBranchDesc')} helpContent={helpContent.tips}>
         <Card>
           <div className="text-center py-12 text-[var(--text-muted)]">
             <Coins className="mx-auto h-12 w-12 mb-4 opacity-50" aria-hidden="true" />
@@ -328,7 +329,7 @@ export function TipsPage() {
   }
 
   return (
-    <PageContainer title={t('pages.tips.title')} description={t('pages.tips.description')}>
+    <PageContainer title={t('pages.tips.title')} description={t('pages.tips.description')} helpContent={helpContent.tips}>
       {/* Tabs */}
       <div className="flex gap-2 mb-6" role="tablist">
         {([
@@ -588,6 +589,28 @@ export function TipsPage() {
           <div className="relative bg-[var(--bg-primary)] rounded-xl shadow-xl p-6 w-full max-w-md border border-[var(--border-default)]">
             <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-4">{t('pages.tips.registerTip')}</h3>
             <div className="space-y-4">
+              <div className="flex items-center gap-2 mb-2">
+                <HelpButton
+                  title="Formulario de Registrar Propina"
+                  size="sm"
+                  content={
+                    <div className="space-y-3">
+                      <p><strong>Completa los siguientes campos</strong> para registrar una propina:</p>
+                      <ul className="list-disc pl-5 space-y-2">
+                        <li><strong>ID de Sesion:</strong> identificador numerico de la sesion de mesa donde se origino la propina.</li>
+                        <li><strong>Monto:</strong> valor de la propina en pesos (acepta decimales).</li>
+                        <li><strong>Metodo de Pago:</strong> efectivo, tarjeta, transferencia o mercadopago.</li>
+                        <li><strong>ID del Mozo:</strong> identificador del mozo que atendio la mesa.</li>
+                      </ul>
+                      <div className="bg-zinc-800 p-3 rounded-lg mt-3">
+                        <p className="text-orange-400 font-medium text-sm">Nota:</p>
+                        <p className="text-sm mt-1">La integracion con el backend esta en proceso. Las propinas se guardan localmente para ensayar el flujo de registro y posterior distribucion.</p>
+                      </div>
+                    </div>
+                  }
+                />
+                <span className="text-sm text-[var(--text-tertiary)]">Ayuda sobre el formulario</span>
+              </div>
               <div>
                 <label htmlFor="tip-session" className="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">{t('pages.tips.sessionId')}</label>
                 <input id="tip-session" type="number" value={tipSession} onChange={(e) => setTipSession(e.target.value)} placeholder="Ej: 12" className="w-full px-3 py-2 bg-[var(--bg-tertiary)] border border-[var(--border-default)] rounded-lg text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)]" />
@@ -617,6 +640,28 @@ export function TipsPage() {
           <div className="relative bg-[var(--bg-primary)] rounded-xl shadow-xl p-6 w-full max-w-md border border-[var(--border-default)]">
             <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-4">{editingPool ? t('pages.tips.editPool') : t('pages.tips.createPoolTitle')}</h3>
             <div className="space-y-4">
+              <div className="flex items-center gap-2 mb-2">
+                <HelpButton
+                  title="Formulario de Pool de Distribucion"
+                  size="sm"
+                  content={
+                    <div className="space-y-3">
+                      <p><strong>Completa los siguientes campos</strong> para crear o editar un pool de distribucion de propinas:</p>
+                      <ul className="list-disc pl-5 space-y-2">
+                        <li><strong>Nombre:</strong> identificador del pool (ej: Pool Estandar, Pool Fines de Semana).</li>
+                        <li><strong>% Mozos:</strong> porcentaje que se asigna al personal de salon.</li>
+                        <li><strong>% Cocina:</strong> porcentaje que se asigna al personal de cocina.</li>
+                        <li><strong>% Otros:</strong> porcentaje que se asigna al resto del personal (barra, runners, etc.).</li>
+                      </ul>
+                      <div className="bg-zinc-800 p-3 rounded-lg mt-3">
+                        <p className="text-orange-400 font-medium text-sm">Importante:</p>
+                        <p className="text-sm mt-1">Los tres porcentajes deben sumar exactamente 100. El sistema rechaza configuraciones que no cumplan esta condicion.</p>
+                      </div>
+                    </div>
+                  }
+                />
+                <span className="text-sm text-[var(--text-tertiary)]">Ayuda sobre el formulario</span>
+              </div>
               <div>
                 <label htmlFor="pool-name" className="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">{t('pages.tips.nameCol')}</label>
                 <input id="pool-name" type="text" value={poolName} onChange={(e) => setPoolName(e.target.value)} placeholder="Ej: Pool Estandar" className="w-full px-3 py-2 bg-[var(--bg-tertiary)] border border-[var(--border-default)] rounded-lg text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)]" />
@@ -652,6 +697,26 @@ export function TipsPage() {
           <div className="relative bg-[var(--bg-primary)] rounded-xl shadow-xl p-6 w-full max-w-md border border-[var(--border-default)]">
             <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-4">{t('pages.tips.distributeTip')}</h3>
             <div className="space-y-4">
+              <div className="flex items-center gap-2 mb-2">
+                <HelpButton
+                  title="Formulario de Distribuir Propina"
+                  size="sm"
+                  content={
+                    <div className="space-y-3">
+                      <p><strong>Completa los siguientes campos</strong> para distribuir una propina:</p>
+                      <ul className="list-disc pl-5 space-y-2">
+                        <li><strong>Propina:</strong> selecciona una propina registrada que aun no haya sido distribuida.</li>
+                        <li><strong>Pool de Distribucion:</strong> selecciona el pool cuyos porcentajes definen como se reparte el monto.</li>
+                      </ul>
+                      <div className="bg-zinc-800 p-3 rounded-lg mt-3">
+                        <p className="text-orange-400 font-medium text-sm">Consejo:</p>
+                        <p className="text-sm mt-1">Una vez distribuida la propina no aparece mas en la lista de propinas pendientes. Revisa el pool que vas a aplicar antes de confirmar.</p>
+                      </div>
+                    </div>
+                  }
+                />
+                <span className="text-sm text-[var(--text-tertiary)]">Ayuda sobre el formulario</span>
+              </div>
               <Select id="distribute-tip" label={t('pages.tips.tip')} options={undistributedTipOptions} value={distributeTipId} onChange={(e) => setDistributeTipId(e.target.value)} />
               <Select id="distribute-pool" label={t('pages.tips.distributionPool')} options={poolOptions} value={distributePoolId} onChange={(e) => setDistributePoolId(e.target.value)} />
             </div>

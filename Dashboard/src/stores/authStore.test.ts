@@ -66,8 +66,6 @@ describe('authStore', () => {
     const mockUser = {
       id: 1,
       email: 'admin@demo.com',
-      first_name: 'Admin',
-      last_name: 'User',
       roles: ['ADMIN'],
       branch_ids: [1, 2],
       tenant_id: 1,
@@ -75,6 +73,8 @@ describe('authStore', () => {
 
     vi.mocked(authAPI.login).mockResolvedValueOnce({
       access_token: 'mock-jwt-token',
+      token_type: 'bearer',
+      expires_in: 900,
       user: mockUser,
     })
 
@@ -104,7 +104,7 @@ describe('authStore', () => {
   it('should clear state on logout', () => {
     // Set authenticated state first
     useAuthStore.setState({
-      user: { id: 1, email: 'admin@demo.com', first_name: 'A', last_name: 'U', roles: ['ADMIN'], branch_ids: [1], tenant_id: 1 },
+      user: { id: 1, email: 'admin@demo.com', roles: ['ADMIN'], branch_ids: [1], tenant_id: 1 },
       token: 'some-token',
       isAuthenticated: true,
     })

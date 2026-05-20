@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { PageContainer } from '../components/layout'
 import { Card, Button, Modal } from '../components/ui'
+import { HelpButton } from '../components/ui/HelpButton'
 import {
   Package,
   Truck,
@@ -25,6 +26,7 @@ import {
 } from '../stores/deliveryStore'
 import { useProductStore } from '../stores/productStore'
 import { handleError } from '../utils/logger'
+import { helpContent } from '../utils/helpContent'
 import { toast } from '../stores/toastStore'
 import type { DeliveryOrder, DeliveryOrderCreate, DeliveryOrderCreateItem } from '../services/api'
 
@@ -127,8 +129,6 @@ export default function Delivery() {
   useDocumentTitle(t('pages.delivery.titleFull'))
 
   const STATUS_LABELS = getDeliveryStatusLabels(t)
-  const PAYMENT_LABELS = getPaymentLabels(t)
-  const ORDER_TYPE_LABELS = getOrderTypeLabels(t)
 
   const selectedBranchId = useBranchStore(selectSelectedBranchId)
   const branches = useBranchStore(selectBranches)
@@ -226,7 +226,7 @@ export default function Delivery() {
 
   if (!selectedBranchId) {
     return (
-      <PageContainer title={t('pages.delivery.titleFull')} description={t('pages.delivery.selectBranchDesc')}>
+      <PageContainer title={t('pages.delivery.titleFull')} description={t('pages.delivery.selectBranchDesc')} helpContent={helpContent.delivery}>
         <Card>
           <p className="text-[var(--text-muted)] text-center py-8">
             {t('pages.delivery.selectBranchFromDashboard')}
@@ -242,6 +242,7 @@ export default function Delivery() {
     <PageContainer
       title={t('pages.delivery.titleFull')}
       description={`Gestion de pedidos para ${branchName}`}
+      helpContent={helpContent.delivery}
     >
       {/* Filters and Actions */}
       <div className="flex flex-wrap items-center gap-3 mb-6">
@@ -773,6 +774,32 @@ function CreateOrderModal({
       }
     >
       <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
+        {/* Form-level help */}
+        <div className="flex items-center gap-2 mb-2">
+          <HelpButton
+            title="Formulario de Nuevo Pedido"
+            size="sm"
+            content={
+              <div className="space-y-3">
+                <p><strong>Completa los siguientes campos</strong> para registrar un nuevo pedido:</p>
+                <ul className="list-disc pl-5 space-y-2">
+                  <li><strong>Tipo de pedido:</strong> Elige RETIRO (el cliente retira en el local) o DELIVERY (se envia a domicilio).</li>
+                  <li><strong>Nombre del cliente:</strong> Nombre para identificar el pedido. Es obligatorio.</li>
+                  <li><strong>Telefono:</strong> Numero de contacto del cliente.</li>
+                  <li><strong>Direccion de entrega:</strong> Requerida solo si el tipo es DELIVERY.</li>
+                  <li><strong>Productos:</strong> Busca y agrega los items del pedido con su cantidad.</li>
+                  <li><strong>Metodo de pago:</strong> Forma de pago acordada con el cliente.</li>
+                  <li><strong>Notas:</strong> Observaciones adicionales para el pedido.</li>
+                </ul>
+                <div className="bg-zinc-800 p-3 rounded-lg mt-3">
+                  <p className="text-orange-400 font-medium text-sm">Consejo:</p>
+                  <p className="text-sm mt-1">Usa la busqueda de productos para encontrar rapidamente los items. El total se calcula automaticamente.</p>
+                </div>
+              </div>
+            }
+          />
+          <span className="text-sm text-[var(--text-tertiary)]">Ayuda sobre el formulario</span>
+        </div>
         {/* Order Type */}
         <div>
           <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">

@@ -8,7 +8,9 @@ interface ConfirmDialogProps {
   onClose: () => void
   onConfirm: () => void
   title: string
-  message: string
+  message?: string
+  /** @deprecated Use `message` instead — kept for backward compatibility */
+  description?: string
   confirmLabel?: string
   cancelLabel?: string
   variant?: 'danger' | 'warning'
@@ -23,12 +25,14 @@ export function ConfirmDialog({
   onConfirm,
   title,
   message,
+  description,
   confirmLabel = 'Confirmar',
   cancelLabel = 'Cancelar',
   variant = 'danger',
   isLoading = false,
   children,
 }: ConfirmDialogProps) {
+  const displayMessage = message ?? description
   return (
     <Modal
       isOpen={isOpen}
@@ -65,7 +69,7 @@ export function ConfirmDialog({
           />
         </div>
         <div className="flex-1">
-          <p className="text-[var(--text-secondary)]">{message}</p>
+          <p className="text-[var(--text-secondary)]">{displayMessage}</p>
           {/* DASH-006: Render cascade preview or additional details */}
           {children}
         </div>

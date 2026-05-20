@@ -3,13 +3,15 @@ import { useTranslation } from 'react-i18next'
 import { CalendarDays, Plus, DollarSign, Pencil, Trash2, PlayCircle, StopCircle, Copy } from 'lucide-react'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { PageContainer } from '../components/layout/PageContainer'
+import { helpContent } from '../utils/helpContent'
 import { Card } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { Badge } from '../components/ui/Badge'
 import { Select } from '../components/ui'
+import { HelpButton } from '../components/ui/HelpButton'
 import { useBranchStore, selectSelectedBranchId } from '../stores/branchStore'
 import { toast } from '../stores/toastStore'
-import { handleError } from '../utils/logger'
+
 
 // -------------------------------------------------------------------------
 // Types
@@ -235,7 +237,7 @@ export function SchedulingPage() {
 
   if (!selectedBranchId) {
     return (
-      <PageContainer title={t('pages.scheduling.title')} description={t('pages.scheduling.description')}>
+      <PageContainer title={t('pages.scheduling.title')} description={t('pages.scheduling.description')} helpContent={helpContent.scheduling}>
         <Card>
           <div className="text-center py-12 text-[var(--text-muted)]">
             <CalendarDays className="mx-auto h-12 w-12 mb-4 opacity-50" aria-hidden="true" />
@@ -247,7 +249,7 @@ export function SchedulingPage() {
   }
 
   return (
-    <PageContainer title={t('pages.scheduling.title')} description={t('pages.scheduling.descriptionFull')}>
+    <PageContainer title={t('pages.scheduling.title')} description={t('pages.scheduling.descriptionFull')} helpContent={helpContent.scheduling}>
       <div className="flex gap-2 mb-6" role="tablist">
         {([{ key: 'week' as TabKey, label: t('pages.scheduling.tabWeek') }, { key: 'templates' as TabKey, label: t('pages.scheduling.tabTemplates') }, { key: 'attendance' as TabKey, label: t('pages.scheduling.tabAttendance') }, { key: 'costs' as TabKey, label: t('pages.scheduling.tabCosts') }]).map((tab) => (
           <button key={tab.key} role="tab" aria-selected={activeTab === tab.key} onClick={() => setActiveTab(tab.key)} className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === tab.key ? 'bg-orange-500 text-white' : 'bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)]'}`}>{tab.label}</button>
@@ -447,6 +449,29 @@ export function SchedulingPage() {
           <div className="relative bg-[var(--bg-primary)] rounded-xl shadow-xl p-6 w-full max-w-md border border-[var(--border-default)]">
             <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-4">{editingShift ? t('pages.scheduling.editShift') : t('pages.scheduling.newShiftTitle')}</h3>
             <div className="space-y-4">
+              <div className="flex items-center gap-2 mb-2">
+                <HelpButton
+                  title="Formulario de Turno"
+                  size="sm"
+                  content={
+                    <div className="space-y-3">
+                      <p><strong>Completa los siguientes campos</strong> para crear o editar un turno:</p>
+                      <ul className="list-disc pl-5 space-y-2">
+                        <li><strong>Empleado:</strong> Nombre del empleado que realiza el turno (texto libre).</li>
+                        <li><strong>Dia:</strong> Fecha del turno.</li>
+                        <li><strong>Entrada:</strong> Hora de inicio del turno.</li>
+                        <li><strong>Salida:</strong> Hora de fin del turno.</li>
+                        <li><strong>Rol:</strong> Rol del empleado en este turno (WAITER / KITCHEN / MANAGER / ADMIN / CASHIER).</li>
+                      </ul>
+                      <div className="bg-zinc-800 p-3 rounded-lg mt-3">
+                        <p className="text-orange-400 font-medium text-sm">Consejo:</p>
+                        <p className="text-sm mt-1">Un Turno representa un bloque diario para un empleado. Si vas a repetir la misma grilla cada semana, conviene primero crear una Plantilla y luego aplicarla desde la pestana Semana con el boton Aplicar Plantilla.</p>
+                      </div>
+                    </div>
+                  }
+                />
+                <span className="text-sm text-[var(--text-tertiary)]">Ayuda sobre el formulario</span>
+              </div>
               <div>
                 <label htmlFor="shift-emp" className="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">{t('pages.scheduling.employee')}</label>
                 <input id="shift-emp" type="text" value={shiftUserName} onChange={(e) => setShiftUserName(e.target.value)} placeholder="Nombre del empleado" className="w-full px-3 py-2 bg-[var(--bg-tertiary)] border border-[var(--border-default)] rounded-lg text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)]" />
@@ -482,6 +507,25 @@ export function SchedulingPage() {
           <div className="relative bg-[var(--bg-primary)] rounded-xl shadow-xl p-6 w-full max-w-md border border-[var(--border-default)]">
             <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-4">{editingTemplate ? t('pages.scheduling.editTemplate') : t('pages.scheduling.newTemplateTitle')}</h3>
             <div className="space-y-4">
+              <div className="flex items-center gap-2 mb-2">
+                <HelpButton
+                  title="Formulario de Plantilla de Turnos"
+                  size="sm"
+                  content={
+                    <div className="space-y-3">
+                      <p><strong>Completa los siguientes campos</strong> para crear o editar una plantilla de turnos:</p>
+                      <ul className="list-disc pl-5 space-y-2">
+                        <li><strong>Nombre:</strong> Etiqueta visible de la plantilla (ej: "Turno Fin de Semana" o "Semana Estandar").</li>
+                      </ul>
+                      <div className="bg-zinc-800 p-3 rounded-lg mt-3">
+                        <p className="text-orange-400 font-medium text-sm">Consejo:</p>
+                        <p className="text-sm mt-1">La plantilla se reutiliza desde la pestana Semana presionando Aplicar Plantilla. La configuracion detallada de items (dias y horarios) se gestiona dentro de la plantilla una vez creada.</p>
+                      </div>
+                    </div>
+                  }
+                />
+                <span className="text-sm text-[var(--text-tertiary)]">Ayuda sobre el formulario</span>
+              </div>
               <div>
                 <label htmlFor="tmpl-name" className="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">{t('pages.scheduling.employee')}</label>
                 <input id="tmpl-name" type="text" value={templateName} onChange={(e) => setTemplateName(e.target.value)} placeholder="Ej: Turno Fin de Semana" className="w-full px-3 py-2 bg-[var(--bg-tertiary)] border border-[var(--border-default)] rounded-lg text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)]" />
@@ -502,6 +546,26 @@ export function SchedulingPage() {
           <div className="relative bg-[var(--bg-primary)] rounded-xl shadow-xl p-6 w-full max-w-md border border-[var(--border-default)]">
             <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-4">{t('pages.scheduling.applyTemplate')}</h3>
             <div className="space-y-4">
+              <div className="flex items-center gap-2 mb-2">
+                <HelpButton
+                  title="Aplicar Plantilla a una Semana"
+                  size="sm"
+                  content={
+                    <div className="space-y-3">
+                      <p><strong>Completa los siguientes campos</strong> para aplicar una plantilla de turnos a una semana:</p>
+                      <ul className="list-disc pl-5 space-y-2">
+                        <li><strong>Plantilla:</strong> Selector con las plantillas disponibles creadas previamente.</li>
+                        <li><strong>Semana del:</strong> Fecha del lunes de la semana objetivo sobre la que se aplicaran los turnos.</li>
+                      </ul>
+                      <div className="bg-zinc-800 p-3 rounded-lg mt-3">
+                        <p className="text-orange-400 font-medium text-sm">Nota:</p>
+                        <p className="text-sm mt-1">Al aplicar una plantilla se crean los turnos sobre la semana seleccionada. Si ya habia turnos cargados para esa semana, los conflictos se resuelven manualmente en la grilla — la plantilla no sobrescribe turnos existentes.</p>
+                      </div>
+                    </div>
+                  }
+                />
+                <span className="text-sm text-[var(--text-tertiary)]">Ayuda sobre el formulario</span>
+              </div>
               <Select id="apply-tmpl" label={t('pages.scheduling.template')} options={templateOptions} value={applyTemplateId} onChange={(e) => setApplyTemplateId(e.target.value)} />
               <div>
                 <label htmlFor="apply-week" className="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">{t('pages.scheduling.weekOf')}</label>

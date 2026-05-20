@@ -231,20 +231,6 @@ export default defineConfig({
           // Vendor chunks - rarely change, cache long
           'vendor-react': ['react', 'react-dom'],
           'vendor-i18n': ['i18next', 'react-i18next'],
-          'vendor-router': ['react-router-dom'],
-
-          // UI components - change occasionally
-          'ui-modals': [
-            './src/components/CallWaiterModal.tsx',
-            './src/components/OptInModal.tsx',
-            './src/components/ProductModal.tsx',
-          ],
-
-          // Heavy utilities - load on demand
-          'utils-heavy': [
-            './src/utils/webVitals.ts',
-            './src/utils/deviceId.ts',
-          ],
         },
 
         // Asset naming for long-term caching
@@ -285,7 +271,6 @@ export default defineConfig({
     include: [
       'react',
       'react-dom',
-      'react-router-dom',
       'i18next',
       'react-i18next',
     ],
