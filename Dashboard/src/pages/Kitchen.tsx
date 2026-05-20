@@ -9,6 +9,7 @@ import { printKitchenTicket } from '../utils/print'
 import { dashboardWS, type WSEvent } from '../services/websocket'
 import { useAuthStore, selectIsAuthenticated, selectUserBranchIds, selectUserRoles } from '../stores/authStore'
 import { logger } from '../utils/logger'
+import { helpContent } from '../utils/helpContent'
 
 // =============================================================================
 // Audio notification helpers
@@ -687,6 +688,7 @@ export function KitchenPage() {
       <PageContainer
         title={t('pages.kitchen.title')}
         description={t('pages.kitchen.description')}
+        helpContent={helpContent.kitchen}
       >
         <div className="flex items-center justify-center h-64">
           <div className="text-center">
@@ -707,6 +709,7 @@ export function KitchenPage() {
     <PageContainer
       title={t('pages.kitchen.title')}
       description={t('pages.kitchen.description')}
+      helpContent={helpContent.kitchen}
       actions={
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">

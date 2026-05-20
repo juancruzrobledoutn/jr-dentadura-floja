@@ -7,6 +7,7 @@ import { Card, Button, Select } from '../components/ui'
 import { auditAPI, type AuditLogEntry } from '../services/api'
 import { toast } from '../stores/toastStore'
 import { handleError } from '../utils/logger'
+import { helpContent } from '../utils/helpContent'
 
 const ENTITY_TYPES = [
   'product',
@@ -146,6 +147,7 @@ export function AuditLogPage() {
     <PageContainer
       title={t('pages.auditLog.title')}
       description={t('pages.auditLog.description')}
+      helpContent={helpContent.auditLog}
       actions={
         <div className="flex items-center gap-3">
           <Select

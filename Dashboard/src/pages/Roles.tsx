@@ -3,11 +3,14 @@ import { useTranslation } from 'react-i18next'
 import { Plus, Edit2, Trash2, Search } from 'lucide-react'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { useFormModal } from '../hooks/useFormModal'
+import { PageContainer } from '../components/layout/PageContainer'
 import { Card } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
+import { HelpButton } from '../components/ui/HelpButton'
 import { Input } from '../components/ui/Input'
 import { Modal } from '../components/ui/Modal'
 import { Badge } from '../components/ui/Badge'
+import { helpContent } from '../utils/helpContent'
 import { useRoleStore, selectRoles } from '../stores/roleStore'
 import { useAuthStore, selectUserRoles } from '../stores/authStore'
 import { toast } from '../stores/toastStore'
@@ -120,38 +123,30 @@ export default function Roles() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <h1
-          className="text-3xl font-bold text-[var(--text-primary)]"
-          style={{ fontFamily: 'var(--font-heading)' }}
-        >
-          {t('pages.roles.title')}
-        </h1>
-        <p className="mt-2 text-[var(--text-tertiary)]">
-          {t('pages.roles.description')}
-        </p>
-      </div>
-
-      {/* Actions Bar */}
+    <PageContainer
+      title={t('pages.roles.title')}
+      description={t('pages.roles.description')}
+      helpContent={helpContent.roles}
+      actions={
+        canCreate ? (
+          <Button onClick={() => handleOpenModal()} leftIcon={<Plus className="w-4 h-4" />}>
+            {t('pages.roles.newRole')}
+          </Button>
+        ) : null
+      }
+    >
+      <div className="space-y-6">
+      {/* Search Bar */}
       <Card padding="sm">
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex-1 max-w-md relative">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
-            <Input
-              type="text"
-              placeholder={t('common.search') + '...'}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-          {canCreate && (
-            <Button onClick={() => handleOpenModal()} leftIcon={<Plus className="w-4 h-4" />}>
-              {t('pages.roles.newRole')}
-            </Button>
-          )}
+        <div className="flex-1 max-w-md relative">
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
+          <Input
+            type="text"
+            placeholder={t('common.search') + '...'}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10"
+          />
         </div>
       </Card>
 
@@ -229,6 +224,28 @@ export default function Roles() {
         title={modal.selectedItem ? t('pages.roles.editRole') : t('pages.roles.newRole')}
       >
         <form action={formAction} className="space-y-4">
+          <div className="flex items-center gap-2 mb-2">
+            <HelpButton
+              title="Formulario de Rol"
+              size="sm"
+              content={
+                <div className="space-y-3">
+                  <p><strong>Completa los siguientes campos</strong> para crear o editar un rol:</p>
+                  <ul className="list-disc pl-5 space-y-2">
+                    <li><strong>Nombre:</strong> Nombre visible del rol (por ejemplo Mozo, Cocinero, Gerente). Es obligatorio.</li>
+                    <li><strong>Descripcion:</strong> Texto que describe las responsabilidades del rol. Es obligatorio.</li>
+                    <li><strong>Rol activo:</strong> Si esta desmarcado, el rol queda dado de baja (soft delete) y no se podra asignar a empleados nuevos.</li>
+                  </ul>
+                  <div className="bg-zinc-800 p-3 rounded-lg mt-3">
+                    <p className="text-orange-400 font-medium text-sm">Nota:</p>
+                    <p className="text-sm mt-1">La lista de roles activos define que opciones aparecen en el selector de Rol cuando se crea o edita un empleado en la pagina Personal.</p>
+                  </div>
+                </div>
+              }
+            />
+            <span className="text-sm text-[var(--text-tertiary)]">Ayuda sobre el formulario</span>
+          </div>
+
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
               {t('common.name')} *
@@ -289,6 +306,7 @@ export default function Roles() {
           </div>
         </form>
       </Modal>
-    </div>
+      </div>
+    </PageContainer>
   )
 }

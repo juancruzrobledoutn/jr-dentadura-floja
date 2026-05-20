@@ -31,6 +31,7 @@ import {
 import { useAuthStore, selectUserRoles } from '../stores/authStore'
 import { toast } from '../stores/toastStore'
 import { isAdmin } from '../utils/permissions'
+import { helpContent } from '../utils/helpContent'
 import type { TableColumn } from '../types'
 
 type ViewMode = 'categories' | 'subcategories'
@@ -340,6 +341,7 @@ export function ProductExclusionsPage() {
       <PageContainer
         title={t('pages.productExclusions.title')}
         description={t('pages.productExclusions.loadingDesc')}
+        helpContent={helpContent.productExclusions}
       >
         <Card className="text-center py-12">
           <div className="animate-pulse text-[var(--text-muted)]">{t('common.loading')}</div>
@@ -354,6 +356,7 @@ export function ProductExclusionsPage() {
       <PageContainer
         title={t('pages.productExclusions.title')}
         description={t('pages.productExclusions.adminOnly')}
+        helpContent={helpContent.productExclusions}
       >
         <Card className="text-center py-12">
           <AlertTriangle className="w-12 h-12 text-[var(--warning-icon)] mx-auto mb-4" />
@@ -369,6 +372,7 @@ export function ProductExclusionsPage() {
     <PageContainer
       title={t('pages.productExclusions.title')}
       description={t('pages.productExclusions.description')}
+      helpContent={helpContent.productExclusions}
     >
       {/* Branch Selection */}
       <Card className="mb-6">

@@ -94,9 +94,13 @@ export const useProductStore = create<ProductState>()(
       setProducts: (products) => set({ products }),
 
       addProduct: (data) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { allergens: _allergens, ingredients: _ingredients, dietary_profile: _dietary, cooking: _cooking, sensory: _sensory, ...rest } = data
         const newProduct: Product = {
           id: generateId(),
-          ...data,
+          ...rest,
+          // Keep allergens as empty for local-only products — full presence data requires backend
+          allergens: [],
           allergen_ids: data.allergen_ids ?? [],
           branch_prices: data.branch_prices ?? [],
           use_branch_prices: data.use_branch_prices ?? false,
@@ -108,14 +112,18 @@ export const useProductStore = create<ProductState>()(
         return newProduct
       },
 
-      updateProduct: (id, data) =>
+      updateProduct: (id, data) => {
+        // Exclude ProductFormData-only fields incompatible with Product type
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { allergens: _allergens, ingredients: _ingredients, dietary_profile: _dietary, cooking: _cooking, sensory: _sensory, ...productData } = data
         set((state) => ({
           products: state.products.map((prod) =>
             prod.id === id
-              ? { ...prod, ...data, updated_at: new Date().toISOString() }
+              ? { ...prod, ...productData, updated_at: new Date().toISOString() }
               : prod
           ),
-        })),
+        }))
+      },
 
       deleteProduct: (id) =>
         set((state) => ({
@@ -314,10 +322,13 @@ export const useProductStore = create<ProductState>()(
             branch_prices: apiBranchPrices,
           })
 
+          // Exclude ProductFormData-only fields that are incompatible with Product type
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { allergens: _allergens, ingredients: _ingredients, dietary_profile: _dietary, cooking: _cooking, sensory: _sensory, ...productData } = data
           set((state) => ({
             products: state.products.map((prod) =>
               prod.id === id
-                ? { ...prod, ...data, updated_at: new Date().toISOString() }
+                ? { ...prod, ...productData, updated_at: new Date().toISOString() }
                 : prod
             ),
             isLoading: false,

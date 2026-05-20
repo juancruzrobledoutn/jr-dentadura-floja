@@ -354,6 +354,11 @@ describe('Product Validation', () => {
     featured: false,
     popular: false,
     allergen_ids: ['alg-1'],
+    allergens: [],
+    ingredients: [],
+    dietary_profile: { is_vegetarian: false, is_vegan: false, is_gluten_free: false, is_dairy_free: false, is_celiac_safe: false, is_keto: false, is_low_sodium: false },
+    cooking: { methods: [], uses_oil: false },
+    sensory: { flavors: [], textures: [] },
     is_active: true,
   }
 

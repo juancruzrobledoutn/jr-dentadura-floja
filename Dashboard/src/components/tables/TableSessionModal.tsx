@@ -311,8 +311,8 @@ export function TableSessionModal({ isOpen, onClose, table }: TableSessionModalP
   const fetchSession = useCallback(async () => {
     if (!table) return
 
-    // Skip API call if table is FREE - no session exists
-    if (table.status === 'libre' || table.status === 'FREE') {
+    // Skip API call if table is libre - no session exists
+    if (table.status === 'libre') {
       setError('Mesa libre - sin sesión activa')
       setSession(null)
       return

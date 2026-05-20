@@ -32,6 +32,7 @@ import { ConfirmDialog } from '../components/ui/ConfirmDialog'
 import { Badge as UIBadge } from '../components/ui/Badge'
 import { Pagination } from '../components/ui/Pagination'
 import { Textarea } from '../components/ui/Textarea'
+import { HelpButton } from '../components/ui/HelpButton'
 import {
   useRecipeStore,
   selectRecipes,
@@ -53,6 +54,7 @@ import { toast } from '../stores/toastStore'
 import { catalogsAPI, type CatalogCuisineType } from '../services/api'
 import { validateRecipe } from '../utils/validation'
 import { handleError } from '../utils/logger'
+import { helpContent } from '../utils/helpContent'
 import {
   canCreateRecipe,
   canEditRecipe,
@@ -869,6 +871,7 @@ export default function RecipesPage() {
 
       <PageContainer
         title={t('pages.recipes.title')}
+        helpContent={helpContent.recipes}
         actions={
           <div className="flex items-center gap-4">
             <Select
@@ -928,6 +931,30 @@ export default function RecipesPage() {
             action={formAction}
             className="space-y-6 max-h-[70vh] overflow-y-auto pr-2"
           >
+            {/* Form-level help */}
+            <div className="flex items-center gap-2 mb-2">
+              <HelpButton
+                title="Formulario de Receta"
+                size="sm"
+                content={
+                  <div className="space-y-3">
+                    <p><strong>Completa las secciones del formulario</strong> para crear o editar una ficha tecnica de receta:</p>
+                    <ul className="list-disc pl-5 space-y-2">
+                      <li><strong>Datos basicos:</strong> Sucursal, nombre, descripcion, tiempo de preparacion, porciones y dificultad.</li>
+                      <li><strong>Ingredientes:</strong> Lista de ingredientes con cantidad y unidad de medida.</li>
+                      <li><strong>Instrucciones:</strong> Pasos ordenados del proceso de elaboracion.</li>
+                      <li><strong>Informacion nutricional:</strong> Calorias y macronutrientes por porcion (opcional).</li>
+                      <li><strong>Notas de cocina:</strong> Observaciones internas para el equipo (opcional).</li>
+                    </ul>
+                    <div className="bg-zinc-800 p-3 rounded-lg mt-3">
+                      <p className="text-orange-400 font-medium text-sm">Consejo:</p>
+                      <p className="text-sm mt-1">Define la receta una vez y comparte el enlace con el equipo de cocina. Puede consultarse desde la vista de cocina.</p>
+                    </div>
+                  </div>
+                }
+              />
+              <span className="text-sm text-[var(--text-tertiary)]">Ayuda sobre el formulario</span>
+            </div>
             {/* Basic Info */}
             <div className="grid grid-cols-2 gap-4">
               <Select

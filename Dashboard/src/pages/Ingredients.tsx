@@ -15,6 +15,7 @@ import {
   Badge,
   Pagination,
 } from '../components/ui'
+import { HelpButton } from '../components/ui/HelpButton'
 import {
   useIngredientStore,
   selectIngredients,
@@ -24,6 +25,7 @@ import {
 import { useAuthStore, selectUserRoles } from '../stores/authStore'
 import { toast } from '../stores/toastStore'
 import { handleError } from '../utils/logger'
+import { helpContent } from '../utils/helpContent'
 import { canDelete } from '../utils/permissions'
 import type { Ingredient, IngredientFormData, TableColumn, SubIngredientFormData } from '../types'
 
@@ -420,6 +422,7 @@ export function IngredientsPage() {
     <PageContainer
       title={t('pages.ingredients.title')}
       description={t('pages.ingredients.description')}
+      helpContent={helpContent.ingredients}
       actions={
         <Button onClick={() => modal.openCreate()} leftIcon={<Plus className="w-4 h-4" />}>
           Nuevo Ingrediente
@@ -501,6 +504,28 @@ export function IngredientsPage() {
         }
       >
         <form id="ingredient-form" onSubmit={handleSubmit} className="space-y-4">
+          <div className="flex items-center gap-2 mb-2">
+            <HelpButton
+              title="Formulario de Ingrediente"
+              size="sm"
+              content={
+                <div className="space-y-3">
+                  <p><strong>Completa los siguientes campos</strong> para crear o editar un ingrediente:</p>
+                  <ul className="list-disc pl-5 space-y-2">
+                    <li><strong>Nombre:</strong> Denominacion del ingrediente (ej: Tomate, Carne molida, Sal). Es obligatorio.</li>
+                    <li><strong>Descripcion:</strong> Informacion adicional sobre el ingrediente (variedad, calidad, proveedor).</li>
+                    <li><strong>Grupo:</strong> Categoria a la que pertenece (ej: Verduras, Carnes, Lacteos). Facilita el filtrado.</li>
+                    <li><strong>Procesado:</strong> Activa si el ingrediente es una preparacion compuesta (ej: Salsa BBQ, Guacamole). Permite agregar sub-ingredientes.</li>
+                  </ul>
+                  <div className="bg-zinc-800 p-3 rounded-lg mt-3">
+                    <p className="text-orange-400 font-medium text-sm">Consejo:</p>
+                    <p className="text-sm mt-1">Tras guardar un ingrediente procesado, expande su fila en la tabla para agregar sus sub-ingredientes.</p>
+                  </div>
+                </div>
+              }
+            />
+            <span className="text-sm text-[var(--text-tertiary)]">Ayuda sobre el formulario</span>
+          </div>
           <Input
             label={t('pages.ingredients.nameCol')}
             name="name"

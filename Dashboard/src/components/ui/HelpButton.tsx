@@ -20,6 +20,7 @@ export function HelpButton({ title, content, size = 'md' }: HelpButtonProps) {
   return (
     <>
       <button
+        type="button"
         onClick={(e) => {
           e.stopPropagation()
           setIsOpen(true)

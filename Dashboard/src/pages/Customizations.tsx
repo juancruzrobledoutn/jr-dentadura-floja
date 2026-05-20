@@ -21,6 +21,7 @@ import { Badge } from '../components/ui/Badge'
 import { Pagination } from '../components/ui/Pagination'
 import { ConfirmDialog } from '../components/ui/ConfirmDialog'
 import { TableSkeleton } from '../components/ui/TableSkeleton'
+import { HelpButton } from '../components/ui/HelpButton'
 import {
   useCustomizationStore,
   selectCustomizationOptions,
@@ -34,6 +35,7 @@ import {
 import { useAuthStore, selectUserRoles } from '../stores/authStore'
 import { toast } from '../stores/toastStore'
 import { handleError } from '../utils/logger'
+import { helpContent } from '../utils/helpContent'
 import { isAdmin } from '../utils/permissions'
 import type { TableColumn } from '../types'
 import type { FormState } from '../types/form'
@@ -330,6 +332,7 @@ export function CustomizationsPage() {
       <PageContainer
         title={t('pages.customizations.title')}
         description={t('pages.customizations.selectBranchDesc')}
+        helpContent={helpContent.customizations}
       >
         <TableSkeleton rows={5} />
       </PageContainer>
@@ -340,6 +343,7 @@ export function CustomizationsPage() {
     <PageContainer
       title={t('pages.customizations.title')}
       description={t('pages.customizations.description')}
+      helpContent={helpContent.customizations}
     >
       {/* Toolbar */}
       <Card className="mb-6">
@@ -418,6 +422,28 @@ export function CustomizationsPage() {
         }
       >
         <form id="customization-form" action={formAction} className="space-y-4">
+            <div className="flex items-center gap-2 mb-2">
+              <HelpButton
+                title="Formulario de Personalizacion"
+                size="sm"
+                content={
+                  <div className="space-y-3">
+                    <p><strong>Completa los siguientes campos</strong> para crear o editar una opcion de personalizacion:</p>
+                    <ul className="list-disc pl-5 space-y-2">
+                      <li><strong>Nombre:</strong> Texto de la opcion que vera el cliente (ej: "Sin cebolla", "Extra queso"). Es obligatorio.</li>
+                      <li><strong>Categoria:</strong> Agrupa la opcion para facilitar su busqueda (ej: "Extras", "Restricciones", "Salsas").</li>
+                      <li><strong>Costo extra:</strong> Monto adicional en centavos que suma al precio base. Ingresa 0 si no tiene costo extra.</li>
+                      <li><strong>Orden:</strong> Posicion en la lista de opciones del producto. Menor numero aparece primero.</li>
+                    </ul>
+                    <div className="bg-zinc-800 p-3 rounded-lg mt-3">
+                      <p className="text-orange-400 font-medium text-sm">Consejo:</p>
+                      <p className="text-sm mt-1">Tras crear la opcion, usa "Vincular productos" para asociarla a los platos donde aplica.</p>
+                    </div>
+                  </div>
+                }
+              />
+              <span className="text-sm text-[var(--text-tertiary)]">Ayuda sobre el formulario</span>
+            </div>
           <Input
             label={t('pages.customizations.nameCol')}
             name="name"

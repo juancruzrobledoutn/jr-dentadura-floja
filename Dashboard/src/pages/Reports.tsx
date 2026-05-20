@@ -5,6 +5,7 @@ import { Card, Button, Select } from '../components/ui'
 import { Download, TrendingUp, ShoppingCart, DollarSign, Package } from 'lucide-react'
 import { exportToCsv, type ColumnConfig } from '../utils/exportCsv'
 import { useBranchStore, selectBranches, selectSelectedBranchId } from '../stores/branchStore'
+import { helpContent } from '../utils/helpContent'
 
 // Types for reports data
 interface SalesSummary {
@@ -294,6 +295,7 @@ export function ReportsPage() {
     <PageContainer
       title="Reportes"
       description="Analiza las ventas y el rendimiento de tu restaurante"
+      helpContent={helpContent.reports}
       actions={
         <Button
           variant="secondary"

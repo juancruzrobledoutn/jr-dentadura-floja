@@ -8,6 +8,7 @@ import { ordersAPI, kitchenAPI, type ActiveOrder, type OrderStats } from '../ser
 import { dashboardWS, type WSEvent } from '../services/websocket'
 import { useBranchStore, selectBranches } from '../stores/branchStore'
 import { logger } from '../utils/logger'
+import { helpContent } from '../utils/helpContent'
 
 type OrderStatus = 'SUBMITTED' | 'IN_KITCHEN' | 'READY'
 
@@ -267,6 +268,7 @@ export function OrdersPage() {
     <PageContainer
       title={t('pages.orders.title')}
       description={t('pages.orders.descriptionRealtime')}
+      helpContent={helpContent.orders}
       actions={
         <div className="flex items-center gap-4">
           {/* Connection status indicator */}

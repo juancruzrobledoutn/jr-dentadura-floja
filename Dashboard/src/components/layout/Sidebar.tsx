@@ -38,7 +38,6 @@ import {
   Truck,
   Banknote,
   Map as MapIcon,
-  Receipt,
   Calendar,
   Heart,
   FileText,

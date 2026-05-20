@@ -5,12 +5,15 @@ import { useTranslation } from 'react-i18next'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { useFormModal } from '../hooks/useFormModal'
 import { usePagination } from '../hooks/usePagination'
+import { PageContainer } from '../components/layout/PageContainer'
 import { Card } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
+import { HelpButton } from '../components/ui/HelpButton'
 import { Input } from '../components/ui/Input'
 import { Modal } from '../components/ui/Modal'
 import { Badge } from '../components/ui/Badge'
 import { Pagination } from '../components/ui/Pagination'
+import { helpContent } from '../utils/helpContent'
 import { useStaffStore } from '../stores/staffStore'
 import { useRoleStore, selectRoles } from '../stores/roleStore'
 import { useBranchStore, selectSelectedBranchId, selectBranches } from '../stores/branchStore'
@@ -238,60 +241,45 @@ export default function StaffPage() {
 
   if (!selectedBranchId) {
     return (
-      <div className="space-y-6">
-        <div>
-          <h1
-            className="text-3xl font-bold text-[var(--text-primary)]"
-            style={{ fontFamily: 'var(--font-heading)' }}
-          >
-            Personal
-          </h1>
-          <p className="mt-2 text-[var(--text-tertiary)]">
-            {t('pages.staff.description')}
-          </p>
-        </div>
+      <PageContainer
+        title="Personal"
+        description={t('pages.staff.description')}
+        helpContent={helpContent.staff}
+      >
         <Card>
           <div className="text-center py-12">
             <p className="text-[var(--text-muted)] text-lg">{t('pages.staff.selectBranchToContinue')}</p>
           </div>
         </Card>
-      </div>
+      </PageContainer>
     )
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <h1
-          className="text-3xl font-bold text-[var(--text-primary)]"
-          style={{ fontFamily: 'var(--font-heading)' }}
-        >
-          {t('pages.staff.title')} - {selectedBranch?.name}
-        </h1>
-        <p className="mt-2 text-[var(--text-tertiary)]">
-          {t('pages.staff.descriptionBranch')}
-        </p>
-      </div>
-
-      {/* Actions Bar */}
+    <PageContainer
+      title={`${t('pages.staff.title')} - ${selectedBranch?.name ?? ''}`}
+      description={t('pages.staff.descriptionBranch')}
+      helpContent={helpContent.staff}
+      actions={
+        canCreate ? (
+          <Button onClick={() => handleOpenModal()} leftIcon={<Plus className="w-4 h-4" />}>
+            Nuevo Empleado
+          </Button>
+        ) : null
+      }
+    >
+      <div className="space-y-6">
+      {/* Search Bar */}
       <Card padding="sm">
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex-1 max-w-md relative">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
-            <Input
-              type="text"
-              placeholder={t('pages.staff.searchPlaceholder')}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-          {canCreate && (
-            <Button onClick={() => handleOpenModal()} leftIcon={<Plus className="w-4 h-4" />}>
-              Nuevo Empleado
-            </Button>
-          )}
+        <div className="flex-1 max-w-md relative">
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
+          <Input
+            type="text"
+            placeholder={t('pages.staff.searchPlaceholder')}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10"
+          />
         </div>
       </Card>
 
@@ -404,6 +392,32 @@ export default function StaffPage() {
         title={modal.selectedItem ? t('pages.staff.editStaff') : t('pages.staff.newStaff')}
       >
         <form action={formAction} className="space-y-4">
+          <div className="flex items-center gap-2 mb-2">
+            <HelpButton
+              title="Formulario de Empleado"
+              size="sm"
+              content={
+                <div className="space-y-3">
+                  <p><strong>Completa los siguientes campos</strong> para crear o editar un empleado:</p>
+                  <ul className="list-disc pl-5 space-y-2">
+                    <li><strong>Nombre y Apellido:</strong> Datos personales del empleado. Ambos son obligatorios.</li>
+                    <li><strong>Sucursal:</strong> Sucursal a la que se asigna el empleado. Si sos MANAGER solo veras tus sucursales asignadas.</li>
+                    <li><strong>Rol:</strong> WAITER, KITCHEN, MANAGER o ADMIN. Si sos MANAGER no podes asignar el rol ADMIN.</li>
+                    <li><strong>Email:</strong> Email de contacto del empleado. Obligatorio.</li>
+                    <li><strong>Telefono:</strong> Telefono de contacto. Obligatorio.</li>
+                    <li><strong>DNI:</strong> Documento nacional de identidad. Se valida que sea unico dentro del personal.</li>
+                    <li><strong>Fecha de Ingreso:</strong> Fecha en la que el empleado comienza a trabajar. Por defecto hoy.</li>
+                    <li><strong>Empleado activo:</strong> Si esta desmarcado, el empleado queda dado de baja (soft delete).</li>
+                  </ul>
+                  <div className="bg-zinc-800 p-3 rounded-lg mt-3">
+                    <p className="text-orange-400 font-medium text-sm">Importante:</p>
+                    <p className="text-sm mt-1">Los selectores de Sucursal y Rol se filtran segun tus permisos. Si sos MANAGER veras solo tus sucursales y no podras asignar el rol ADMIN.</p>
+                  </div>
+                </div>
+              }
+            />
+            <span className="text-sm text-[var(--text-tertiary)]">Ayuda sobre el formulario</span>
+          </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -580,6 +594,7 @@ export default function StaffPage() {
           </div>
         </form>
       </Modal>
-    </div>
+      </div>
+    </PageContainer>
   )
 }

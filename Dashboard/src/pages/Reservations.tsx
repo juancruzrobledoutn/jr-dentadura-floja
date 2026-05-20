@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { PageContainer } from '../components/layout'
 import { Card, Button, Select, Modal } from '../components/ui'
+import { HelpButton } from '../components/ui/HelpButton'
 import {
   CalendarDays,
   Plus,
@@ -24,6 +25,7 @@ import {
   selectIsLoading,
 } from '../stores/reservationStore'
 import { handleError } from '../utils/logger'
+import { helpContent } from '../utils/helpContent'
 import { toast } from '../stores/toastStore'
 import type { Reservation, ReservationCreate, ReservationUpdate } from '../services/api'
 
@@ -305,6 +307,7 @@ export function ReservationsPage() {
     <PageContainer
       title={t('pages.reservations.title')}
       description={t('pages.reservations.description')}
+      helpContent={helpContent.reservations}
     >
       {/* Filters */}
       <div className="flex flex-wrap gap-4 mb-6 items-end">
@@ -485,6 +488,31 @@ export function ReservationsPage() {
         }
       >
         <div className="space-y-4">
+          <div className="flex items-center gap-2 mb-2">
+            <HelpButton
+              title="Formulario de Reserva"
+              size="sm"
+              content={
+                <div className="space-y-3">
+                  <p><strong>Completa los siguientes campos</strong> para crear o editar una reserva:</p>
+                  <ul className="list-disc pl-5 space-y-2">
+                    <li><strong>Cliente:</strong> Nombre completo del cliente. Es obligatorio.</li>
+                    <li><strong>Telefono:</strong> Numero de contacto para confirmar o avisar cambios.</li>
+                    <li><strong>Email:</strong> Correo para enviar confirmacion (opcional).</li>
+                    <li><strong>Fecha y hora:</strong> Cuando se realizara la reserva. La hora es obligatoria.</li>
+                    <li><strong>Comensales:</strong> Cantidad de personas incluidas en la reserva.</li>
+                    <li><strong>Mesa:</strong> Mesa asignada si se conoce de antemano (opcional).</li>
+                    <li><strong>Notas:</strong> Pedidos especiales, alergias u observaciones del cliente.</li>
+                  </ul>
+                  <div className="bg-zinc-800 p-3 rounded-lg mt-3">
+                    <p className="text-orange-400 font-medium text-sm">Importante:</p>
+                    <p className="text-sm mt-1">Debes tener seleccionada una sucursal antes de crear una reserva. El campo de sucursal no aparece aqui porque se toma del filtro activo.</p>
+                  </div>
+                </div>
+              }
+            />
+            <span className="text-sm text-[var(--text-tertiary)]">Ayuda sobre el formulario</span>
+          </div>
           <div>
             <label
               htmlFor="res-customer-name"

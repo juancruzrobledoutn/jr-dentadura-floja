@@ -15,12 +15,14 @@ import { Toggle } from '../components/ui/Toggle'
 import { ConfirmDialog } from '../components/ui/ConfirmDialog'
 import { Badge as UIBadge } from '../components/ui/Badge'
 import { Pagination } from '../components/ui/Pagination'
+import { HelpButton } from '../components/ui/HelpButton'
 import { useSealStore, selectSeals } from '../stores/sealStore'
 import { useProductStore, selectProducts } from '../stores/productStore'
 import { useAuthStore, selectUserRoles } from '../stores/authStore'
 import { toast } from '../stores/toastStore'
 import { validateSeal } from '../utils/validation'
 import { handleError } from '../utils/logger'
+import { helpContent } from '../utils/helpContent'
 import { canCreateSeal, canEditSeal, canDelete } from '../utils/permissions'
 import type { ProductSeal, SealFormData, TableColumn } from '../types'
 import type { FormState } from '../types/form'
@@ -265,6 +267,7 @@ export default function SealsPage() {
 
       <PageContainer
         title={t('pages.seals.title')}
+        helpContent={helpContent.seals}
         actions={
           canCreate ? (
             <Button onClick={openCreateModal}>
@@ -307,6 +310,29 @@ export default function SealsPage() {
           }
         >
           <form id="seal-form" action={formAction} className="space-y-4">
+            <div className="flex items-center gap-2 mb-2">
+              <HelpButton
+                title="Formulario de Sello"
+                size="sm"
+                content={
+                  <div className="space-y-3">
+                    <p><strong>Completa los siguientes campos</strong> para crear o editar un sello de producto:</p>
+                    <ul className="list-disc pl-5 space-y-2">
+                      <li><strong>Nombre:</strong> Etiqueta que identifica la caracteristica (ej: Vegano, Sin Gluten, Organico). Es obligatorio.</li>
+                      <li><strong>Icono:</strong> Emoji representativo del sello (ej: hoja para vegano, espiga tachada para sin gluten).</li>
+                      <li><strong>Color:</strong> Color de fondo del sello en el menu. Selecciona con el picker o ingresa un valor hexadecimal.</li>
+                      <li><strong>Vista previa:</strong> Muestra como se vera el sello con el icono, nombre y color elegidos.</li>
+                      <li><strong>Activo:</strong> Controla si el sello esta disponible para asignar a productos.</li>
+                    </ul>
+                    <div className="bg-zinc-800 p-3 rounded-lg mt-3">
+                      <p className="text-orange-400 font-medium text-sm">Consejo:</p>
+                      <p className="text-sm mt-1">Un emoji claro y un color distintivo hacen que el sello sea reconocible de un vistazo en el menu del cliente.</p>
+                    </div>
+                  </div>
+                }
+              />
+              <span className="text-sm text-[var(--text-tertiary)]">Ayuda sobre el formulario</span>
+            </div>
             <Input
               label={t('common.name')}
               name="name"

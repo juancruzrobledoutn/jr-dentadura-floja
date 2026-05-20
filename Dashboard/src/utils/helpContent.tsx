@@ -1,6 +1,58 @@
 import type { ReactNode } from 'react'
 
-export const helpContent: Record<string, ReactNode> = {
+/**
+ * Union of every Dashboard page that should have help content.
+ *
+ * See openspec/help-system-roadmap.md for the full initiative plan.
+ * Change #7 will tighten this typing to a full `Record<DashboardPageKey, ReactNode>`
+ * once every entry is filled by changes #2–#6.
+ */
+export type DashboardPageKey =
+  // --- change #1 baseline (16 keys, already implemented) ---
+  | 'dashboard'
+  | 'restaurant'
+  | 'branches'
+  | 'categories'
+  | 'subcategories'
+  | 'products'
+  | 'prices'
+  | 'allergens'
+  | 'badges'
+  | 'promotionTypes'
+  | 'promotions'
+  | 'tables'
+  | 'sales'
+  | 'historyBranches'
+  | 'historyCustomers'
+  | 'settings'
+  // --- change #2: half-done pages (8 keys) ---
+  | 'customizations'
+  | 'delivery'
+  | 'ingredients'
+  | 'recipes'
+  | 'reservations'
+  | 'seals'
+  | 'suppliers'
+  | 'kitchen'
+  // --- change #3: read-only pages (4 keys) ---
+  | 'orders'
+  | 'inventory'
+  | 'cashRegister'
+  | 'productExclusions'
+  // --- change #4: reports pages (4 keys) ---
+  | 'reports'
+  | 'fiscal'
+  | 'auditLog'
+  | 'tips'
+  // --- change #5: crm / layout pages (3 keys) ---
+  | 'crm'
+  | 'floorPlan'
+  | 'scheduling'
+  // --- change #6: staff / roles refactor (2 keys) ---
+  | 'staff'
+  | 'roles'
+
+export const helpContent: Partial<Record<DashboardPageKey, ReactNode>> = {
   dashboard: (
     <div className="space-y-4 text-zinc-300">
       <p className="text-lg font-medium text-[var(--text-inverse)]">Bienvenido al Panel de Control</p>
@@ -382,4 +434,513 @@ export const helpContent: Record<string, ReactNode> = {
       </div>
     </div>
   ),
+
+  // --- change #2: half-done pages ---
+
+  customizations: (
+    <div className="space-y-4 text-zinc-300">
+      <p className="text-lg font-medium text-[var(--text-inverse)]">Gestion de Personalizaciones</p>
+      <p>
+        Administra las opciones de personalizacion que los clientes pueden aplicar a los productos del menu.
+      </p>
+      <ul className="list-disc list-inside space-y-2 ml-4">
+        <li><strong>Filtrar por categoria:</strong> Usa el selector para ver opciones de una categoria especifica.</li>
+        <li><strong>Crear personalizacion:</strong> Haz clic en "Nueva personalizacion" para agregar una opcion (ej: "Sin cebolla", "Extra queso").</li>
+        <li><strong>Categoria:</strong> Agrupa la opcion en una categoria para facilitar su busqueda (ej: "Extras", "Restricciones").</li>
+        <li><strong>Costo extra:</strong> Define cuanto suma al precio base (en centavos). Cero si no tiene costo adicional.</li>
+        <li><strong>Orden:</strong> Controla el orden de aparicion de la opcion en el menu del cliente.</li>
+        <li><strong>Vincular productos:</strong> Asocia la opcion a los productos donde puede aplicarse.</li>
+      </ul>
+      <div className="bg-zinc-800 p-4 rounded-lg mt-4">
+        <p className="text-orange-400 font-medium">Consejo:</p>
+        <p className="text-sm mt-1">
+          Agrupa las opciones por categoria para localizarlas rapidamente.
+          Una buena estructura de categorias (ej: "Carnes", "Salsas", "Acompanantes") mejora la experiencia del personal al tomar pedidos.
+        </p>
+      </div>
+    </div>
+  ),
+
+  delivery: (
+    <div className="space-y-4 text-zinc-300">
+      <p className="text-lg font-medium text-[var(--text-inverse)]">Gestion de Pedidos a Domicilio y Retiro</p>
+      <p>
+        Administra los pedidos de delivery (entrega a domicilio) y takeout (retiro en local) de la sucursal seleccionada.
+      </p>
+      <ul className="list-disc list-inside space-y-2 ml-4">
+        <li><strong>Filtrar por tipo:</strong> Selecciona TAKEOUT (retiro) o DELIVERY (envio a domicilio) para ver solo ese tipo.</li>
+        <li><strong>Filtrar por estado:</strong> Filtra pedidos por su estado actual (Recibido, Preparando, Listo, etc.).</li>
+        <li><strong>Crear pedido:</strong> Haz clic en "Nuevo Pedido" para registrar un pedido telefónico o presencial.</li>
+        <li><strong>Avanzar estado:</strong> Usa los botones en cada tarjeta para mover el pedido al siguiente estado.</li>
+        <li><strong>Cancelar pedido:</strong> Cancela un pedido activo desde la tarjeta correspondiente.</li>
+        <li><strong>Ver detalle:</strong> Consulta la informacion completa del pedido, incluyendo items y datos de entrega.</li>
+      </ul>
+      <div className="bg-zinc-800 p-4 rounded-lg mt-4">
+        <p className="text-orange-400 font-medium">Nota:</p>
+        <p className="text-sm mt-1">
+          Debes seleccionar una sucursal desde el Dashboard antes de gestionar pedidos.
+          Cada sucursal tiene su propia lista de pedidos activos.
+        </p>
+      </div>
+    </div>
+  ),
+
+  ingredients: (
+    <div className="space-y-4 text-zinc-300">
+      <p className="text-lg font-medium text-[var(--text-inverse)]">Gestion de Ingredientes</p>
+      <p>
+        Administra el catalogo de ingredientes del restaurante, organizados en grupos y con soporte para sub-ingredientes.
+      </p>
+      <ul className="list-disc list-inside space-y-2 ml-4">
+        <li><strong>Filtrar por grupo:</strong> Usa el selector para ver solo los ingredientes de un grupo especifico (ej: "Carnes", "Verduras").</li>
+        <li><strong>Crear ingrediente:</strong> Agrega nuevos ingredientes con nombre, descripcion y grupo al que pertenece.</li>
+        <li><strong>Ingrediente procesado:</strong> Activa este toggle si el ingrediente es compuesto o elaborado (ej: Salsa BBQ, Guacamole).</li>
+        <li><strong>Sub-ingredientes:</strong> Expande una fila para ver y agregar los componentes de un ingrediente procesado.</li>
+        <li><strong>Editar:</strong> Modifica nombre, descripcion, grupo o estado procesado de un ingrediente existente.</li>
+      </ul>
+      <div className="bg-zinc-800 p-4 rounded-lg mt-4">
+        <p className="text-orange-400 font-medium">Consejo:</p>
+        <p className="text-sm mt-1">
+          Marca como "procesado" los ingredientes que son preparaciones compuestas (ej: Salsa BBQ contiene tomate, azucar y vinagre).
+          Esto permite registrar sus componentes para control de inventario y alergenos.
+        </p>
+      </div>
+    </div>
+  ),
+
+  recipes: (
+    <div className="space-y-4 text-zinc-300">
+      <p className="text-lg font-medium text-[var(--text-inverse)]">Gestion de Recetas</p>
+      <p>
+        Administra las fichas tecnicas de recetas del restaurante, organizadas por sucursal y accesibles por el equipo de cocina.
+      </p>
+      <ul className="list-disc list-inside space-y-2 ml-4">
+        <li><strong>Filtrar por sucursal:</strong> Selecciona una sucursal para ver sus recetas o deja en blanco para ver todas.</li>
+        <li><strong>Crear receta:</strong> Haz clic en "Nueva Receta" para abrir el formulario de ficha tecnica.</li>
+        <li><strong>Datos basicos:</strong> Nombre, sucursal, descripcion, tiempo de preparacion, porciones y nivel de dificultad.</li>
+        <li><strong>Ingredientes:</strong> Lista de ingredientes con cantidades y unidades de medida.</li>
+        <li><strong>Instrucciones:</strong> Pasos del proceso de elaboracion.</li>
+        <li><strong>Notas de cocina:</strong> Observaciones adicionales para el equipo.</li>
+      </ul>
+      <div className="bg-zinc-800 p-4 rounded-lg mt-4">
+        <p className="text-orange-400 font-medium">Consejo:</p>
+        <p className="text-sm mt-1">
+          Define la receta una vez por sucursal y replícala manualmente si necesitas variaciones.
+          Las recetas pueden integrarse con el asistente de IA para consultas del equipo de cocina.
+        </p>
+      </div>
+    </div>
+  ),
+
+  reservations: (
+    <div className="space-y-4 text-zinc-300">
+      <p className="text-lg font-medium text-[var(--text-inverse)]">Gestion de Reservas</p>
+      <p>
+        Administra las reservas de mesas por sucursal, con filtros por fecha y estado para un control diario eficiente.
+      </p>
+      <ul className="list-disc list-inside space-y-2 ml-4">
+        <li><strong>Filtrar por sucursal:</strong> Selecciona la sucursal para ver sus reservas del dia.</li>
+        <li><strong>Filtrar por fecha:</strong> Consulta reservas de una fecha especifica o rango.</li>
+        <li><strong>Filtrar por estado:</strong> Filtra por Pendiente, Confirmada, Sentada, Completada o Cancelada.</li>
+        <li><strong>Crear reserva:</strong> Haz clic en "Nueva Reserva" para registrar una reserva con datos del cliente y preferencias.</li>
+        <li><strong>Avanzar estado:</strong> Usa los botones de accion en cada tarjeta para confirmar, sentar o completar una reserva.</li>
+        <li><strong>Editar / Cancelar:</strong> Modifica los datos de una reserva o cancelala desde su tarjeta.</li>
+      </ul>
+      <div className="bg-zinc-800 p-4 rounded-lg mt-4">
+        <p className="text-orange-400 font-medium">Importante:</p>
+        <p className="text-sm mt-1">
+          Debes seleccionar una sucursal antes de crear o ver reservas.
+          El boton "Nueva Reserva" permanece deshabilitado hasta que se elija una sucursal.
+        </p>
+      </div>
+    </div>
+  ),
+
+  seals: (
+    <div className="space-y-4 text-zinc-300">
+      <p className="text-lg font-medium text-[var(--text-inverse)]">Gestion de Sellos</p>
+      <p>
+        Administra los sellos de caracteristicas especiales que puedes asignar a los productos para informar a los clientes (ej: Vegano, Sin Gluten, Organico).
+      </p>
+      <ul className="list-disc list-inside space-y-2 ml-4">
+        <li><strong>Crear sello:</strong> Haz clic en "Nuevo Sello" para agregar un sello con nombre, emoji e icono de color.</li>
+        <li><strong>Emoji:</strong> Elige un emoji representativo que aparecera junto al nombre del sello en el menu.</li>
+        <li><strong>Color:</strong> Selecciona el color de fondo del sello para identificarlo visualmente.</li>
+        <li><strong>Vista previa:</strong> Ve como se vera el sello antes de guardarlo.</li>
+        <li><strong>Uso en productos:</strong> Consulta cuantos productos tienen asignado cada sello.</li>
+        <li><strong>Activar/Desactivar:</strong> Controla si el sello es visible en el menu.</li>
+      </ul>
+      <div className="bg-zinc-800 p-4 rounded-lg mt-4">
+        <p className="text-orange-400 font-medium">Consejo:</p>
+        <p className="text-sm mt-1">
+          Usa emojis representativos para reforzar el mensaje del sello (ej: hoja para vegano, espiga tachada para sin gluten).
+          Los sellos aparecen como etiquetas de colores en el menu del cliente.
+        </p>
+      </div>
+    </div>
+  ),
+
+  suppliers: (
+    <div className="space-y-4 text-zinc-300">
+      <p className="text-lg font-medium text-[var(--text-inverse)]">Gestion de Proveedores</p>
+      <p>
+        Administra el directorio de proveedores del restaurante con datos de contacto y notas internas para agilizar los pedidos.
+      </p>
+      <ul className="list-disc list-inside space-y-2 ml-4">
+        <li><strong>Crear proveedor:</strong> Haz clic en "Nuevo Proveedor" para agregar un nuevo proveedor al directorio.</li>
+        <li><strong>Nombre:</strong> Razon social o nombre comercial del proveedor. Es obligatorio.</li>
+        <li><strong>Contacto:</strong> Nombre de la persona de contacto dentro del proveedor.</li>
+        <li><strong>Telefono y Email:</strong> Datos para comunicarse rapidamente ante pedidos urgentes.</li>
+        <li><strong>Direccion:</strong> Ubicacion del proveedor para retiros o referencias.</li>
+        <li><strong>Notas:</strong> Observaciones internas (dias de entrega, condiciones especiales, etc.).</li>
+      </ul>
+      <div className="bg-zinc-800 p-4 rounded-lg mt-4">
+        <p className="text-orange-400 font-medium">Consejo:</p>
+        <p className="text-sm mt-1">
+          Completa contacto y telefono para acelerar pedidos urgentes.
+          Las notas internas son ideales para registrar condiciones especiales o acuerdos de pago.
+        </p>
+      </div>
+    </div>
+  ),
+
+  orders: (
+    <div className="space-y-4 text-zinc-300">
+      <p className="text-lg font-medium text-[var(--text-inverse)]">Pedidos en Tiempo Real</p>
+      <p>
+        Tablero en tiempo real para monitorear y gestionar las rondas activas de todas las mesas, organizadas por estado de preparacion.
+      </p>
+      <ul className="list-disc list-inside space-y-2 ml-4">
+        <li><strong>Columnas de estado:</strong> Las rondas se agrupan en Nuevos (SUBMITTED), En Cocina (IN_KITCHEN) y Listos (READY).</li>
+        <li><strong>Filtro de sucursal:</strong> Selecciona una sucursal para ver solo sus pedidos o deja en blanco para ver todas.</li>
+        <li><strong>Filtro de estado:</strong> Filtra el tablero por un estado especifico para enfocarte en rondas prioritarias.</li>
+        <li><strong>Indicador de conexion:</strong> El icono Wifi/WifiOff muestra si la actualizacion en tiempo real via WebSocket esta activa.</li>
+        <li><strong>Avanzar estado:</strong> Cada tarjeta de pedido incluye un boton para mover la ronda al siguiente estado del flujo.</li>
+        <li><strong>Alerta de tiempo:</strong> Las rondas que superan 15 minutos sin avanzar muestran un indicador visual urgente.</li>
+      </ul>
+      <div className="bg-zinc-800 p-4 rounded-lg mt-4">
+        <p className="text-orange-400 font-medium">Nota:</p>
+        <p className="text-sm mt-1">
+          El tablero muestra solo rondas SUBMITTED en adelante. Las rondas PENDING o CONFIRMED viven en pwaMenu y pwaWaiter, no en el dashboard.
+        </p>
+      </div>
+    </div>
+  ),
+
+  inventory: (
+    <div className="space-y-4 text-zinc-300">
+      <p className="text-lg font-medium text-[var(--text-inverse)]">Gestion de Inventario</p>
+      <p>
+        Vista de control de stock, alertas de abastecimiento y costos de ingredientes, organizada en tres pestanas para facilitar el seguimiento diario.
+      </p>
+      <ul className="list-disc list-inside space-y-2 ml-4">
+        <li><strong>Pestana Stock:</strong> Lista todos los ingredientes con cantidad actual, minimo requerido, costo por unidad, ubicacion y estado.</li>
+        <li><strong>Pestana Alertas:</strong> Muestra unicamente los ingredientes con stock bajo o agotado para priorizar reposicion.</li>
+        <li><strong>Pestana Costos:</strong> Tabla de food cost por receta con el porcentaje de costo destacado para analisis de rentabilidad.</li>
+        <li><strong>Recalcular Costos:</strong> Boton en la pestana Costos que dispara el recalculo del food cost contra los precios actuales de ingredientes.</li>
+        <li><strong>Requiere sucursal:</strong> Debes seleccionar una sucursal desde el Dashboard para ver el inventario correspondiente.</li>
+      </ul>
+      <div className="bg-zinc-800 p-4 rounded-lg mt-4">
+        <p className="text-orange-400 font-medium">Consejo:</p>
+        <p className="text-sm mt-1">
+          Revisa la pestana Alertas a diario para anticipar quiebres de stock antes del servicio.
+        </p>
+      </div>
+    </div>
+  ),
+
+  cashRegister: (
+    <div className="space-y-4 text-zinc-300">
+      <p className="text-lg font-medium text-[var(--text-inverse)]">Gestion de Caja</p>
+      <p>
+        Interfaz para administrar el ciclo completo de una sesion de caja: apertura, registro de movimientos, cierre y consulta de historial.
+      </p>
+      <ul className="list-disc list-inside space-y-2 ml-4">
+        <li><strong>Abrir caja:</strong> Ingresa el monto inicial de apertura para iniciar la sesion de caja del dia.</li>
+        <li><strong>Registrar movimientos:</strong> Agrega movimientos por tipo (Venta, Reintegro, Gasto, Deposito, Retiro, Propina) y metodo de pago (Efectivo, Tarjeta, Transferencia, MercadoPago).</li>
+        <li><strong>Totales por metodo:</strong> Visualiza el resumen de movimientos agrupados por metodo de pago durante la sesion activa.</li>
+        <li><strong>Cerrar caja:</strong> Ingresa el monto real contado al cierre; el sistema calcula la diferencia entre lo esperado y lo real.</li>
+        <li><strong>Historial de sesiones:</strong> La pestana Historial muestra todas las sesiones de caja cerradas anteriormente.</li>
+      </ul>
+      <div className="bg-zinc-800 p-4 rounded-lg mt-4">
+        <p className="text-orange-400 font-medium">Nota:</p>
+        <p className="text-sm mt-1">
+          Esta vista esta en proceso de integracion con el backend. Hoy permite ensayar el flujo completo de caja (apertura, movimientos, cierre, historial) en la interfaz.
+        </p>
+      </div>
+    </div>
+  ),
+
+  productExclusions: (
+    <div className="space-y-4 text-zinc-300">
+      <p className="text-lg font-medium text-[var(--text-inverse)]">Exclusiones de Productos por Sucursal</p>
+      <p>
+        Permite a los usuarios ADMIN marcar categorias y subcategorias como no disponibles en sucursales especificas, sin eliminar los datos del catalogo global.
+      </p>
+      <ul className="list-disc list-inside space-y-2 ml-4">
+        <li><strong>Solo ADMIN:</strong> Unicamente los usuarios con rol ADMIN pueden operar esta pagina; el resto ve una pantalla de acceso denegado.</li>
+        <li><strong>Seleccion de sucursales:</strong> Elige una o varias sucursales como contexto de operacion usando los botones Seleccionar todas o Limpiar.</li>
+        <li><strong>Vista Categorias / Subcategorias:</strong> Alterna entre ver la lista de categorias o subcategorias para gestionar exclusiones en cada nivel.</li>
+        <li><strong>Filtro por categoria padre:</strong> Al visualizar subcategorias, filtra por categoria para acotar la lista y encontrar items rapidamente.</li>
+        <li><strong>Toggle de exclusion:</strong> Cada fila incluye un toggle para activar o desactivar la exclusion en las sucursales seleccionadas.</li>
+        <li><strong>Badge de disponibilidad:</strong> Resume cuantas sucursales tienen cada categoria/subcategoria disponible (Todas, Ninguna o X de Y).</li>
+      </ul>
+      <div className="bg-zinc-800 p-4 rounded-lg mt-4">
+        <p className="text-orange-400 font-medium">Importante:</p>
+        <p className="text-sm mt-1">
+          Solo los usuarios con rol ADMIN pueden gestionar exclusiones. Excluir una categoria deshabilita automaticamente sus subcategorias y productos en las sucursales seleccionadas.
+        </p>
+      </div>
+    </div>
+  ),
+
+  kitchen: (
+    <div className="space-y-4 text-zinc-300">
+      <p className="text-lg font-medium text-[var(--text-inverse)]">Vista de Cocina</p>
+      <p>
+        Panel en tiempo real para el equipo de cocina con todas las rondas activas organizadas en columnas por estado.
+      </p>
+      <ul className="list-disc list-inside space-y-2 ml-4">
+        <li><strong>En Espera:</strong> Rondas enviadas desde la sala (SUBMITTED) que aun no fueron tomadas por cocina.</li>
+        <li><strong>En Preparacion:</strong> Rondas que el equipo tomo y esta elaborando actualmente (IN_KITCHEN).</li>
+        <li><strong>Listos:</strong> Rondas terminadas esperando ser retiradas por el mozo (READY).</li>
+        <li><strong>Avanzar estado:</strong> Usa los botones en cada ticket para mover la ronda al siguiente estado.</li>
+        <li><strong>Sonido:</strong> Activa o desactiva el beep de alerta al llegar nuevas rondas.</li>
+        <li><strong>Indicador WebSocket:</strong> El icono Wifi/WifiOff muestra si la conexion en tiempo real esta activa.</li>
+        <li><strong>Anular item:</strong> Selecciona un item en un ticket para registrar su anulacion con motivo.</li>
+      </ul>
+      <div className="bg-zinc-800 p-4 rounded-lg mt-4">
+        <p className="text-orange-400 font-medium">Nota:</p>
+        <p className="text-sm mt-1">
+          La cocina solo ve rondas SUBMITTED en adelante. Las rondas en estado PENDING o CONFIRMED (aun no confirmadas por el mozo) nunca aparecen en este panel.
+        </p>
+      </div>
+      <div className="bg-red-900/50 p-4 rounded-lg mt-2 border border-red-700">
+        <p className="text-[var(--danger-text)] font-medium">Advertencia:</p>
+        <p className="text-sm mt-1">
+          Anular un item es irreversible. La anulacion queda registrada en el log de auditoria con el motivo ingresado.
+        </p>
+      </div>
+    </div>
+  ),
+
+  // --- change #4: reports / compliance pages ---
+
+  reports: (
+    <div className="space-y-4 text-zinc-300">
+      <p className="text-lg font-medium text-[var(--text-inverse)]">Reportes de Ventas</p>
+      <p>
+        Vista de analisis de ventas con filtros de periodo y sucursal, graficos de barras, ranking de productos y exportacion a CSV.
+      </p>
+      <ul className="list-disc list-inside space-y-2 ml-4">
+        <li><strong>Filtro de periodo:</strong> Selecciona Hoy, Ultima semana, Ultimo mes o un rango personalizado con fechas desde y hasta.</li>
+        <li><strong>Filtro de sucursal:</strong> Filtra por sucursal especifica o elige "Todas las sucursales" para una vision consolidada.</li>
+        <li><strong>Tarjetas de resumen:</strong> Muestra Total Ventas, Pedidos y Valor Promedio, cada una con un indicador de tendencia porcentual.</li>
+        <li><strong>Grafico de barras:</strong> Visualiza las ventas diarias de las ultimas 14 entradas del periodo seleccionado.</li>
+        <li><strong>Top 5 productos:</strong> Ranking de los productos mas vendidos por cantidad, con barra de progreso y monto total.</li>
+        <li><strong>Exportar a CSV:</strong> Tres acciones de exportacion — Resumen (boton del encabezado), Ventas Diarias (dentro del grafico) y Top Productos (dentro del ranking).</li>
+      </ul>
+      <div className="bg-zinc-800 p-4 rounded-lg mt-4">
+        <p className="text-orange-400 font-medium">Nota:</p>
+        <p className="text-sm mt-1">
+          Esta vista esta en proceso de integracion con el backend. Los numeros que se muestran hoy son ilustrativos; cuando se conecten los endpoints de ventas se reflejaran los datos reales del periodo seleccionado.
+        </p>
+      </div>
+    </div>
+  ),
+
+  fiscal: (
+    <div className="space-y-4 text-zinc-300">
+      <p className="text-lg font-medium text-[var(--text-inverse)]">Gestion Fiscal</p>
+      <p>
+        Interfaz de cuatro pestanas para gestionar el ciclo fiscal del restaurante: facturas, puntos de venta, notas de credito y reporte IVA mensual.
+      </p>
+      <ul className="list-disc list-inside space-y-2 ml-4">
+        <li><strong>Pestana Facturas:</strong> Lista de facturas con filtros por tipo (A / B / C) y por estado (AUTHORIZED, DRAFT, REJECTED, VOIDED); accion Emitir Factura con id de Check, tipo y documento del cliente.</li>
+        <li><strong>Pestana Puntos de Venta:</strong> ABM de puntos de venta con numero, tipo (Electronico / Impresora Fiscal), CUIT, razon social y condicion frente al IVA.</li>
+        <li><strong>Pestana Notas de Credito:</strong> Tabla de solo lectura con factura original, monto, razon y estado de cada nota.</li>
+        <li><strong>Pestana Reporte IVA:</strong> Generador mensual de reporte IVA; filtra por anio y mes y devuelve total neto, total IVA, total general y detalle agrupado por tipo de factura.</li>
+        <li><strong>Requiere sucursal:</strong> Debes seleccionar una sucursal desde el Dashboard para acceder a la gestion fiscal.</li>
+      </ul>
+      <div className="bg-zinc-800 p-4 rounded-lg mt-4">
+        <p className="text-orange-400 font-medium">Importante:</p>
+        <p className="text-sm mt-1">
+          Esta vista esta en proceso de integracion con AFIP. Hoy permite ensayar el flujo completo (emision, puntos de venta, notas de credito, reporte IVA mensual) pero los CAE que se muestran son simulados — la integracion real con WSFE requiere certificados de AFIP.
+        </p>
+      </div>
+    </div>
+  ),
+
+  auditLog: (
+    <div className="space-y-4 text-zinc-300">
+      <p className="text-lg font-medium text-[var(--text-inverse)]">Log de Auditoria</p>
+      <p>
+        Lista cronologica e inmutable de todas las operaciones realizadas en el tenant, con filtros, vista expandible de cambios y carga incremental.
+      </p>
+      <ul className="list-disc list-inside space-y-2 ml-4">
+        <li><strong>Filtro por entidad:</strong> Filtra eventos por tipo de entidad (product, category, branch, staff, table, round, check, payment, tip, etc.).</li>
+        <li><strong>Filtro por accion:</strong> Filtra por tipo de accion (CREATE, UPDATE, DELETE, SOFT_DELETE, PAYMENT, SUBMIT, CANCEL, VOID, REFUND, STOCK_ADJUSTMENT, ROLE_CHANGE).</li>
+        <li><strong>Vista expandible:</strong> Haz clic en una fila para ver los JSON antes (old_values) y despues (new_values) del cambio.</li>
+        <li><strong>Colores por accion:</strong> Cada tipo de accion tiene un color diferenciado para identificarlo de un vistazo.</li>
+        <li><strong>Boton Actualizar:</strong> Recarga la lista desde el backend para ver los eventos mas recientes.</li>
+        <li><strong>Paginacion incremental:</strong> Carga 50 entradas por pagina; el boton "Cargar mas" agrega la siguiente tanda sin perder el contexto.</li>
+      </ul>
+      <div className="bg-zinc-800 p-4 rounded-lg mt-4">
+        <p className="text-orange-400 font-medium">Nota:</p>
+        <p className="text-sm mt-1">
+          El log de auditoria es solo lectura e inmutable. Cada operacion en el sistema genera un registro automatico que no se puede editar ni borrar, por lo que sirve como evidencia frente a inspecciones internas o externas.
+        </p>
+      </div>
+    </div>
+  ),
+
+  tips: (
+    <div className="space-y-4 text-zinc-300">
+      <p className="text-lg font-medium text-[var(--text-inverse)]">Gestion de Propinas</p>
+      <p>
+        Interfaz de cuatro pestanas para registrar propinas, configurar pools de reparto, distribuir montos y consultar reportes por rango de fechas.
+      </p>
+      <ul className="list-disc list-inside space-y-2 ml-4">
+        <li><strong>Pestana Propinas:</strong> Lista de propinas registradas con mesa, mozo, monto, metodo y estado; accion Registrar Propina con id de sesion, monto, metodo de pago e id de mozo.</li>
+        <li><strong>Pestana Distribucion:</strong> Lista de propinas ya distribuidas con el monto asignado a mozos, cocina y otros; accion Distribuir Propina para asociar una propina pendiente a un pool.</li>
+        <li><strong>Pestana Pools:</strong> ABM de pools de reparto con nombre y porcentajes para mozos, cocina y otros (deben sumar 100).</li>
+        <li><strong>Pestana Reportes:</strong> Filtro por rango de fechas con total de propinas, promedio diario, periodo en dias, desglose por mozo y desglose por metodo de pago.</li>
+        <li><strong>Requiere sucursal:</strong> Debes seleccionar una sucursal desde el Dashboard para gestionar propinas.</li>
+      </ul>
+      <div className="bg-zinc-800 p-4 rounded-lg mt-4">
+        <p className="text-orange-400 font-medium">Nota:</p>
+        <p className="text-sm mt-1">
+          Esta vista esta en proceso de integracion con el backend. Hoy permite ensayar el flujo completo de propinas (registro, configuracion de pools, distribucion y reporte) pero los datos se mantienen en memoria hasta refrescar la pagina.
+        </p>
+      </div>
+    </div>
+  ),
+
+  // --- change #5: crm / layout pages ---
+
+  crm: (
+    <div className="space-y-4 text-zinc-300">
+      <p className="text-lg font-medium text-[var(--text-inverse)]">Gestion de Clientes (CRM)</p>
+      <p>
+        Panel de administracion de clientes con cuatro pestanas: Clientes, Top Clientes, Programa de Lealtad y Reportes.
+      </p>
+      <ul className="list-disc list-inside space-y-2 ml-4">
+        <li><strong>Pestana Clientes:</strong> Lista con busqueda por nombre, email o telefono; tabla con nivel BRONZE / SILVER / GOLD / PLATINUM, puntos, visitas y total gastado; acciones Ver, Editar, Exportar Datos, Anonimizar y Eliminar por cliente.</li>
+        <li><strong>Crear / Editar cliente:</strong> Modal con campos Nombre (obligatorio), Email (opcional) y Telefono (opcional).</li>
+        <li><strong>Pestana Top Clientes:</strong> Ranking ordenable por gasto total o por cantidad de visitas, con tarjetas que muestran nivel y estadisticas.</li>
+        <li><strong>Pestana Programa de Lealtad:</strong> ABM de Reglas de Lealtad con Nombre, Descripcion, Puntos por unidad y Monto minimo; boton Ver Estadisticas que genera reporte con miembros activos, puntos emitidos, puntos canjeados y tasa de canje.</li>
+        <li><strong>Pestana Reportes:</strong> Generador de reporte general de clientes con tasa de retencion, promedio de visitas por mes, gasto promedio y top spenders.</li>
+        <li><strong>Exportar Datos / Anonimizar:</strong> Acciones disponibles en el modal Detalle Cliente para cada registro.</li>
+      </ul>
+      <div className="bg-zinc-800 p-4 rounded-lg mt-4">
+        <p className="text-orange-400 font-medium">Nota:</p>
+        <p className="text-sm mt-1">
+          Esta vista esta en proceso de integracion con el backend. Hoy las acciones de Exportar Datos y Anonimizar generan resultados a partir del estado local — cuando se conecten los endpoints de GDPR documentados en el backend se aplicaran las politicas reales de exportacion y anonimizacion.
+        </p>
+      </div>
+    </div>
+  ),
+
+  floorPlan: (
+    <div className="space-y-4 text-zinc-300">
+      <p className="text-lg font-medium text-[var(--text-inverse)]">Plano del Salon</p>
+      <p>
+        Visualizacion y edicion del plano de mesas de una sucursal con soporte para multiples planos y modos de vista.
+      </p>
+      <ul className="list-disc list-inside space-y-2 ml-4">
+        <li><strong>Requiere sucursal:</strong> Debes seleccionar una sucursal desde el Dashboard para acceder al plano.</li>
+        <li><strong>Selector de plano:</strong> Cuando la sucursal tiene mas de un plano, aparece un selector para elegir cual visualizar.</li>
+        <li><strong>Toggle Vista en Vivo / Modo Edicion:</strong> Vista en Vivo muestra el estado actual de las mesas; Modo Edicion habilita el arrastre de mesas y los botones Auto Layout y Guardar.</li>
+        <li><strong>Auto Layout:</strong> Reposiciona todas las mesas en una grilla automatica dentro del canvas.</li>
+        <li><strong>Canvas con mesas arrastrables:</strong> Cada mesa muestra su numero, capacidad y forma (RECTANGLE / SQUARE / CIRCLE); en mesas ocupadas tambien se indica la cantidad de minutos transcurridos.</li>
+        <li><strong>Leyenda de estados:</strong> Colores diferenciados por estado: FREE (verde), OPEN (rojo), PAYING (violeta), OUT_OF_SERVICE (gris).</li>
+      </ul>
+      <div className="bg-zinc-800 p-4 rounded-lg mt-4">
+        <p className="text-orange-400 font-medium">Nota:</p>
+        <p className="text-sm mt-1">
+          Esta vista es una version preliminar. La persistencia del plano con el backend esta pendiente — al presionar Guardar hoy solo se muestra un toast de confirmacion pero la posicion de las mesas no se persiste.
+        </p>
+      </div>
+    </div>
+  ),
+
+  scheduling: (
+    <div className="space-y-4 text-zinc-300">
+      <p className="text-lg font-medium text-[var(--text-inverse)]">Planificacion de Turnos</p>
+      <p>
+        Herramienta de planificacion del personal con cuatro pestanas: Semana, Plantillas, Asistencia y Costos.
+      </p>
+      <ul className="list-disc list-inside space-y-2 ml-4">
+        <li><strong>Requiere sucursal:</strong> Debes seleccionar una sucursal desde el Dashboard para acceder a la planificacion.</li>
+        <li><strong>Pestana Semana:</strong> Grilla semanal (Lun-Dom) con una fila por empleado; cada celda muestra los turnos del dia y al hacer clic abre el modal de Nuevo Turno con campos Empleado, Dia, Entrada, Salida y Rol (WAITER / KITCHEN / MANAGER / ADMIN / CASHIER).</li>
+        <li><strong>Pestana Plantillas:</strong> ABM de Plantillas reutilizables con Nombre; accion Aplicar Plantilla desde la pestana Semana para volcar una plantilla sobre una semana especifica.</li>
+        <li><strong>Pestana Asistencia:</strong> Registro de Clock In y Clock Out con calculo automatico de horas trabajadas y horas extra por empleado.</li>
+        <li><strong>Pestana Costos:</strong> Reporte de costos laborales por rango de fechas (Desde / Hasta) con desglose de Total Horas, Horas Extra, Costo Estimado y detalle agrupado por rol.</li>
+      </ul>
+      <div className="bg-zinc-800 p-4 rounded-lg mt-4">
+        <p className="text-orange-400 font-medium">Nota:</p>
+        <p className="text-sm mt-1">
+          Esta vista esta en proceso de integracion con el backend. Hoy permite ensayar el flujo completo (planificacion semanal, plantillas, asistencia y reporte de costos) pero los turnos, las plantillas y los registros de asistencia se mantienen en memoria hasta refrescar la pagina.
+        </p>
+      </div>
+    </div>
+  ),
+
+  // --- change #6: staff / roles refactor ---
+
+  staff: (
+    <div className="space-y-4 text-zinc-300">
+      <p className="text-lg font-medium text-[var(--text-inverse)]">Gestion de Personal</p>
+      <p>
+        Administra los empleados asignados a la sucursal seleccionada, con busqueda avanzada, control de permisos por rol y ABM completo.
+      </p>
+      <ul className="list-disc list-inside space-y-2 ml-4">
+        <li><strong>Requiere sucursal:</strong> Debes seleccionar una sucursal desde el Dashboard para ver y gestionar el personal.</li>
+        <li><strong>Busqueda:</strong> Filtra empleados por nombre, apellido, email o DNI con debounce automatico.</li>
+        <li><strong>Tabla de empleados:</strong> Columnas Nombre, Rol, Email, Telefono, DNI, Fecha de Ingreso, Estado y Acciones con paginacion automatica.</li>
+        <li><strong>Acciones por fila:</strong> Editar y Eliminar disponibles segun los permisos del usuario actual.</li>
+        <li><strong>Nuevo / Editar Empleado:</strong> Modal con campos Nombre, Apellido, Sucursal, Rol, Email, Telefono, DNI, Fecha de Ingreso y Empleado activo.</li>
+        <li><strong>Validacion:</strong> Detecta duplicados por DNI y email dentro del personal de la sucursal.</li>
+        <li><strong>Restricciones por rol:</strong> Los selectores de Sucursal y Rol se filtran segun los permisos del usuario que opera la pagina.</li>
+      </ul>
+      <div className="bg-zinc-800 p-4 rounded-lg mt-4">
+        <p className="text-orange-400 font-medium">Importante:</p>
+        <p className="text-sm mt-1">
+          Los permisos del usuario actual filtran las sucursales y los roles disponibles en el formulario. Un usuario MANAGER solo ve sus sucursales asignadas y no puede asignar el rol ADMIN. Un usuario ADMIN ve todas las sucursales activas y puede asignar cualquier rol incluyendo ADMIN.
+        </p>
+      </div>
+    </div>
+  ),
+
+  roles: (
+    <div className="space-y-4 text-zinc-300">
+      <p className="text-lg font-medium text-[var(--text-inverse)]">Gestion de Roles</p>
+      <p>
+        Administra los roles disponibles en el sistema, con busqueda, grid responsivo de tarjetas y ABM completo.
+      </p>
+      <ul className="list-disc list-inside space-y-2 ml-4">
+        <li><strong>Busqueda:</strong> Filtra roles por nombre o descripcion con debounce automatico.</li>
+        <li><strong>Grid responsivo:</strong> Las tarjetas se organizan en 1, 2 o 3 columnas segun el ancho de pantalla.</li>
+        <li><strong>Tarjeta por rol:</strong> Muestra Nombre, Descripcion, Badge de estado y acciones Editar y Eliminar.</li>
+        <li><strong>Estado vacio:</strong> Mensaje informativo cuando la busqueda no devuelve resultados.</li>
+        <li><strong>Nuevo / Editar Rol:</strong> Modal con campos Nombre, Descripcion y Rol activo.</li>
+        <li><strong>Validacion:</strong> Valida nombre y descripcion antes de guardar via validateRole.</li>
+      </ul>
+      <div className="bg-zinc-800 p-4 rounded-lg mt-4">
+        <p className="text-orange-400 font-medium">Nota:</p>
+        <p className="text-sm mt-1">
+          Esta vista esta en proceso de integracion con el backend. Hoy los roles se gestionan en estado local y se persisten en el navegador; cuando se conecten los endpoints, los cambios se sincronizaran automaticamente con el servidor.
+        </p>
+      </div>
+    </div>
+  ),
 }
+
+/**
+ * Runtime set of keys that are currently present in `helpContent`.
+ * Built from `Object.keys(helpContent)` so it cannot drift from the map.
+ * Use this in tests or at runtime to check which pages have help content defined.
+ */
+export const definedKeys: ReadonlySet<DashboardPageKey> = new Set(
+  Object.keys(helpContent) as DashboardPageKey[],
+)

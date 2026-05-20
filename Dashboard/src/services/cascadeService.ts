@@ -11,7 +11,8 @@
  * - Flexibility (can work with different store implementations)
  */
 
-import type { Branch, Category, Subcategory, Product, Allergen, PromotionType, Promotion, RestaurantTable, OrderHistory, Staff } from '../types'
+import type { Branch, Category, Subcategory, Product, Allergen, PromotionType, Promotion, RestaurantTable, OrderHistory } from '../types'
+import type { Staff } from './api'
 import { logWarning, logError } from '../utils/logger'
 
 /**
@@ -681,7 +682,7 @@ export function getBranchDeletePreview(
     categories: categories.map((c) => ({ type: 'category' as const, id: c.id, name: c.name })),
     subcategories: subcategories.map((s) => ({ type: 'subcategory' as const, id: s.id, name: s.name })),
     products: products.map((p) => ({ type: 'product' as const, id: p.id, name: p.name })),
-    tables: tables.map((t) => ({ type: 'table' as const, id: t.id, name: t.label })),
+    tables: tables.map((t) => ({ type: 'table' as const, id: t.id, name: `Mesa ${t.number}` })),
     promotions: [],
     orderHistoryCount,
     totalItems: categories.length + subcategories.length + products.length + tables.length + orderHistoryCount,
@@ -733,7 +734,7 @@ export function getAllergenDeletePreview(
 
   // Find products that have this allergen
   const affectedProducts = productStore.products.filter((p) =>
-    p.allergen_ids.includes(allergenId)
+    (p.allergen_ids ?? []).includes(allergenId)
   )
 
   return {

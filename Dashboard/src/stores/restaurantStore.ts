@@ -33,7 +33,7 @@ function mapAPITenantToFrontend(tenant: Tenant, existingRestaurant?: Restaurant 
     id: String(tenant.id),
     name: tenant.name,
     slug: tenant.slug,
-    description: tenant.description ?? undefined,
+    description: tenant.description ?? '',
     logo: tenant.logo ?? undefined,
     theme_color: tenant.theme_color,
     // Preserve frontend-only fields from existing restaurant
